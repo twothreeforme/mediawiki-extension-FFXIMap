@@ -12,19 +12,19 @@ function LatLngToCoord(ll, tale) {
   return new L.Point(mapy, mapx);
 }
 
-class eMap {
+class FFXImap {
 
 	
 	constructor(mapID, ID, tileset, minzoom, maxzoom, tale, attrib) {
 		minzoom = typeof minzoom !== 'undefined' ? minzoom : 1;
 		maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 8;
 		attrib = typeof attrib !== 'undefined' ? attrib : "(c) Desert Nomad Games 2021";
-		this.mapID = typeof mapID !== 'undefined' ? mapID : 1;
+		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
 		var self = this;
 		this.panes = [];
 		this.dlayer = "";
-		this.tale = typeof tale !== 'undefined' ? tale : 10;
-		this.tileset = typeof tileset !== 'undefined' ? tileset : "/t7wiki/maps/tale8/{z}/{x}/{y}.png";
+		//this.tale = typeof tale !== 'undefined' ? tale : 10;
+		this.tileset = typeof tileset !== 'undefined' ? tileset : "/maps/mapId_0/{z}/{x}/{y}.png";
 		L.tileLayer(this.tileset, {
   	      maxZoom: maxzoom,
   	      minZoom: minzoom,

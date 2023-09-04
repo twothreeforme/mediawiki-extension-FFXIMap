@@ -5,45 +5,34 @@ if ( !defined('MEDIAWIKI') )
 	die( 'This file is a MediaWiki extension, it is not a valid entry point' );
 }
 
-class EMap {
-		static $mapIdNum = 0;
-		static $tale = '1';
-		static private $script = NULL;
+class FFXImap {
+		
+	// mapIdNum = 0 is the default mapId for the world map
+	static $mapIdNum = 0;
+	static private $script = NULL;
 
         public static function onParserSetup( &$parser ){
-            $parser->setHook('emap', 'EMap::renderEMap' );
+            $parser->setHook('FFXImap', 'FFXImap::renderFFXImap' );
         }
 
-        public static function renderEMap( $input, $params, $parser, $frame ) {
+        public static function renderFFXImap( $input, $params, $parser, $frame ) {
 
 			$parser->getOutput()->updateCacheExpiry(0);
-			global $eMapBasePath;
-			$mapID = "map_" . self::$mapIdNum;
+			global $FFXImapBasePath;
+			$mapID = "mapID_" . self::$mapIdNum;
 
-			// Parse parameters
-			// Start with tale - must be in a predefined list. Default to 10
-			$tales = array('1','2','3','4a','4b','5','6','7','8','9','10');
-			self::$tale = 10;
-			$tileSource = $eMapBasePath . "/maps/tale10/{z}/{x}/{y}.png";
-			if (isset($params['tale'])){
-				$found_key = array_search($params['tale'],$tales);
-				if($found_key !== FALSE) {
-					self::$tale = $tales[$found_key];
-					if (preg_replace("/[^0-9,.,\-]/", "", $tales[$found_key]) < 6)
-						$tileSource = $eMapBasePath . "/maps/tale" . self::$tale . "/{z}_{x}_{y}.jpg";
-					else
-						$tileSource = $eMapBasePath . "/maps/tale" . self::$tale . "/{z}/{x}/{y}.png";
-				}
-			}
-
+			// $tileSource : location of tiles (or the tile server)
+			// each map should be it's own $mapIdNum as input
+			// tile server should be in this format: "/maps/mapID_X/{z}/{x}/{y}.png" 
+			// (where X corresponds with the mapID listed in the tag from mediawiki)
+			$tileSource = $FFXImapBasePath . "/maps\/" . self::$mapID . "/{z}/{x}/{y}.png";
+		
 			// Zoom levels
-			// Valid values for tales 1-4 are: 1-6
-			// Valid values for tales 5+ are: 1-8
-			// Valid values for tale 10 is (temporarily): 1-6
-
-			$zoom_levels = self::$tale < 5 ? array(1,2,3,4,5,6) : array(1,2,3,4,5,6,7,8);
-			$maxZoom = (self::$tale < 5 ? 6 : 8);
-			$maxZoom = (self::$tale == 10 ? 6 : $maxZoom); // Temporary
+			// World Map: 0-4 ? 
+			// Zone Maps: 0-3 ?
+			// Keep it 0-4 for now
+			$zoom_levels = array(0,1,2,3,4);
+			$maxZoom = 4;
 			if (isset($params['maxZoom'])){
 				$found_key = array_search($params['maxZoom'],$zoom_levels);
 				if($found_key !== FALSE) {
@@ -51,7 +40,7 @@ class EMap {
 					}
 			}
 
-			$minZoom = 1;
+			$minZoom = 0;
 			if (isset($params['minZoom'])){
 				$found_key = array_search($params['minZoom'],$zoom_levels);
 				if($found_key !== FALSE) {
@@ -78,9 +67,9 @@ class EMap {
 			$showmeasure = isset($params['showmeasure']) ? parseControl($params['showmeasure'], 1) : 1; // Works
 			$showzoom = isset($params['showzoom']) ? parseControl($params['showzoom'], 1) : 1; // Works
 			$showfullscreen = isset($params['showfullscreen']) ? parseControl($params['showfullscreen'], 1) : 1; //Works
+			$showlayers = isset($params['showlayers']) ? parseControl($params['showlayers'], 1) : 1; //Works
 			$autosizeicons = isset($params['autosizeicons']) ? parseControl($params['autosizeicons'], 1) : 1;
 			$mouseoverpopup = isset($params['mouseoverpopup']) ? parseControl($params['mouseoverpopup'], 0) : 0;
-			$showlayers = isset($params['showlayers']) ? parseControl($params['showlayers'], 1) : 1; //Works
 
 			// We don't need to use the numeric value of self::$tale any more, make it a string
 			self::$tale = "'" . self::$tale . "'";
@@ -97,7 +86,7 @@ class EMap {
 			//Create the map object
 			$script = $script . "var " . $mapID ." = L.map(\"" .$mapID . "\", {crs: L.CRS.Simple, center: [0,0],measureControl:true}).setView([0,0]," . $zoom ." );";
 			// Create the map helper and initialise
-			$script = $script . "var m = new eMap(".$mapID.", " . self::$mapIdNum . ", \"" . $tileSource . "\"" . "," . $minZoom.",".$maxZoom . ",". self::$tale . "); ";
+			$script = $script . "var m = new FFXImap(".$mapID.", " . self::$mapIdNum . ", \"" . $tileSource . "\"" . "," . $minZoom.",".$maxZoom . ",". self::$tale . "); ";
 			$script = $script . "m.initIcons();";
 			$script .= "m.drawOptions();";
 
@@ -108,7 +97,7 @@ class EMap {
 			// Centre the map on the target coords
 			$script = $script . "m.centerMap(" . $lat . ", " . $lon . ");";
 
-			$markers = Emap::processLines($input, $mapID, $parser, $frame);
+			$markers = FFXImap::processLines($input, $mapID, $parser, $frame);
 
 			$script = $script . $markers;
 
@@ -122,25 +111,24 @@ class EMap {
         }
 
 		public static function onParserAfterTidy( Parser &$parser, &$text ) {
-		$content_processed =  preg_replace_callback(
+			$content_processed =  preg_replace_callback(
 			'#!!S!!(.+?)!!E!!#s',
 			function($m){
-			$m[1] = str_replace('\\',"<br/>",$m[1]);
-			return '"' . str_replace('"','\"',$m[1]) . '"';
-		},
-		$text
-		);
-		$text = $content_processed;
-		return true;
+				$m[1] = str_replace('\\',"<br/>",$m[1]);
+				return '"' . str_replace('"','\"',$m[1]) . '"';
+				}, $text
+			);
+			$text = $content_processed;
+			return true;
 		}
 
 		public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
 		global $wgScriptPath;
-			$out->addModuleStyles('ext.emap.styles');
-			$out->addScriptFile($wgScriptPath .'/extensions/EMap/modules/ext.emap.leaflet.js');
-			$out->addScriptFile($wgScriptPath .'/extensions/EMap/modules/ext.emap.babel.js');
-			//$out->addModuleStyles('ext.emap.styles');
-			//$out->addModules('ext.emap');
+			$out->addModuleStyles('ext.FFXImap.styles');
+			$out->addScriptFile($wgScriptPath .'/extensions/FFXImap/modules/ext.FFXImap.leaflet.js');
+			$out->addScriptFile($wgScriptPath .'/extensions/FFXImap/modules/ext.FFXImap.babel.js');
+			//$out->addModuleStyles('ext.FFXImap.styles');
+			//$out->addModules('ext.FFXImap');
 			//$out->addInlineScript($script);
 		return true;
 
@@ -206,8 +194,8 @@ class EMap {
 							if (sizeof($split) > 2)
 								$split[1] = $split[2];
 						}
-						if(	EMap::isOptions($split[1])) {
-							$script .= EMap::processOptions($split[1], $d);
+						if(	FFXImap::isOptions($split[1])) {
+							$script .= FFXImap::processOptions($split[1], $d);
 						}
 						else {}
 					}

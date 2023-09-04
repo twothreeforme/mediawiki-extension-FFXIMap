@@ -1,34 +1,34 @@
 {
-	"name": "EMap",
-	"version": "1.0.6",
+	"name": "FFXIMap",
+	"version": "1.0",
 	"author": [
-		"[[User:Kasiya|Ben Potter]] and [[User:Brad|Brad]]"
+		"Shocks"
 	],
-	"url": "https://github.com/atitd-community/mediawiki-emap",
-	"descriptionmsg": "Adds <emap> tag",
+	"url": "https://github.com/twothreeforme/mediawiki-extension-FFXIMap",
+	"descriptionmsg": "Adds <ffximap> tag for MediaWiki use. Forked from https://github.com/atitd-community/mediawiki-emap. ",
 	"license-name": "MIT",
-	"type": "atitd",
+	"type": "FFXI",
 	"requires": {
 		"MediaWiki": ">= 1.25.0"
 	},
 	"AutoloadClasses": {
-		"EMap": "EMap_body.php"
+		"FFXIMap": "FFXIMap_body.php"
 	},
 	"ExtensionMessagesFiles": {
-		"EMap": "EMap.magic.php"
+		"FFXIMap": "FFXIMap.magic.php"
 	},
 	"ResourceModules": {
-		"ext.emap.styles": {
-			"styles": "ext.emap.leaflet.css",
+		"ext.FFXIMap.styles": {
+			"styles": "ext.FFXIMap.leaflet.css",
 			"targets": [
 				"mobile",
 				"desktop"
 			]
 		},
-		"ext.emap": {
+		"ext.FFXIMap": {
 			"scripts": [
-				"ext.emap.leaflet.js",
-				"ext.emap.babel.js"
+				"ext.FFXIMap.leaflet.js",
+				"ext.FFXIMap.babel.js"
 			],
 			"targets": [
 				"mobile",
@@ -38,12 +38,12 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "modules",
-		"remoteExtPath": "EMap/modules"
+		"remoteExtPath": "FFXIMap/modules"
 	},
 	"Hooks": {
-		"ParserFirstCallInit": "EMap::onParserSetup",
-		"BeforePageDisplay": "EMap::onBeforePageDisplay",
-		"ParserAfterTidy": "EMap::onParserAfterTidy"
+		"ParserFirstCallInit": "FFXIMap::onParserSetup",
+		"BeforePageDisplay": "FFXIMap::onBeforePageDisplay",
+		"ParserAfterTidy": "FFXIMap::onParserAfterTidy"
 	},
 	"manifest_version": 1
 }

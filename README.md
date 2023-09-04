@@ -1,20 +1,11 @@
-This is a MediaWiki extension that adds a `{{#tag:emap}}` tag that creates an interactive map of Egypt.
+This is a MediaWiki extension that adds a `{{#tag:FFXIMap}}` tag that creates an interactive map for FFXI. This extension is designed specifically to work with the HorizonXI Wiki. 
 
-Installation
-============
 
-  * Download and place the files in a directory called `EMap` in your `extensions/` folder.
-  * Add the following code at the bottom of your LocalSettings.php:
 
 ```php
-wfLoadExtension( 'EMap' );
-$eMapBasePath = 'https://static.atitd.wiki';
+wfLoadExtension( 'FFXIMap' );
 ```
-
-  * Update the value of `$eMapBasePath` as appropriate with the URL hosting the static map and marker images.
-  * **Done** — Navigate to Special:Version on your wiki to verify that the extension is successfully installed.
 
 Note
 ----
 
-The extension is currently configured to pull the static images from `https://static.atitd.wiki/`. This URL is hardcoded into `modules/ext.emap.js` on `line 221` and may need to be changed depending on server settings.
