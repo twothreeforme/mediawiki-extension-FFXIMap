@@ -7,6 +7,7 @@
 let m = null;
 let map = null;
 
+//
 /**
  * ID# of the map to be displayed. 
  * This is parsed from the tag in the WikiText 

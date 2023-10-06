@@ -329,7 +329,7 @@
             "filename": "tavnazian_safehold_2.png",
             "upperBoundX" : "",
             "upperBoundY" : "",
-            "connections" : {
+            "connections" : { 
                 "141" : {
                     "hover" : [[184.6, 56.02], [184.6, 112], [151.1, 112], [151.1, 56.02]],
                     "pulse" : [[175.92,105.06], [157.46,104.76]]
