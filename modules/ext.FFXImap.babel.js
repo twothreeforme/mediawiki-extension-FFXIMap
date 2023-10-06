@@ -8,13 +8,13 @@ function CoordToLatLng(x, y, tale) {
 }
 
 function LatLngToCoord(ll, tale) {
-  tale = typeof tale !== 'undefined' ? tale : 10;
+  tale = typeof tale !== 'undefined' ? tale : 10;  
   var mapy = ll.lat / 0.015625 + 8192;
   var mapx = ll.lng / 0.015625 - (tale < 6 ? 7168 : 3068);
   return new L.Point(mapy, mapx);
 }
 
-class FFXImap {
+class FFXIMap {
   constructor(mapID, ID, tileset, minzoom, maxzoom, tale, attrib) {
     minzoom = typeof minzoom !== 'undefined' ? minzoom : 1;
     maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 8;

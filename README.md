@@ -6,6 +6,10 @@ This is a MediaWiki extension that adds a `{{#tag:FFXIMap}}` tag that creates an
 wfLoadExtension( 'FFXIMap' );
 ```
 
-Note
+Notes / Adjustments
 ----
 
+
+
+Changing map markers based on zoom levels
+https://stackoverflow.com/questions/46015066/leaflet-custom-icon-resize-on-zoom-performance-icon-vs-divicon

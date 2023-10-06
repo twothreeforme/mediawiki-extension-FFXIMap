@@ -1,0 +1,82 @@
+FFXI Maps Setup
+
+This custom extension gives editors some streamlined techniques to add entity data to a database, queryable by the FFXIMaps extension. 
+
+
+Using Cargo for database integration:
+Cargo has a unique method of creating, querying, and saving entities into the database. This is simplified for editors
+and using Forms can streamline the process. 
+
+
+Step 1
+Special:CreateClass
+-Create MapMarkerEntity, add table fields for name, mapID, and position. MapMarkerEntity is the name of the table, and will be used
+again in the future. 
+-Creates a Template connecting the table data with the database. Once the Template is created, go to the Template page. 
+You should see a line of text that reads "This table has not been created yet". At the top right of the page click
+"Create data table". Then click "View Table". (*Anytime you create a table, or edit the table structure at all, you must rebuild
+the table in the database with these two steps - "Create data table" then "View Table" - from the Template:*TableName page. When
+you edit the table structure it does not effect existing table data.)
+
+Step 2
+In Step 1 we created a database link between our database storage and a Template, called a table. We are now going to save data into
+the database using this templated table structure. 
+Form:MapMarkerEntity
+-This is where we will input the actual position data for use later in FFXIMaps. 
+
+
+-Adding this tag to a page will add a database entry associated with the NAME of that PAGE.
+For example: 
+On HorizonXI Wiki search for Juroro (NPC in Port Bastok). Editing this page, and adding the following tag:
+
+<includeonly>
+{{FFXIMap Markers
+|mapID= 110
+|position= 50,50
+|entityType= NPC
+}}
+</includeonly>
+
+...will add an entry in the database for 
+name=Juroro, mapID=110, position 50,50 , entityType=NPC
+
+mapID = map number for whatever zone map we want the entity marker to display on
+position = two integers seperated by a comma; do not use parenthesis to encapsulate
+entityType = this is the name of the layer associated with the entity on that map
+
+
+////////////////////////////////
+@ Special:Version
+-get API entry point
+
+table (table name in cargo table) = mapdata_npcs
+fields = _pageName=Page , mapID, entityType, position
+where = mapID=111
+format = json
+http://localhost/api.php?action=cargoquery&tables=mapdata_npcs&fields=_pageName=Page,entityType,position,mapID&where=mapID=111&format=json
+
+
+test: 
+http://localhost/api.php?action=query&prop=info&titles=Harbringer&prop=pageprops&format=json
+http://localhost/api.php?action=query&prop=revisions&rvprop=content&format=json&titles=Harbringer&rvslots=main
+   
+   
+Cargo Table
+
+/////////
+Template:FFXIMap_Markers
+///
+<noinclude>
+{{#template_params:mapID (label=MapID)
+|position (label=Position)
+|entityType (label=Entity Type) }}
+{{#cargo_declare:_table=ffximap_markers
+|mapID=Integer
+|position=List (,) of Integer
+|entityType=List (,) of Page }}
+</noinclude>
+<includeonly>
+{{#cargo_store:_table=ffximap_markers}}
+{{#template_display:_format=standard}}
+[[Category:FFXIMap Markers]]
+</includeonly>

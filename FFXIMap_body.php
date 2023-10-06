@@ -1,48 +1,55 @@
 <?php
 
+# added debug logging
+# use:
+# MWDebug::log('text to log here');
+MWdebug::init();
+
 if ( !defined('MEDIAWIKI') )
 {
 	die( 'This file is a MediaWiki extension, it is not a valid entry point' );
 }
 
-class FFXImap {
-		
-	// mapIdNum = 0 is the default mapId for the world map
-	static $mapIdNum = 0;
-	static private $script = NULL;
+class FFXIMap {
+	
+	static $FFXIMapBasePath;
 
-        public static function onParserSetup( &$parser ){
-            $parser->setHook('FFXImap', 'FFXImap::renderFFXImap' );
-        }
-
-        public static function renderFFXImap( $input, $params, $parser, $frame ) {
+		static function onParserInit( Parser $parser ) {
+            $parser->setHook('FFXIMap', 'FFXIMap::renderFFXIMap' );
+			return true;
+		}
+   
+        public static function renderFFXIMap( $input, array $params, Parser $parser, PPFrame $frame ) {
+			////////////////////
+			//Debugging only
+			//foreach ($params as $x => $val) { MWDebug::log('$params: '.$x.' = '. $val);	}
+			//MWDebug::log('$params: '.$params['mapid']);
+			////////////////////
 
 			$parser->getOutput()->updateCacheExpiry(0);
-			global $FFXImapBasePath;
-			$mapID = "mapID_" . self::$mapIdNum;
+			global $wgFFXIMapBasePath;
 
 			// $tileSource : location of tiles (or the tile server)
-			// each map should be it's own $mapIdNum as input
-			// tile server should be in this format: "/maps/mapID_X/{z}/{x}/{y}.png" 
+			// each map should be it's own $mapIDNum as input
+			// tile server should be in this format: "/maps/mapID_X/{z}/{x}/{y}.jpeg" 
 			// (where X corresponds with the mapID listed in the tag from mediawiki)
-			$tileSource = $FFXImapBasePath . "/maps\/" . self::$mapID . "/{z}/{x}/{y}.png";
-		
-			// Zoom levels
-			// World Map: 0-4 ? 
-			// Zone Maps: 0-3 ?
-			// Keep it 0-4 for now
-			$zoom_levels = array(0,1,2,3,4);
-			$maxZoom = 4;
-			if (isset($params['maxZoom'])){
-				$found_key = array_search($params['maxZoom'],$zoom_levels);
+			$FFXIMapBasePath = $wgFFXIMapBasePath;
+			//$tileSource = $FFXIMapBasePath . $mapIDNum . "/{z}/{x}/{y}.jpeg";
+			$tileSource = "./maps/tiles/{z}/{x}/{y}.jpeg";
+
+			// Checking defaults for, and setting, $params prior to anything
+			$zoom_levels = array(0,1,2,3,4,5,6);
+			$maxZoom = 6;
+			if (isset($params['maxzoom'])){
+				$found_key = array_search($params['maxzoom'],$zoom_levels);
 				if($found_key !== FALSE) {
 					$maxZoom = $zoom_levels[$found_key];
 					}
 			}
 
 			$minZoom = 0;
-			if (isset($params['minZoom'])){
-				$found_key = array_search($params['minZoom'],$zoom_levels);
+			if (isset($params['minzoom'])){
+				$found_key = array_search($params['minzoom'],$zoom_levels);
 				if($found_key !== FALSE) {
 					$minZoom = $zoom_levels[$found_key];
 					}
@@ -60,54 +67,89 @@ class FFXImap {
 					$zoom = $maxZoom;
 			}
 
-			// Control parameters - can be either 'yes' or 'no'
-			$showposition = isset($params['showposition']) ? parseControl($params['showposition'], 1) : 1; //Works
-			$showfullscreen = isset($params['showfullscreen']) ? parseControl($params['showfullscreen'], 1) : 1; //Works
-			$showregion = isset($params['showregion']) ? parseControl($params['showregion'], 1) : 1; //Works
-			$showmeasure = isset($params['showmeasure']) ? parseControl($params['showmeasure'], 1) : 1; // Works
-			$showzoom = isset($params['showzoom']) ? parseControl($params['showzoom'], 1) : 1; // Works
-			$showfullscreen = isset($params['showfullscreen']) ? parseControl($params['showfullscreen'], 1) : 1; //Works
-			$showlayers = isset($params['showlayers']) ? parseControl($params['showlayers'], 1) : 1; //Works
-			$autosizeicons = isset($params['autosizeicons']) ? parseControl($params['autosizeicons'], 1) : 1;
-			$mouseoverpopup = isset($params['mouseoverpopup']) ? parseControl($params['mouseoverpopup'], 0) : 0;
+			$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
+			$divID = "mapid_" . $mapID;
 
-			// We don't need to use the numeric value of self::$tale any more, make it a string
-			self::$tale = "'" . self::$tale . "'";
+			// // Control parameters - can be either 'yes' or 'no'
+			// $showposition = isset($params['showposition']) ? parseControl($params['showposition'], 1) : 1; //Works
+			// $showfullscreen = isset($params['showfullscreen']) ? parseControl($params['showfullscreen'], 1) : 1; //Works
+			// $showregion = isset($params['showregion']) ? parseControl($params['showregion'], 1) : 1; //Works
+			// $showmeasure = isset($params['showmeasure']) ? parseControl($params['showmeasure'], 1) : 1; // Works
+			// $showzoom = isset($params['showzoom']) ? parseControl($params['showzoom'], 1) : 1; // Works
+			// $showfullscreen = isset($params['showfullscreen']) ? parseControl($params['showfullscreen'], 1) : 1; //Works
+			// $showlayers = isset($params['showlayers']) ? parseControl($params['showlayers'], 1) : 1; //Works
+			// $autosizeicons = isset($params['autosizeicons']) ? parseControl($params['autosizeicons'], 1) : 1;
+			// $mouseoverpopup = isset($params['mouseoverpopup']) ? parseControl($params['mouseoverpopup'], 0) : 0;
 
 			$style = "";
+
 			$style = $style . "height: " . (isset($params['height']) ? intval($params['height']) : 512) . "px; ";
 			$style = $style . "width: " . (isset($params['width']) ? intval($params['width']) : 512) . "px; ";
-			$lat = (isset($params['lat']) ? intval($params['lat']) : 1024 );
-			$lon = (isset($params['lon']) ? intval($params['lon']) : 0 );
+			
+		
+
+			// $lat = (isset($params['lat']) ? intval($params['lat']) : 1024 );
+			// $lon = (isset($params['lon']) ? intval($params['lon']) : 0 );
 
 			$script = "";
-			$script = $script . "<script>";
-			$script = $script . "window.addEventListener('DOMContentLoaded', function() {";
-			//Create the map object
-			$script = $script . "var " . $mapID ." = L.map(\"" .$mapID . "\", {crs: L.CRS.Simple, center: [0,0],measureControl:true}).setView([0,0]," . $zoom ." );";
-			// Create the map helper and initialise
-			$script = $script . "var m = new FFXImap(".$mapID.", " . self::$mapIdNum . ", \"" . $tileSource . "\"" . "," . $minZoom.",".$maxZoom . ",". self::$tale . "); ";
-			$script = $script . "m.initIcons();";
-			$script .= "m.drawOptions();";
 
-			// Add controls
-			$setcontrols = array($showposition, $showregion, $showfullscreen, $showzoom, $showlayers, $showmeasure);
-			$script = $script . "m.setControls(" . implode(',',$setcontrols) . ");";
+			// $script = $script . "<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\" integrity=\"sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=\" crossorigin=\"\"></link>";
+			// $script = $script . "<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\" integrity=\"sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=\" crossorigin=\"\"></script>";
+	
 
-			// Centre the map on the target coords
-			$script = $script . "m.centerMap(" . $lat . ", " . $lon . ");";
+			// $script = $script . "<script >";
 
-			$markers = FFXImap::processLines($input, $mapID, $parser, $frame);
+			// //*****/
+			// //$script = $script . "window.addEventListener('DOMContentLoaded', function() {";
+			// $script = $script . "window.onload = (event) => {";
+			// $script = $script . "setParams(\"".$mapID."\"); ";
 
-			$script = $script . $markers;
+			// //Create the map object
+			// //$script = $script . "var " . $mapID ." = L.map(\"" .$mapID . "\", {crs: L.CRS.Simple, center: [0,0],measureControl:false}).setView([0,0]," . $zoom ." );";
+			
+			// // Create the map helper and initialise
+			// $script = $script . "var m = new FFXIMap(\"".$mapID."\", " . $mapIDNum . ", \"" . $tileSource . "\"" . "," . $minZoom.",".$maxZoom . "); ";
 
-			$script = $script . "});</script>";
+			// // $script = $script . "m.initIcons();";
+			// // $script .= "m.drawOptions();";
 
-			self::$mapIdNum++;
+			// // Add controls
+			// // $setcontrols = array($showposition, $showregion, $showfullscreen, $showzoom, $showlayers, $showmeasure);
+			// // $script = $script . "m.setControls(" . implode(',',$setcontrols) . ");";
 
-			return "<div id=".$mapID." style=\"". $style . "\">".  "</div>" . $script  ;
-			return  true;
-			//return $output;
+			// // Centre the map on the target coords
+			// // $script = $script . "m.centerMap(" . $lat . ", " . $lon . ");";
+
+			// // $markers = FFXIMap::processLines($input, $mapID, $parser, $frame);
+
+			// // $script = $script . $markers;
+
+			// //*****/
+			// //$script = $script . "}); </script>";
+			// $script = $script . "}; </script>";
+
+			// MWDebug::log('script: ' . $script );			
+			
+			// $tagAttributes = array(
+			// 	'mapID' => $mapID,
+			// 	'mapIDNum' => $mapIDNum,
+			// 	'tileSource' => $tileSource,
+			// 	'minZoom' => $minZoom,
+			// 	'maxZoom' => $maxZoom
+			// );
+				
+			//$tagAttributesJson = json_encode($tagAttributes); 
+			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\"></span>";
+
+			/////////////////
+			//These lines should be removed eventually 
+			$layers = array('number'=>39);
+			$layersJson = json_encode($layers); 
+			$layersJsonCode = "<span id=\"layers\" data-name=\"" . htmlspecialchars($layersJson, ENT_QUOTES, 'UTF-8') . "\"></span>";
+			/////////////////
+			
+			
+			return "<div id=".$divID." style=\"". $style . "\">".  "</div>" . $script . $tagAttributesJsonCode . $layersJsonCode ;	
         }
 
 		public static function onParserAfterTidy( Parser &$parser, &$text ) {
@@ -119,17 +161,15 @@ class FFXImap {
 				}, $text
 			);
 			$text = $content_processed;
+
 			return true;
 		}
 
+
 		public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
-		global $wgScriptPath;
-			$out->addModuleStyles('ext.FFXImap.styles');
-			$out->addScriptFile($wgScriptPath .'/extensions/FFXImap/modules/ext.FFXImap.leaflet.js');
-			$out->addScriptFile($wgScriptPath .'/extensions/FFXImap/modules/ext.FFXImap.babel.js');
-			//$out->addModuleStyles('ext.FFXImap.styles');
-			//$out->addModules('ext.FFXImap');
-			//$out->addInlineScript($script);
+			//global $wgScriptPath;
+			$out->addModules('ext.leafletMain');
+			$out->addModules('ext.FFXIMap');
 		return true;
 
 		}
@@ -194,8 +234,8 @@ class FFXImap {
 							if (sizeof($split) > 2)
 								$split[1] = $split[2];
 						}
-						if(	FFXImap::isOptions($split[1])) {
-							$script .= FFXImap::processOptions($split[1], $d);
+						if(	FFXIMap::isOptions($split[1])) {
+							$script .= FFXIMap::processOptions($split[1], $d);
 						}
 						else {}
 					}

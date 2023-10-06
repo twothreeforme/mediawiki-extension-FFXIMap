@@ -1,0 +1,35 @@
+#map {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+@keyframes fade { 
+  from { opacity: 0.5; } 
+}
+
+.blinking {
+  animation: fade 1s infinite alternate;
+}
+
+.css-icon {
+
+}
+
+.gps_ring {	
+  border: 4px solid #644119;
+  -webkit-border-radius: 30px;
+  height: 30px;
+  width: 30px;		
+  -webkit-animation: pulsate 2s ease-out;
+  -webkit-animation-iteration-count: infinite; 
+  /*opacity: 0.0*/
+}
+
+@-webkit-keyframes pulsate {
+      0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+      50% {opacity: 1.0;}
+      100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}

@@ -5,9 +5,9 @@
 		"Shocks"
 	],
 	"url": "https://github.com/twothreeforme/mediawiki-extension-FFXIMap",
-	"descriptionmsg": "Adds <ffximap> tag for MediaWiki use. Forked from https://github.com/atitd-community/mediawiki-emap. ",
+	"descriptionmsg": "Adds <FFXIMap> tag for MediaWiki use. Forked from https://github.com/atitd-community/mediawiki-emap. ",
 	"license-name": "MIT",
-	"type": "FFXI",
+	"type": "module",
 	"requires": {
 		"MediaWiki": ">= 1.25.0"
 	},
@@ -18,32 +18,43 @@
 		"FFXIMap": "FFXIMap.magic.php"
 	},
 	"ResourceModules": {
-		"ext.FFXIMap.styles": {
-			"styles": "ext.FFXIMap.leaflet.css",
-			"targets": [
-				"mobile",
-				"desktop"
+		"ext.leafletMain" : {
+			"localBasePath": "modules/",
+			"remoteExtPath": "FFXIMap/modules/",
+			"packageFiles": [
+				"leaflet.js"
+			],
+			"styles": [
+				"leaflet.css"
 			]
 		},
 		"ext.FFXIMap": {
-			"scripts": [
-				"ext.FFXIMap.leaflet.js",
-				"ext.FFXIMap.babel.js"
+			"localBasePath": "modules/",
+			"remoteExtPath": "FFXIMap/modules/",
+			"packageFiles": [
+				"ext.FFXIMap.js",
+				"mapdata.json",
+				"ext.mapData.js",
+				"ext.mapMarker.js"
 			],
-			"targets": [
-				"mobile",
-				"desktop"
+			"styles": [
+				"ext.FFXIMap.css"
+			],
+			"messages": [
+				"FFXIMaps-msg-label"
 			]
 		}
 	},
-	"ResourceFileModulePaths": {
-		"localBasePath": "modules",
-		"remoteExtPath": "FFXIMap/modules"
-	},
 	"Hooks": {
-		"ParserFirstCallInit": "FFXIMap::onParserSetup",
+		"ParserFirstCallInit": "FFXIMap::onParserInit",
 		"BeforePageDisplay": "FFXIMap::onBeforePageDisplay",
 		"ParserAfterTidy": "FFXIMap::onParserAfterTidy"
+	},
+	"config": {
+		"FFXIMapBasePath": {
+			"description": "Server providing the map tiles. Default is the HorizonXI Wiki tile server",
+			"value": "null"
+			}
 	},
 	"manifest_version": 1
 }

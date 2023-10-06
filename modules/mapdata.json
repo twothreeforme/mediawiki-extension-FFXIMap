@@ -1,0 +1,1298 @@
+{
+    "mapData": {
+        "0": { 
+            "name": "world map",
+            "filename": "",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "1": {
+            "name": "Bastok Market",
+            "filename": "bastok_markets.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "2": {
+            "name": "Bastok Mines",
+            "filename": "bastok_mines.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "3": {
+            "name": "Battalia Downs",
+            "filename": "batalia_downs.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "4": {
+            "name": "Beaucedine Glacier",
+            "filename": "beaucedine_glacier.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "5": {
+            "name": "Chateau d'Oraguille",
+            "filename": "chateau_doraguille.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "6": {
+            "name": "Konschtat Highlands",
+            "filename": "konschtat_highlands.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "7": {
+            "name": "La Theine Plateau",
+            "filename": "la_theine_plateau.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "8": {
+            "name": "Lower Delkfutt's Tower: Map 1",
+            "filename": "lower_delkfutts_tower_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "9": {
+            "name": "Lower Delkfutt's Tower: Map 2",
+            "filename": "lower_delkfutts_tower_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "10": {
+            "name": "Lower Delkfutt's Tower: Map 3",
+            "filename": "lower_delkfutts_tower_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "11": {
+            "name": "Lower Delkfutt's Tower: Map 4",
+            "filename": "lower_delkfutts_tower_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "12": {
+            "name": "Lower Jeuno",
+            "filename": "lower_jeuno.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "13": {
+            "name": "Metalworks",
+            "filename": "metalworks.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "14": {
+            "name": "Mhaura",
+            "filename": "mhaura.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "15": {
+            "name": "Middle Delkfutt's Tower: Map 1",
+            "filename": "middle_delkfutts_tower_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "16": {
+            "name": "Middle Delkfutt's Tower: Map 2",
+            "filename": "middle_delkfutts_tower_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "17": {
+            "name": "Middle Delkfutt's Tower: Map 3",
+            "filename": "middle_delkfutts_tower_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "18": {
+            "name": "Middle Delkfutt's Tower: Map 4",
+            "filename": "middle_delkfutts_tower_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "19": {
+            "name": "Middle Delkfutt's Tower: Map 5",
+            "filename": "middle_delkfutts_tower_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "20": {
+            "name": "Middle Delkfutt's Tower: Map 6",
+            "filename": "middle_delkfutts_tower_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "21": {
+            "name": "Norg",
+            "filename": "norg.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "22": {
+            "name": "Northern San d'Oria",
+            "filename": "northern_san_doria.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "23": {
+            "name": "Port Bastok",
+            "filename": "port_bastok.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "24": {
+            "name": "Port Jeuno",
+            "filename": "port_jeuno.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "25": {
+            "name": "Port San d'Oria",
+            "filename": "port_san_doria.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "26": {
+            "name": "Port Windurst",
+            "filename": "port_windurst.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "27": {
+            "name": "Pso'Xja: Map 1",
+            "filename": "psoxja_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "28": {
+            "name": "Pso'Xja: Map 2",
+            "filename": "psoxja_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "29": {
+            "name": "Pso'Xja: Map 3",
+            "filename": "psoxja_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "30": {
+            "name": "Pso'Xja: Map 4",
+            "filename": "psoxja_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "31": {
+            "name": "Pso'Xja: Map 5",
+            "filename": "psoxja_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "32": {
+            "name": "Pso'Xja: Map 6",
+            "filename": "psoxja_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "33": {
+            "name": "Pso'Xja: Map 7",
+            "filename": "psoxja_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "34": {
+            "name": "Pso'Xja: Map 8",
+            "filename": "psoxja_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "35": {
+            "name": "Pso'Xja: Map 9",
+            "filename": "psoxja_9.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "36": {
+            "name": "Pso'Xja: Map 10",
+            "filename": "psoxja_10.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "37": {
+            "name": "Pso'Xja: Map 11",
+            "filename": "psoxja_11.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "38": {
+            "name": "Pso'Xja: Map 12",
+            "filename": "psoxja_12.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "39": {
+            "name": "Pso'Xja: Map 13",
+            "filename": "psoxja_13.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "40": {
+            "name": "Pso'Xja: Map 14",
+            "filename": "psoxja_14.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "41": {
+            "name": "Pso'Xja: Map 15",
+            "filename": "psoxja_15.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "42": {
+            "name": "Pso'Xja: Map 16",
+            "filename": "psoxja_16.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "43": {
+            "name": "Pso'Xja: Map 17",
+            "filename": "psoxja_17.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "44": {
+            "name": "Pso'Xja: Map 18",
+            "filename": "psoxja_18.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "45": {
+            "name": "Pso'Xja: Map 19",
+            "filename": "psoxja_19.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "46": {
+            "name": "Pso'Xja: Map 20",
+            "filename": "psoxja_20.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "47": {
+            "name": "Qufim Island",
+            "filename": "qufim_island.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "48": {
+            "name": "Rolanberry Fields",
+            "filename": "rolanberry_fields.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "49": {
+            "name": "Ru'Lude Gardens",
+            "filename": "rulude_gardens.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "50": {
+            "name": "Sauromugue Champaign",
+            "filename": "sauromugue_champaign.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "51": {
+            "name": "Southern San d'Oria",
+            "filename": "southern_san_doria.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "52": {
+            "name": "Tahrongi Canyon",
+            "filename": "tahrongi_canyon.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "53": {
+            "name": "Tavnazian Safehold: Map 1",
+            "filename": "tavnazian_safehold_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "54": {
+            "name": "Tavnazian Safehold: Map 2",
+            "filename": "tavnazian_safehold_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "141" : {
+                    "hover" : [[184.6, 56.02], [184.6, 112], [151.1, 112], [151.1, 56.02]],
+                    "pulse" : [[175.92,105.06], [157.46,104.76]]
+                },
+                "139" : {
+                    "hover" : [[184.6, 145.05], [184.6, 202.05], [152.8, 202.05], [152.8, 145.05]],
+                    "pulse" : [[175.92,152.55], [157.46,152.34]]
+                }
+            }
+        },
+        "55": {
+            "name": "Tavnazian Safehold: Map 3",
+            "filename": "tavnazian_safehold_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "56": {
+            "name": "Upper Delkfutt's Tower: Map 1",
+            "filename": "upper_delkfutts_tower_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "57": {
+            "name": "Upper Delkfutt's Tower: Map 2",
+            "filename": "upper_delkfutts_tower_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "58": {
+            "name": "Upper Delkfutt's Tower: Map 3",
+            "filename": "upper_delkfutts_tower_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "59": {
+            "name": "Upper Delkfutt's Tower: Map 4",
+            "filename": "upper_delkfutts_tower_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "60": {
+            "name": "Upper Delkfutt's Tower: Map 5",
+            "filename": "upper_delkfutts_tower_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "61": {
+            "name": "Upper Delkfutt's Tower: Map 6",
+            "filename": "upper_delkfutts_tower_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "62": {
+            "name": "Upper Jeuno",
+            "filename": "upper_jeuno.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "63": {
+            "name": "Valkurm Dunes",
+            "filename": "valkurm_dunes.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "64": {
+            "name": "Windurst Walls",
+            "filename": "windurst_walls.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "65": {
+            "name": "Windurst Waters: North",
+            "filename": "windurst_waters_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "66": {
+            "name": "Windurst Waters: South",
+            "filename": "windurst_waters_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "67": {
+            "name": "Windurst Woods",
+            "filename": "windurst_woods.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "68": {
+            "name": "Altaieu",
+            "filename": "altaieu.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "69": {
+            "name": "Altar Room",
+            "filename": "altar_room.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "70": {
+            "name": "Apollyon: Map 1",
+            "filename": "apollyon_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "71": {
+            "name": "Apollyon: Map 2",
+            "filename": "apollyon_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "72": {
+            "name": "Apollyon: Map 3",
+            "filename": "apollyon_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "73": {
+            "name": "Apollyon: Map 4",
+            "filename": "apollyon_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "74": {
+            "name": "Apollyon: Map 5",
+            "filename": "apollyon_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "75": {
+            "name": "Apollyon: Map 6",
+            "filename": "apollyon_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "76": {
+            "name": "Apollyon: Map 7",
+            "filename": "apollyon_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "77": {
+            "name": "Apollyon: Map 8",
+            "filename": "apollyon_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "78": {
+            "name": "Attohwa Chasm",
+            "filename": "attohwa_chasm.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "79": {
+            "name": "Beadeaux: Map 1",
+            "filename": "beadeaux_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "80": {
+            "name": "Beadeaux: Map 2",
+            "filename": "beadeaux_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "81": {
+            "name": "Behemoth's Dominion",
+            "filename": "behemoths_dominion.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "82": {
+            "name": "Bibiki Bay: Map 1",
+            "filename": "bibiki_bay_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "83": {
+            "name": "Bibiki Bay: Map 2",
+            "filename": "bibiki_bay_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "84": {
+            "name": "Bostaunieux Oubliette: Map 1",
+            "filename": "bostaunieux_oubliette_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "85": {
+            "name": "Bostaunieux Oubliette: Map 2",
+            "filename": "bostaunieux_oubliette_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "86": {
+            "name": "Bostaunieux Oubliette: Map 3",
+            "filename": "bostaunieux_oubliette_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "87": {
+            "name": "Buburimu Peninsula",
+            "filename": "buburimu_peninsula.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "88": {
+            "name": "Castle Oztroja: Map 1",
+            "filename": "castle_oztroja_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "89": {
+            "name": "Castle Oztroja: Map 2",
+            "filename": "castle_oztroja_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "90": {
+            "name": "Castle Oztroja: Map 3",
+            "filename": "castle_oztroja_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "91": {
+            "name": "Castle Oztroja: Map 4",
+            "filename": "castle_oztroja_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "92": {
+            "name": "Castle Oztroja: Map 5",
+            "filename": "castle_oztroja_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "93": {
+            "name": "Castle Oztroja: Map 6",
+            "filename": "castle_oztroja_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "94": {
+            "name": "Castle Oztroja: Map 7",
+            "filename": "castle_oztroja_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "95": {
+            "name": "Castle Zvahl Baileys: Map 1",
+            "filename": "castle_zvahl_baileys_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "96": {
+            "name": "Castle Zvahl Baileys: Map 2",
+            "filename": "castle_zvahl_baileys_12png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "97": {
+            "name": "Castle Zvahl Baileys: Map 3",
+            "filename": "castle_zvahl_baileys_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "98": {
+            "name": "Castle Zvahl Baileys: Map 4",
+            "filename": "castle_zvahl_baileys_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "99": {
+            "name": "Castle Zvahl Keep: Map 1",
+            "filename": "castle_zvahl_keep_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "100": {
+            "name": "Castle Zvahl Keep: Map 2",
+            "filename": "castle_zvahl_keep_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "101": {
+            "name": "Castle Zvahl Keep: Map 3",
+            "filename": "castle_zvahl_keep_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "102": {
+            "name": "Castle Zvahl Keep: Map 4",
+            "filename": "castle_zvahl_keep_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "103": {
+            "name": "Crawler's Nest: Map 1",
+            "filename": "crawlers_nest_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "104": {
+            "name": "Crawler's Nest: Map 2",
+            "filename": "crawlers_nest_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "105": {
+            "name": "Crawler's Nest: Map 3",
+            "filename": "crawlers_nest_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "106": {
+            "name": "Dangruf Wadi",
+            "filename": "dangruf_wadi.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "107": {
+            "name": "Davoi",
+            "filename": "davoi.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "108": {
+            "name": "East Ronfaure",
+            "filename": "east_ronfaure.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "109": {
+            "name": "East Sarutabaruta",
+            "filename": "east_sarutabaruta.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "110": {
+            "name": "Fort Ghelsba",
+            "filename": "fort_ghelsba.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "111": {
+            "name": "Garlaige Citadel: Map 1",
+            "filename": "garlaige_citadel_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "112": {
+            "name": "Garlaige Citadel: Map 2",
+            "filename": "garlaige_citadel_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "113": {
+            "name": "Garlaige Citadel: Map 3",
+            "filename": "garlaige_citadel_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "114": {
+            "name": "Garlaige Citadel: Map 4",
+            "filename": "garlaige_citadel_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "115": {
+            "name": "Ghelsba Outpost: Map 1",
+            "filename": "ghelsba_outpost_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "116": {
+            "name": "Ghelsba Outpost: Map 2",
+            "filename": "ghelsba_outpost_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "117": {
+            "name": "Giddeus: Map 1",
+            "filename": "giddeus_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "118": {
+            "name": "Giddeus: Map 2",
+            "filename": "giddeus_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "119": {
+            "name": "Gusgen Mines: Map 1",
+            "filename": "gusgen_mines_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "120": {
+            "name": "Gusgen Mines: Map 2",
+            "filename": "gusgen_mines_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "121": {
+            "name": "Gusgen Mines: Map 3",
+            "filename": "gusgen_mines_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "122": {
+            "name": "Gusgen Mines: Map 4",
+            "filename": "gusgen_mines_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "123": {
+            "name": "Gustav Tunnel: Map 1",
+            "filename": "gustav_tunnel_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "124": {
+            "name": "Gustav Tunnel: Map 2",
+            "filename": "gustav_tunnel_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "125": {
+            "name": "Inner Horutoto Ruins: Map 1",
+            "filename": "inner_horutoto_ruins_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "126": {
+            "name": "Inner Horutoto Ruins: Map 2",
+            "filename": "inner_horutoto_ruins_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "127": {
+            "name": "Inner Horutoto Ruins: Map 3",
+            "filename": "inner_horutoto_ruins_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "128": {
+            "name": "Inner Horutoto Ruins: Map 4",
+            "filename": "inner_horutoto_ruins_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "129": {
+            "name": "Jugner Forest",
+            "filename": "jugner_forest.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "130": {
+            "name": "Korroloka Tunnel: Map 1",
+            "filename": "korroloka_tunnel_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "131": {
+            "name": "Korroloka Tunnel: Map 2",
+            "filename": "korroloka_tunnel_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "132": {
+            "name": "Korroloka Tunnel: Map 3",
+            "filename": "korroloka_tunnel_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "133": {
+            "name": "Korroloka Tunnel: Map 4",
+            "filename": "korroloka_tunnel_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "134": {
+            "name": "Korroloka Tunnel: Map 5",
+            "filename": "korroloka_tunnel_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "135": {
+            "name": "Kuftal Tunnel: Map 1",
+            "filename": "kuftal_tunnel_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "136": {
+            "name": "Kuftal Tunnel: Map 2",
+            "filename": "kuftal_tunnel_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "137": {
+            "name": "Kuftal Tunnel: Map 3",
+            "filename": "kuftal_tunnel_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "138": {
+            "name": "Kuftal Tunnel: Map 4",
+            "filename": "kuftal_tunnel_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "139": {
+            "name": "Lufaise Meadows",
+            "filename": "lufaise_meadows.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "140": {
+            "name": "Meriphataud Mountains",
+            "filename": "meriphataud_mountains.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "141": {
+            "name": "Misareaux Coast",
+            "filename": "misareaux_coast.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "54" : {
+                "hover" : [[130.8, 169.55], [120.8, 240.05], [96.8, 234.55], [92.84, 179.55]],
+                "pulse" : [[124.8, 175.44], [96.85, 185.423]]
+                }
+            }
+        },
+        "142": {
+            "name": "Monastic Cavern",
+            "filename": "monastic_cavern.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "143": {
+            "name": "North Gustaberg",
+            "filename": "north_gustaberg.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "144": {
+            "name": "Palborough Mines: Map 1",
+            "filename": "palborough_mines_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "145": {
+            "name": "Palborough Mines: Map 2",
+            "filename": "palborough_mines_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "146": {
+            "name": "Palborough Mines: Map 3",
+            "filename": "palborough_mines_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "147": {
+            "name": "Pashhow Marshlands",
+            "filename": "pashhow_marshlands.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "148": {
+            "name": "Promyvion Dem",
+            "filename": "promyvion_dem.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "149": {
+            "name": "Promyvion Holla",
+            "filename": "promyvion_holla.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "150": {
+            "name": "Promyvion Mea",
+            "filename": "promyvion_mea.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "151": {
+            "name": "Promyvion Vahzl",
+            "filename": "promyvion_vahzl.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "152": {
+            "name": "Qulun Dome",
+            "filename": "qulun_dome.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "153": {
+            "name": "Riverne Site #A01",
+            "filename": "riverne_site_#a01.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "154": {
+            "name": "Riverne Site #B01",
+            "filename": "riverne_site_#b01.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "155": {
+            "name": "Ruaun Gardens",
+            "filename": "ruaun_gardens.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "156": {
+            "name": "Sea Serpent Grotto: Map 1",
+            "filename": "sea_serpent_grotto_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "157": {
+            "name": "Sea Serpent Grotto: Map 2",
+            "filename": "sea_serpent_grotto_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "158": {
+            "name": "Sea Serpent Grotto: Map 3",
+            "filename": "sea_serpent_grotto_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "159": {
+            "name": "Sea Serpent Grotto: Map 4",
+            "filename": "sea_serpent_grotto_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "160": {
+            "name": "Sea Serpent Grotto: Map 5",
+            "filename": "sea_serpent_grotto_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "161": {
+            "name": "Selbina",
+            "filename": "selbina.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "162": {
+            "name": "South Gustaberg",
+            "filename": "south_gustaberg.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "163": {
+            "name": "Temenos: Map 1",
+            "filename": "temenos_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "164": {
+            "name": "Temenos: Map 2",
+            "filename": "temenos_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "165": {
+            "name": "Temenos: Map 3",
+            "filename": "temenos_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "166": {
+            "name": "Temenos: Map 4",
+            "filename": "temenos_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "167": {
+            "name": "Temenos: Map 5",
+            "filename": "temenos_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "168": {
+            "name": "Temenos: Map 6",
+            "filename": "temenos_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "169": {
+            "name": "Temenos: Map 7",
+            "filename": "temenos_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "170": {
+            "name": "Temenos: Map 8",
+            "filename": "temenos_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "171": {
+            "name": "Temenos: Map 9",
+            "filename": "temenos_9.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "172": {
+            "name": "Temenos: Map 10",
+            "filename": "temenos_10.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "173": {
+            "name": "Temenos: Map 11",
+            "filename": "temenos_11.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "174": {
+            "name": "Temenos: Map 12",
+            "filename": "temenos_12.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "175": {
+            "name": "Temenos: Map 13",
+            "filename": "temenos_13.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "176": {
+            "name": "Temenos: Map 14",
+            "filename": "temenos_14.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "177": {
+            "name": "Temenos: Map 15",
+            "filename": "temenos_15.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "178": {
+            "name": "Temenos: Map 16",
+            "filename": "temenos_16.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "179": {
+            "name": "Temenos: Map 17",
+            "filename": "temenos_17.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "180": {
+            "name": "Temenos: Map 18",
+            "filename": "temenos_18.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "181": {
+            "name": "Temenos: Map 19",
+            "filename": "temenos_19.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "182": {
+            "name": "Temenos: Map 20",
+            "filename": "temenos_20.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "183": {
+            "name": "Temenos: Map 21",
+            "filename": "temenos_21.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "184": {
+            "name": "Temenos: Map 22",
+            "filename": "temenos_22.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "185": {
+            "name": "Temenos: Map 23",
+            "filename": "temenos_23.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "186": {
+            "name": "Temenos: Map 24",
+            "filename": "temenos_24.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "187": {
+            "name": "Temenos: Map 25",
+            "filename": "temenos_25.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "188": {
+            "name": "Temenos: Map 26",
+            "filename": "temenos_26.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "189": {
+            "name": "Temenos: Map 27",
+            "filename": "temenos_27.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "190": {
+            "name": "Temple of Uggalepih: Map 1",
+            "filename": "temple_of_uggalepih_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "191": {
+            "name": "Temple of Uggalepih: Map 2",
+            "filename": "temple_of_uggalepih_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "192": {
+            "name": "Temple of Uggalepih: Map 3",
+            "filename": "temple_of_uggalepih_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "193": {
+            "name": "Temple of Uggalepih: Map 4",
+            "filename": "temple_of_uggalepih_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "194": {
+            "name": "The Boyahda Tree: Map 1",
+            "filename": "the_boyahda_tree_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "195": {
+            "name": "The Boyahda Tree: Map 2",
+            "filename": "the_boyahda_tree_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "196": {
+            "name": "The Boyahda Tree: Map 3",
+            "filename": "the_boyahda_tree_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "197": {
+            "name": "The Boyahda Tree: Map 4",
+            "filename": "the_boyahda_tree_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "198": {
+            "name": "The Eldieme Necropolis: Map 1",
+            "filename": "the_eldieme_necropolis_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "199": {
+            "name": "The Eldieme Necropolis: Map 2",
+            "filename": "the_eldieme_necropolis_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "200": {
+            "name": "The Eldieme Necropolis: Map 3",
+            "filename": "the_eldieme_necropolis_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "201": {
+            "name": "The Santuary of Zita",
+            "filename": "the_sanctuary_of_zitah.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "202": {
+            "name": "Uleguerand Range: Map 1",
+            "filename": "uleguerand_range_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "203": {
+            "name": "Uleguerand Range: Map 2",
+            "filename": "uleguerand_range_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "204": {
+            "name": "West Ronfaure",
+            "filename": "west_ronfaure.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "205": {
+            "name": "West Sarutabaruta",
+            "filename": "west_sarutabaruta.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "206": {
+            "name": "Windurst Walls",
+            "filename": "windurst_walls.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "207": {
+            "name": "Xarcabard",
+            "filename": "xarcabard.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "208": {
+            "name": "Yhoator Jungle",
+            "filename": "yhoator_jungle.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "209": {
+            "name": "Yughott Grotto: Map 1",
+            "filename": "yughott_grotto_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "210": {
+            "name": "Yughott Grotto: Map 2",
+            "filename": "yughott_grotto_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "211": {
+            "name": "Yuhtunga Jungle",
+            "filename": "yuhtunga_jungle.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        },
+        "212": {
+            "name": "Zeruhn Mines",
+            "filename": "zeruhn_mines.png",
+            "upperBoundX" : "",
+            "upperBoundY" : ""
+        }
+    }
+}
