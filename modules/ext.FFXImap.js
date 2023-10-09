@@ -55,13 +55,16 @@ let mapDataModel = null;
 
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
 	//console.log('mw.hook( \'wikipage.content\' ) FIRED');
-	
-	setPageAttributes();
+	runExtension();
+});
+
+function runExtension() {
+	if (setPageAttributes() === null) return; 
 	setupMarkers();
 	setupMapData();
 
 	setupNewMap();
-});
+}
 
 function setupNewMap(_mapID) {
 	if (m != undefined)  {
@@ -79,7 +82,8 @@ function setupNewMap(_mapID) {
  * @return {nil} no return value 
  */
 function setPageAttributes() {
-	var tagAttributesQuery = document.querySelector('#tagAttributes'),
+	var tagAttributesQuery = document.querySelector('#tagAttributes');
+	if (tagAttributesQuery === null) return null;
 		dataTagAttributes = tagAttributesQuery.dataset;
 		
 		divID = dataTagAttributes.divid;

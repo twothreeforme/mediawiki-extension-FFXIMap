@@ -153,16 +153,7 @@ class FFXIMap {
         }
 
 		public static function onParserAfterTidy( Parser &$parser, &$text ) {
-			$content_processed =  preg_replace_callback(
-			'#!!S!!(.+?)!!E!!#s',
-			function($m){
-				$m[1] = str_replace('\\',"<br/>",$m[1]);
-				return '"' . str_replace('"','\"',$m[1]) . '"';
-				}, $text
-			);
-			$text = $content_processed;
-
-			return true;
+				return true;
 		}
 
 
