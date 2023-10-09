@@ -25,6 +25,7 @@ let divID = null;
 let tileset, 
 	minZoom,
 	maxZoom,
+	zoom,
 	baseDir,
 	baseMapDir,
 	baseMapTilesDir,
@@ -69,7 +70,7 @@ function setupNewMap(_mapID) {
 		m = undefined;
 	}
 	if (_mapID == undefined) _mapID = mapID;
-	m = new FFXIMap( divID, _mapID, tileset, minZoom, maxZoom );
+	m = new FFXIMap( divID, _mapID, tileset, minZoom, maxZoom, zoom );
 }
 
 /**
@@ -86,6 +87,7 @@ function setPageAttributes() {
 		//tileSource = dataTagAttributes.tilesource;
 		minZoom = dataTagAttributes.minzoom;
 		maxZoom = dataTagAttributes.maxzoom;
+		zoom = dataTagAttributes.zoom;
 
 		baseDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/';
 		baseMapDir = baseDir + 'maps/';
@@ -144,7 +146,7 @@ class FFXIMap {
 	connectionLayerHover;
 	
 
-	constructor(divID, mapID, tileset, minzoom, maxzoom, attrib) {
+	constructor(divID, mapID, tileset, minzoom, maxzoom, zoom) {
 		
 		this.divID = typeof divID !== 'undefined' ? divID : "mapID_0";
 		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
@@ -152,6 +154,7 @@ class FFXIMap {
 
 		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : 1;
 		this.maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 6;
+		this.zoom = typeof zoom !== 'undefined' ? zoom : 1;
 
 		this.attrib = '© HorizonXI | FFXI: © Square Enix | Maps: © Remapster';
 
@@ -168,7 +171,7 @@ class FFXIMap {
 			maxBoundsViscosity: 0.75,
 			maxBounds: this.bounds,
 			attribution: this.attrib,
-		}).setView([0,0], 1);
+		}).setView([0,0], this.zoom);
 
 		// Assigns new map imageoverlay/tiles
 		// Sets up all associated layers/layerGroups
@@ -181,41 +184,48 @@ class FFXIMap {
 	/******* Polygons   w/ connections layergroup   ********* */
 	setupZoneConnections(_mapID){
 		if (_mapID == undefined) _mapID = this.mapID;
-
 		const _connections = mapDataModel.getConnections(_mapID);
 		if (_connections == null ) return;
-		
-		//Transparent polygon
-		var polygonOptions = {color: '#ff000000', weight: 0, stroke: false};
 
 		for (const [key, value] of Object.entries(_connections)) {
-			//console.log(`${key}: ${value}`);
+		// key = mapID for the connection map
+		// value = hover / pulse objects
+
+			// Must use a Pane to change the z-index of ONLY the polygons
+			this.map.createPane('connectionsPane');
+			this.map.getPane('connectionsPane').style.zIndex = 601;
+
+			// Transparent polygon
+			// Options: must include Pane to ensure z-index is set
+			var polygonOptions = {color: '#ff000000', weight: 0, stroke: false, pane: 'connectionsPane'};
 
 			var poly = L.polygon(_connections[key].hover, polygonOptions);
-			poly.addTo(this.map);
+				poly.addTo(this.map);
+				//poly.bringToFront();
 
-			poly.on('mouseover', () => {
-				var _connectionslayerGroup = L.layerGroup();
-				for (const [_key, _value] of Object.entries(_connections[key].pulse)) {
-					mapMarkers.connectionMarker(_value).addTo(_connectionslayerGroup);
-				}
-				this.map.addLayer(_connectionslayerGroup);
-				this.connectionLayerHover = _connectionslayerGroup;
-				});
+				poly.on('mouseover', () => {
+					var _connectionslayerGroup = L.layerGroup();
+					for (const [_key, _value] of Object.entries(_connections[key].pulse)) {
+						mapMarkers.connectionMarker(_value).addTo(_connectionslayerGroup);
+					}
+					this.map.addLayer(_connectionslayerGroup);
+					this.connectionLayerHover = _connectionslayerGroup;
+					});
 
-			poly.on('mouseout', () => {
-				this.map.removeLayer(this.connectionLayerHover);
-				this.connectionLayerHover = null;
-				});
+				poly.on('mouseout', () => {
+					this.map.removeLayer(this.connectionLayerHover);
+					this.connectionLayerHover = null;
+					});
 
-			poly.on('click', () => {
-				//console.log(key);
-				this.resetMapTo(key);
-				});
+				poly.on('click', () => {
+					//console.log(key);
+					this.resetMapTo(key);
+					});
+			
 		}
 
 	}
-
+	
 	newMap(_mapID){
 
 		this.map.eachLayer(function (layer) {
@@ -239,13 +249,13 @@ class FFXIMap {
 		else {
 			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), 
 				this.bounds, 
-				{ 
+				{
 					attribution: this.attrib 
 				});
 			this.currentMapImageOverlay.addTo(this.map);
 		}
 
-		this.map.setZoom(1);
+		this.map.setZoom(this.zoom);
 	}
 
 	newControlLayers(_mapID){
@@ -295,7 +305,7 @@ class FFXIMap {
 			},
 		
 			updateHTML: function(lat, lng, currentZoom) {
-			  var latlng = "Z: " + currentZoom + " " + lat + " " + lng;
+			  var latlng = "z:" + currentZoom + " " + lat + ", " + lng;
 			  //this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
 			  this._latlng.innerHTML = "LatLng: " + latlng;
 			}
@@ -309,6 +319,15 @@ class FFXIMap {
 			
 			var currentZoom = this.map.getZoom();
 			this.position.updateHTML(lat, lng, currentZoom);
+		});
+
+		this.map.on('click', function(e) {        
+			let lat = Math.round(e.latlng.lat * 100000) / 100000;
+			let lng = Math.round(e.latlng.lng * 100000) / 100000;    
+			
+			$('#polyEditing ').append(
+				'['+lat + ", " + lng+'], ');
+			//console.log(lat + ", " + lng);
 		});
 	}
 

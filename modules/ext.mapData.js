@@ -24,12 +24,12 @@ class MapData {
         console.log(this.json);
     }
 
-    parseDB(dbEntities){
-        var _parsed = dbEntities;
+    // parseDB(dbEntities){
+    //     var _parsed = dbEntities;
 
 
-        return _parsed;
-    }
+    //     return _parsed;
+    // }
 
 }
 

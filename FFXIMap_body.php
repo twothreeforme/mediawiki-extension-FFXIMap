@@ -55,7 +55,7 @@ class FFXIMap {
 					}
 			}
 
-			$zoom = 2;
+			$zoom = 1;
 			if (isset($params['zoom'])){
 				$found_key = array_search($params['zoom'],$zoom_levels);
 				if($found_key !== FALSE) {
@@ -139,7 +139,7 @@ class FFXIMap {
 			// );
 				
 			//$tagAttributesJson = json_encode($tagAttributes); 
-			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\"></span>";
+			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\" data-zoom=\"" . $zoom . "\"     ></span>";
 
 			/////////////////
 			//These lines should be removed eventually 
@@ -147,9 +147,9 @@ class FFXIMap {
 			$layersJson = json_encode($layers); 
 			$layersJsonCode = "<span id=\"layers\" data-name=\"" . htmlspecialchars($layersJson, ENT_QUOTES, 'UTF-8') . "\"></span>";
 			/////////////////
+			$editingMode = "<div id=\"polyEditing\" <ul></ul> </div>";
 			
-			
-			return "<div id=".$divID." style=\"". $style . "\">".  "</div>" . $script . $tagAttributesJsonCode . $layersJsonCode ;	
+			return "<div id=".$divID." style=\"". $style . "\">".  "</div>" . $editingMode . $script . $tagAttributesJsonCode . $layersJsonCode ;	
         }
 
 		public static function onParserAfterTidy( Parser &$parser, &$text ) {
