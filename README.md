@@ -39,3 +39,55 @@ https://stackoverflow.com/questions/46015066/leaflet-custom-icon-resize-on-zoom-
                         ],
                     "pulse" : [[148.32373, 142.19271], [133.37061, 124.42708], [124.74561, 113.17708], [147.12061, 115.44271], [167.51123, 92.14583], [149.52686, 69.47396]]
                 }
+
+//////////////////////////////////
+How to use: 
+{{FFXIMap Markers
+|mapID=141
+|position=50,74
+|entityType=NPC
+}}
+
+/////////////////////////////////
+Cargo DB entries... 
+///
+View table: ffximap_markers
+< Cargo tables
+Jump to navigationJump to search
+Table structure:
+
+mapID - Integer
+position - List of Integer, delimiter: ,
+entityType - List of Page, delimiter: ,
+This table has 2 rows altogether.
+
+Recreate data.
+
+Page	mapID	position	entityType
+Manjango (edit)	141	50 • 74	NPC
+MoogleTest (edit)	141	25 • 100	NPC
+
+///////////////////////////
+Cargo Query: (JSON)
+
+{
+    "cargoquery": [
+        {
+            "title": {
+                "Page": "Manjango",
+                "entityType": "NPC",
+                "position": "50,74",
+                "mapID": "141"
+            }
+        },
+        {
+            "title": {
+                "Page": "MoogleTest",
+                "entityType": "Seasonal NPC",
+                "position": "25,100",
+                "mapID": "141"
+            }
+        }
+    ]
+}
+
