@@ -61,7 +61,7 @@ mw.hook( 'wikipage.content' ).add( function ( $content ) {
 	setupMapData();
 
 	setupNewMap();
-}
+});
 
 function setupNewMap(_mapID) {
 	if (m != undefined)  {
