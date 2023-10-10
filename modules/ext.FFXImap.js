@@ -54,7 +54,7 @@ let mapDataModel = null;
 
 
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
-	//console.log('mw.hook( \'wikipage.content\' ) FIRED');
+	console.log('mw.hook( \'wikipage.content\' ) FIRED');
 	
 	setPageAttributes();
 	setupMarkers();
