@@ -89,8 +89,6 @@ class FFXIMap {
 			$style = $style . "height: " . (isset($params['height']) ? intval($params['height']) : 512) . "px; ";
 			$style = $style . "width: " . (isset($params['width']) ? intval($params['width']) : 512) . "px; ";
 			
-		
-
 			// $lat = (isset($params['lat']) ? intval($params['lat']) : 1024 );
 			// $lon = (isset($params['lon']) ? intval($params['lon']) : 0 );
 
@@ -147,7 +145,7 @@ class FFXIMap {
 			/////////////////
 			//These lines should be removed eventually 
 			$layers = array('number'=>39);
-			$layersJson = json_encode($layers); 
+			$layersJson = json_encode($layers);
 			$layersJsonCode = "<span id=\"layers\" data-name=\"" . htmlspecialchars($layersJson, ENT_QUOTES, 'UTF-8') . "\"></span>";
 			/////////////////
 			$editingMode = "<div id=\"polyEditing\" <ul></ul> </div>";

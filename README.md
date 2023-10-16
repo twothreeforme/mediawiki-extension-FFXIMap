@@ -14,6 +14,10 @@ Mhaura: Add Ferry?
 Selbina: Add Ferry?
 Delkfultts Tower: teleports can take you to more than one place... 
 Middle Delkfutt's Tower: Map 2 - where does that go? [G-6] 
+Pso'Xja: Map 20 - stone door and other exit? 
+Upper Delkfutt's Tower: Map 3 - #5 connection?
+Upper Delkfutt's Tower: Map 4-6 - need connections
+
 
 Known Issues:
 ----
@@ -47,6 +51,9 @@ How to use:
 |position=50,74
 |entityType=NPC
 }}
+
+/////////////////////////////////
+Max query limit of 500
 
 /////////////////////////////////
 Cargo DB entries... 

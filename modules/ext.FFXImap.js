@@ -54,7 +54,7 @@ let mapDataModel = null;
 
 
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
-	console.log('mw.hook( \'wikipage.content\' ) FIRED');
+	//console.log('mw.hook( \'wikipage.content\' ) FIRED');
 	
 	setPageAttributes();
 	setupMarkers();
@@ -361,6 +361,7 @@ class FFXIMap {
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
+				if (data.cargoquery == null ) return;
 				data.cargoquery.forEach((d) => {
 					var page, entityType, posX, posY, mapID;
 					Object.entries(d.title).forEach(([key, value]) => {
