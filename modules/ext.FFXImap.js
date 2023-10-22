@@ -131,15 +131,8 @@ function setupMarkers() {
  */
 function setupMapData() {
 	//console.log(baseDir + 'modules/mapdata.json');
-	
 	var data = require("./mapdata.json");
 	mapDataModel = new MapData(data);
-	
-	// mapdata = data.mapData;
-	// //console.log(mapdata['141']);
-	// //console.log(mapdata["53"].connections["141"].pulse);
-	// console.log(mapdata["53"].connections["141"]);
-	//mapDataModel.getConnections("141");
 }
 
 
@@ -157,7 +150,7 @@ class FFXIMap {
 		this.maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 6;
 		this.zoom = typeof zoom !== 'undefined' ? zoom : 1;
 
-		this.attrib = '© HorizonXI | FFXI: © Square Enix | Maps: © Remapster';
+		this.attrib = '© Remapster|© Square Enix|© FFXI-Atlas';
 
 		//I have no idea why these bounds work... 
 		this.bounds = [[0,0], [256,256]];
@@ -280,13 +273,16 @@ class FFXIMap {
 
 	destroyControlLayers(){
 		if (this.layerControl !== undefined ) this.layerControl.remove(this.map);
-		this.map.removeControl(this.position);
+		if (this.position !== undefined)   this.map.removeControl(this.position);
 	}
 
 	resetMapTo(_mapID) {
 
 		// Breakdown everything
 		this.destroyControlLayers();
+
+		// Remove Map events
+		this.removeMapEvents();
 
 		// Setup new map
 		this.newMapWithControls(_mapID);
@@ -308,10 +304,14 @@ class FFXIMap {
 			updateHTML: function(lat, lng, currentZoom) {
 			  var latlng = "z:" + currentZoom + " " + lat + ", " + lng;
 			  //this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
-			  this._latlng.innerHTML = "LatLng: " + latlng;
+			  this._latlng.innerHTML = "Pos: " + latlng;
 			}
 		});
 		
+
+		/*
+		*	Displays mouse position on bottom left of map
+		*/
 		this.position = new Position();
 		this.map.addControl(this.position);
 		this.map.addEventListener('mousemove', (event) => {
@@ -322,14 +322,25 @@ class FFXIMap {
 			this.position.updateHTML(lat, lng, currentZoom);
 		});
 
+
+		/*
+		*	Prints mouse position when clicked on map
+		*/
+		var fieldNameElement = document.getElementById('polyEditing');
+		if (fieldNameElement) { fieldNameElement.innerHTML = "" }
+
+		//console.log(mapDataModel.listMaps());
+
 		this.map.on('click', function(e) {        
 			let lat = Math.round(e.latlng.lat * 100000) / 100000;
-			let lng = Math.round(e.latlng.lng * 100000) / 100000;    
-			
-			$('#polyEditing ').append(
-				'['+lat + ", " + lng+'], ');
-			//console.log(lat + ", " + lng);
+			let lng = Math.round(e.latlng.lng * 100000) / 100000;
+
+        	if (fieldNameElement) { fieldNameElement.innerHTML += '[' + lat + ", " + lng + '], '; }
 		});
+	}
+
+	removeMapEvents(){
+		this.map.off('click');
 	}
 
 	newMapWithControls(_mapID){
@@ -338,7 +349,7 @@ class FFXIMap {
 
 		// Setup new control layers for NPCs, zones, etc.
 		//this.layerControl = this.newControlLayers(_mapID);
-		this.addNewControlLayers(_mapID);
+		this.addNPCControlLayers(_mapID);
 
 		// Setup any additional markers/layers for connecting the next zone
 		this.setupZoneConnections(_mapID);
@@ -348,7 +359,7 @@ class FFXIMap {
 		this.display_coordinates();
 	}
 
-	async addNewControlLayers(_mapID){
+	async addNPCControlLayers(_mapID){
 		if (mapID == null) return ;
 		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entityType,position,mapID&where=mapID=${_mapID}&format=json`;
 		//console.log(url);
@@ -408,334 +419,6 @@ class FFXIMap {
 		// };
 		
 		// this.layerControl = new L.control.layers(null, npcLayer).addTo(this.map);
-	
-		
 	}
 
-	initIcons(iconsize,iconanchor,icons, mousepopup){
-		this.iconsize = typeof iconsize !== 'undefined' ? iconsize : [32,32];
-		this.iconanchor = typeof iconanchor !== 'undefined' ? iconanchor : [10,32];
-		this.icons = typeof icons !== 'undefined' ? icons : "maps/markers/marker{label}.png";
-		this.mousepopup = typeof mousepopup !== 'undefined' ? mousepopup : false;
-	}
-	
-	// setControls(position, region, fullscreen, zoom, layer, measure) {
-	// 	this.showposition = typeof position !== 'undefined' ? position : 1;
-	// 	this.showregion = typeof region !== 'undefined' ? region : 1;
-	// 	this.fullscreenc = typeof fullscreen !== 'undefined' ? fullscreen : 1;
-	// 	this.zoomc = typeof zoom !== 'undefined' ? zoom : 1;
-	// 	this.layerc = typeof layer !== 'undefined' ? layer : 1;
-	// 	position ? this.mapID.addControl(this.positioncontrol) : this.mapID.removeControl(this.positioncontrol);
-	// 	region ? this.mapID.addControl(this.regioncontrol) : this.mapID.removeControl(this.regioncontrol);
-	// 	// region ? this.mapID.addControl(this.secondregioncontrol) : this.mapID.removeControl(this.secondregioncontrol);
-	// 	// position ? this.mapID.addControl(this.secondpositioncontrol) : this.mapID.removeControl(this.secondpositioncontrol);
-	// 	fullscreen ? this.mapID.addControl(this.fullscreencontrol) : this.mapID.removeControl(this.fullscreencontrol);
-	// 	layer ? this.mapID.addControl(this.layerscontrol) : this.mapID.removeControl(this.layerscontrol);
-	// 	// measure ? this.mapID.addControl(this.mapID.measureControl) : this.mapID.removeControl(this.mapID.measureControl);
-	// 	zoom ? this.mapID.addControl(this.mapID.zoomControl) : this.mapID.removeControl(this.mapID.zoomControl);
-		
-	// }
 }
-
-
-
-/* Full screen Control */
-
-// (function() {
-
-// L.Control.FullScreen = L.Control.extend({
-// 	options: {
-// 		position: 'topleft',
-// 		title: 'Full Screen',
-// 		forceSeparateButton: false
-// 	},
-	
-// 	onAdd: function (map) {
-// 		var className = 'leaflet-control-zoom-fullscreen', container;
-		
-// 		if (map.zoomControl && !this.options.forceSeparateButton) {
-// 			container = map.zoomControl._container;
-// 		} else {
-// 			container = L.DomUtil.create('div', 'leaflet-bar');
-// 		}
-		
-// 		this._createButton(this.options.title, className, container, this.toogleFullScreen, map);
-
-// 		return container;
-// 	},
-	
-// 	_createButton: function (title, className, container, fn, context) {
-// 		var link = L.DomUtil.create('a', className, container);
-// 		link.href = '#';
-// 		link.title = title;
-
-// 		L.DomEvent
-// 			.addListener(link, 'click', L.DomEvent.stopPropagation)
-// 			.addListener(link, 'click', L.DomEvent.preventDefault)
-// 			.addListener(link, 'click', fn, context);
-		
-// 		L.DomEvent
-// 			.addListener(container, fullScreenApi.fullScreenEventName, L.DomEvent.stopPropagation)
-// 			.addListener(container, fullScreenApi.fullScreenEventName, L.DomEvent.preventDefault)
-// 			.addListener(container, fullScreenApi.fullScreenEventName, this._handleEscKey, context);
-		
-// 		L.DomEvent
-// 			.addListener(document, fullScreenApi.fullScreenEventName, L.DomEvent.stopPropagation)
-// 			.addListener(document, fullScreenApi.fullScreenEventName, L.DomEvent.preventDefault)
-// 			.addListener(document, fullScreenApi.fullScreenEventName, this._handleEscKey, context);
-
-// 		return link;
-// 	},
-	
-// 	toogleFullScreen: function () {
-// 		this._exitFired = false;
-// 		var container = this._container;
-// 		if (this._isFullscreen) {
-// 			if (fullScreenApi.supportsFullScreen) {
-// 				fullScreenApi.cancelFullScreen(container);
-// 			} else {
-// 				L.DomUtil.removeClass(container, 'leaflet-pseudo-fullscreen');
-// 			}
-// 			this.invalidateSize();
-// 			this.fire('exitFullscreen');
-// 			this._exitFired = true;
-// 			this._isFullscreen = false;
-// 		}
-// 		else {
-// 			if (fullScreenApi.supportsFullScreen) {
-// 				fullScreenApi.requestFullScreen(container);
-// 			} else {
-// 				L.DomUtil.addClass(container, 'leaflet-pseudo-fullscreen');
-// 			}
-// 			this.invalidateSize();
-// 			this.fire('enterFullscreen');
-// 			this._isFullscreen = true;
-// 		}
-// 	},
-	
-// 	_handleEscKey: function () {
-// 		if (!fullScreenApi.isFullScreen(this) && !this._exitFired) {
-// 			this.fire('exitFullscreen');
-// 			this._exitFired = true;
-// 			this._isFullscreen = false;
-// 		}
-// 	}
-// }); 
-
-// L.Map.addInitHook(function () {
-// 	if (this.options.fullscreenControl) {
-// 		this.fullscreenControl = L.control.fullscreen(this.options.fullscreenControlOptions);
-// 		this.addControl(this.fullscreenControl);
-// 	}
-// });
-
-// L.control.fullscreen = function (options) {
-// 	return new L.Control.FullScreen(options);
-// };
-
-
-// /* 
-// Native FullScreen JavaScript API
-// -------------
-// Assumes Mozilla naming conventions instead of W3C for now
-
-// source : http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/
-
-// */
-
-// 	var 
-// 		fullScreenApi = { 
-// 			supportsFullScreen: false,
-// 			isFullScreen: function() { return false; }, 
-// 			requestFullScreen: function() {}, 
-// 			cancelFullScreen: function() {},
-// 			fullScreenEventName: '',
-// 			prefix: ''
-// 		},
-// 		browserPrefixes = 'webkit moz o ms khtml'.split(' ');
-	
-// 	// check for native support
-// 	if (typeof document.exitFullscreen != 'undefined') {
-// 		fullScreenApi.supportsFullScreen = true;
-// 	} else {
-// 		// check for fullscreen support by vendor prefix
-// 		for (var i = 0, il = browserPrefixes.length; i < il; i++ ) {
-// 			fullScreenApi.prefix = browserPrefixes[i];
-// 			if (typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined' ) {
-// 				fullScreenApi.supportsFullScreen = true;
-// 				break;
-// 			}
-// 		}
-// 	}
-	
-// 	// update methods to do something useful
-// 	if (fullScreenApi.supportsFullScreen) {
-// 		fullScreenApi.fullScreenEventName = fullScreenApi.prefix + 'fullscreenchange';
-// 		fullScreenApi.isFullScreen = function() {
-// 			switch (this.prefix) {	
-// 				case '':
-// 					return document.fullScreen;
-// 				case 'webkit':
-// 					return document.webkitIsFullScreen;
-// 				default:
-// 					return document[this.prefix + 'FullScreen'];
-// 			}
-// 		}
-// 		fullScreenApi.requestFullScreen = function(el) {
-// 			return (this.prefix === '') ? el.requestFullscreen() : el[this.prefix + 'RequestFullScreen']();
-// 		}
-// 		fullScreenApi.cancelFullScreen = function(el) {
-// 			return (this.prefix === '') ? document.exitFullscreen() : document[this.prefix + 'CancelFullScreen']();
-// 		}
-// 	}
-
-// 	// jQuery plugin
-// 	if (typeof jQuery != 'undefined') {
-// 		jQuery.fn.requestFullScreen = function() {
-// 			return this.each(function() {
-// 				var el = jQuery(this);
-// 				if (fullScreenApi.supportsFullScreen) {
-// 					fullScreenApi.requestFullScreen(el);
-// 				}
-// 			});
-// 		};
-// 	}
-
-// 	// export api
-// 	window.fullScreenApi = fullScreenApi;
-// })();
-
-// /* Measure control */
-// L.Control.Measure = L.Control.extend({
-//     options: {
-//         position: 'topleft'
-//     },
-
-//     initialize: function (options) {
-//         L.Util.setOptions(this, options);
-
-//         this._enabled = false;
-//         this._container = null;
-//         this._button = null;
-//         this._buttonD = null;
-//         this._map = null;
-
-//         this._features = new L.FeatureGroup();
-//         this._markerList = [];
-
-//         this._startPoint = null;
-//         this._endPoint = null;
-//         this._line = null;
-//     },
-
-//     onAdd: function (map) {
-//         this._map = map;
-//         this._features.addTo(map);
-
-//         this._container = L.DomUtil.create('div', 'leaflet-control-measure leaflet-bar leaflet-control');
-//         this._button = L.DomUtil.create('a', 'leaflet-bar-part', this._container);
-//         this._button.href = '#';
-//         this._button.innerHTML = 'M';
-//         this._button.title = 'Measure';
-
-//         L.DomEvent
-//             .on(this._button, 'click', L.DomEvent.stopPropagation)
-//             .on(this._button, 'mousedown', L.DomEvent.stopPropagation)
-//             .on(this._button, 'dblclick', L.DomEvent.stopPropagation)
-//             .on(this._button, 'click', L.DomEvent.preventDefault)
-//             .on(this._button, 'click', this._onClick, this);
-
-//         return this._container;
-//     },
-
-//     _enable: function() {
-//         this._startPoint = null;
-//         this._endPoint = null;
-//         this._line = null;
-
-//         this._features.clearLayers();
-//         this._markerList = [];
-
-//         this._enabled = true;
-//         L.DomUtil.addClass(this._button, 'leaflet-control-measure-enabled');
-//         this._map.on('click', this._onMapClick, this);
-//     },
-//     _disable: function() {
-//         this._enabled = false;
-//         L.DomUtil.removeClass(this._button, 'leaflet-control-measure-enabled');
-//         this._map.off('click', this._onMapClick, this);
-//     },
-
-//     _onClick: function() {
-//         if (this._enabled) this._disable();
-//         else               this._enable();
-//     },
-
-//     _onMapClick: function(e) {
-//         var marker = new L.Marker(e.latlng, { draggable: true });
-// 		var ll = LatLngToCoord(e.latlng);
-// 		marker.bindPopup(ll.y.toFixed(0) + ', ' + ll.x.toFixed(0));
-//         marker.on('drag', this._onMarkerDrag, this);
-//         marker.on('dragend', this._onMarkerDragEnd, this);
-
-//         this._features.addLayer(marker);
-//         this._markerList.push(marker);
-
-//         if (this._startPoint === null) {
-//             this._startPoint = e.latlng;
-
-//         }
-//         else if (this._endPoint === null) {
-//             this._endPoint = e.latlng;
-// 			var ll_end = LatLngToCoord(this._endPoint);
-// 			var ll_start = LatLngToCoord(this._startPoint);
-//             this._line = new L.Polyline([ this._startPoint, this._endPoint ], { color: 'black', opacity: 0.5, stroke: true });
-//             this._features.addLayer(this._line);
-
-//             var distance = Math.sqrt(Math.pow(ll_start.x - ll_end.x, 2) + Math.pow(ll_start.y - ll_end.y, 2));
-
-//             var sz  = 'Distance: ' + distance.toFixed(0) + ' coords.';
-//             this._line.bindPopup(sz).openPopup();
-
-//             this._disable();
-//         }
-//     },
-
-//     _onMarkerDrag: function(e) {
-//         var marker = e.target;
-//         var i = this._markerList.indexOf(marker);
-
-//         var listLatng = this._line.getLatLngs();
-//         listLatng[i] = marker.getLatLng();
-//         this._line.setLatLngs(listLatng);
-
-//         if (i == 0)
-//             this._startPoint = marker.getLatLng();
-//         else if (i == (this._markerList.length - 1))
-//             this._endPoint = marker.getLatLng();
-//     },
-//     _onMarkerDragEnd: function(e) {
-// 		var ll_end = LatLngToCoord(this._endPoint);
-// 		var ll_start = LatLngToCoord(this._startPoint);
-//         var distance = Math.sqrt(Math.pow(ll_start.x - ll_end.x, 2) + Math.pow(ll_start.y - ll_end.y, 2));
-//         var sz  = 'Distance: ' + distance.toFixed(0) + ' coords.';
-//         this._line.bindPopup(sz).openPopup();
-//     }
-// });
-
-// L.control.measure = function(options) {
-//     return new L.Control.Measure(options);
-// };
-
-// L.Map.mergeOptions({
-//     measureControl: false
-// });
-
-// L.Map.addInitHook(function() {
-//     if (this.options.measureControl) {
-//         this.measureControl = new L.Control.Measure();
-//         this.addControl(this.measureControl);
-//     }
-// });
-
-/* Rose popups */

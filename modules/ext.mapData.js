@@ -24,6 +24,13 @@ class MapData {
         console.log(this.json);
     }
 
+    listMaps(){
+        var str = ""
+        for (const [key, value] of Object.entries(this.json)){
+            str += `|-` + `\n` + `|${key}` + `\n` + `|${this.json[key].name}` +  `\n`;
+        }
+        return str;
+    }
     // parseDB(dbEntities){
     //     var _parsed = dbEntities;
 

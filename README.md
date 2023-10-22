@@ -1,10 +1,11 @@
-This is a MediaWiki extension that adds a `{{#tag:FFXIMap}}` tag that creates an interactive map for FFXI. This extension is designed specifically to work with the HorizonXI Wiki. 
-
-
 
 ```php
 wfLoadExtension( 'FFXIMap' );
 ```
+
+This is a MediaWiki extension that adds a `{{#tag:FFXIMap}}` tag that creates an interactive map for FFXI. This extension is designed specifically to work with the HorizonXI Wiki. 
+
+
 
 Notes / Adjustments
 ----
@@ -12,37 +13,42 @@ Metalworks: doesnt have a direct connection listed on the map, add a custom imag
 Lower Delkfutt's Tower: Map 4: Add connections to Embassy links? 
 Mhaura: Add Ferry? 
 Selbina: Add Ferry?
+Kazham: Add Ferry?
 Delkfultts Tower: teleports can take you to more than one place... 
 Middle Delkfutt's Tower: Map 2 - where does that go? [G-6] 
 Pso'Xja: Map 20 - stone door and other exit? 
 Upper Delkfutt's Tower: Map 3 - #5 connection?
 Upper Delkfutt's Tower: Map 4-6 - need connections
+All Crags need Al'Taieu added
+All Apollyon / Temenos zone maps
+Burning Circle connections purposefully left out
+Promys have no connections inside
+Ru'Aun Gardens - need to add layers that depict the teleporters
+Uleguard Range - underground connections not listed on map 1; need to adjust hover/pulse coordinates when graphics updated
+Inner Horu - add West Saruta[205]
+Yuhtunga Jungle - 3/4/5 into Ifrit's Cauldron? Not listed Ifrit Cauldron maps...
+Grand Palace of Hu'Xzoi - maps 1 and 2 - no connections
+The Shrine of Ru'Avitau: Map 1 - e & f are not connected
+Castle Oztroja: Map 4 - K connection broken ? probably linked to Map 4 incorrectly
+Crawlers Nest -> Rolanberry Fields... recheck connections 1 and 2, 2 is incorrect
 
-
+-----------------
 Known Issues:
 ----
 Hardly an "issue": after adding the <FFXIMap> tag to a page, and "saving changes", it is likely the map will not render properly. Refresh the page to fix. 
 
+-----------------
+To Do:
+----
+Add "back" arrows to revert to previous map in case you click the wrong thing
 
 
-
-Changing map markers based on zoom levels
-https://stackoverflow.com/questions/46015066/leaflet-custom-icon-resize-on-zoom-performance-icon-vs-divicon
-
-
-
-
-"129" : { 
-                    "hover" : [[120.71484, 50.04167], [119.58984, 89.41667], [103.83984, 90.04167], [103.46484, 51.16667]],
-                    "pulse" : [[112.92643, 94.02083]]
-                },
-"199" : { 
-                    "hover" : [ 
-                            [[[96.1224, 144.41667], [96.1224, 155.04167], [88.9974, 155.29167], [88.9974, 144.54167]]],   
-                            [[[136.60742, 119.77083], [136.48242, 129.52083], [130.23242, 129.58333], [129.91992, 120.39583]]]
-                        ],
-                    "pulse" : [[148.32373, 142.19271], [133.37061, 124.42708], [124.74561, 113.17708], [147.12061, 115.44271], [167.51123, 92.14583], [149.52686, 69.47396]]
-                }
+--------
+Additional parameters for tag usage on the wiki
+--
+Mouse coordinates
+Show current map details (debugging)
+Search bar with all maps listed
 
 //////////////////////////////////
 How to use: 
@@ -97,4 +103,896 @@ Cargo Query: (JSON)
         }
     ]
 }
+
+////////////////////////////
+Map IDs
+
+==Map ID Data==
+{| class="wikitable"
+|+
+!Map ID
+!Map Name
+|-
+|0
+|world map
+|-
+|1
+|Bastok Market
+|-
+|2
+|Bastok Mines
+|-
+|3
+|Battalia Downs
+|-
+|4
+|Beaucedine Glacier
+|-
+|5
+|Chateau d'Oraguille
+|-
+|6
+|Konschtat Highlands
+|-
+|7
+|La Theine Plateau
+|-
+|8
+|Lower Delkfutt's Tower: Map 1
+|-
+|9
+|Lower Delkfutt's Tower: Map 2
+|-
+|10
+|Lower Delkfutt's Tower: Map 3
+|-
+|11
+|Lower Delkfutt's Tower: Map 4
+|-
+|12
+|Lower Jeuno
+|-
+|13
+|Metalworks
+|-
+|14
+|Mhaura
+|-
+|15
+|Middle Delkfutt's Tower: Map 1
+|-
+|16
+|Middle Delkfutt's Tower: Map 2
+|-
+|17
+|Middle Delkfutt's Tower: Map 3
+|-
+|18
+|Middle Delkfutt's Tower: Map 4
+|-
+|19
+|Middle Delkfutt's Tower: Map 5
+|-
+|20
+|Middle Delkfutt's Tower: Map 6
+|-
+|21
+|Norg
+|-
+|22
+|Northern San d'Oria
+|-
+|23
+|Port Bastok
+|-
+|24
+|Port Jeuno
+|-
+|25
+|Port San d'Oria
+|-
+|26
+|Port Windurst
+|-
+|27
+|Pso'Xja: Map 1
+|-
+|28
+|Pso'Xja: Map 2
+|-
+|29
+|Pso'Xja: Map 3
+|-
+|30
+|Pso'Xja: Map 4
+|-
+|31
+|Pso'Xja: Map 5
+|-
+|32
+|Pso'Xja: Map 6
+|-
+|33
+|Pso'Xja: Map 7
+|-
+|34
+|Pso'Xja: Map 8
+|-
+|35
+|Pso'Xja: Map 9
+|-
+|36
+|Pso'Xja: Map 10
+|-
+|37
+|Pso'Xja: Map 11
+|-
+|38
+|Pso'Xja: Map 12
+|-
+|39
+|Pso'Xja: Map 13
+|-
+|40
+|Pso'Xja: Map 14
+|-
+|41
+|Pso'Xja: Map 15
+|-
+|42
+|Pso'Xja: Map 16
+|-
+|43
+|Pso'Xja: Map 17
+|-
+|44
+|Pso'Xja: Map 18
+|-
+|45
+|Pso'Xja: Map 19
+|-
+|46
+|Pso'Xja: Map 20
+|-
+|47
+|Qufim Island
+|-
+|48
+|Rolanberry Fields
+|-
+|49
+|Ru'Lude Gardens
+|-
+|50
+|Sauromugue Champaign
+|-
+|51
+|Southern San d'Oria
+|-
+|52
+|Tahrongi Canyon
+|-
+|53
+|Tavnazian Safehold: Map 1
+|-
+|54
+|Tavnazian Safehold: Map 2
+|-
+|55
+|Tavnazian Safehold: Map 3
+|-
+|56
+|Upper Delkfutt's Tower: Map 1
+|-
+|57
+|Upper Delkfutt's Tower: Map 2
+|-
+|58
+|Upper Delkfutt's Tower: Map 3
+|-
+|59
+|Upper Delkfutt's Tower: Map 4
+|-
+|60
+|Upper Delkfutt's Tower: Map 5
+|-
+|61
+|Upper Delkfutt's Tower: Map 6
+|-
+|62
+|Upper Jeuno
+|-
+|63
+|Valkurm Dunes
+|-
+|64
+|Windurst Walls
+|-
+|65
+|Windurst Waters: North
+|-
+|66
+|Windurst Waters: South
+|-
+|67
+|Windurst Woods
+|-
+|68
+|Al'Taieu
+|-
+|69
+|Altar Room
+|-
+|70
+|Apollyon: Map 1
+|-
+|71
+|Apollyon: Map 2
+|-
+|72
+|Apollyon: Map 3
+|-
+|73
+|Apollyon: Map 4
+|-
+|74
+|Apollyon: Map 5
+|-
+|75
+|Apollyon: Map 6
+|-
+|76
+|Apollyon: Map 7
+|-
+|77
+|Apollyon: Map 8
+|-
+|78
+|Attohwa Chasm
+|-
+|79
+|Beadeaux: Map 1
+|-
+|80
+|Beadeaux: Map 2
+|-
+|81
+|Behemoth's Dominion
+|-
+|82
+|Bibiki Bay: Map 1
+|-
+|83
+|Bibiki Bay: Map 2
+|-
+|84
+|Bostaunieux Oubliette: Map 1
+|-
+|85
+|Bostaunieux Oubliette: Map 2
+|-
+|86
+|Bostaunieux Oubliette: Map 3
+|-
+|87
+|Buburimu Peninsula
+|-
+|88
+|Castle Oztroja: Map 1
+|-
+|89
+|Castle Oztroja: Map 2
+|-
+|90
+|Castle Oztroja: Map 3
+|-
+|91
+|Castle Oztroja: Map 4
+|-
+|92
+|Castle Oztroja: Map 5
+|-
+|93
+|Castle Oztroja: Map 6
+|-
+|94
+|Castle Oztroja: Map 7
+|-
+|95
+|Castle Zvahl Baileys: Map 1
+|-
+|96
+|Castle Zvahl Baileys: Map 2
+|-
+|97
+|Castle Zvahl Baileys: Map 3
+|-
+|98
+|Castle Zvahl Baileys: Map 4
+|-
+|99
+|Castle Zvahl Keep: Map 1
+|-
+|100
+|Castle Zvahl Keep: Map 2
+|-
+|101
+|Castle Zvahl Keep: Map 3
+|-
+|102
+|Castle Zvahl Keep: Map 4
+|-
+|103
+|Crawler's Nest: Map 1
+|-
+|104
+|Crawler's Nest: Map 2
+|-
+|105
+|Crawler's Nest: Map 3
+|-
+|106
+|Dangruf Wadi
+|-
+|107
+|Davoi
+|-
+|108
+|East Ronfaure
+|-
+|109
+|East Sarutabaruta
+|-
+|110
+|Fort Ghelsba
+|-
+|111
+|Garlaige Citadel: Map 1
+|-
+|112
+|Garlaige Citadel: Map 2
+|-
+|113
+|Garlaige Citadel: Map 3
+|-
+|114
+|Garlaige Citadel: Map 4
+|-
+|115
+|Ghelsba Outpost: Map 1
+|-
+|116
+|Ghelsba Outpost: Map 2
+|-
+|117
+|Giddeus: Map 1
+|-
+|118
+|Giddeus: Map 2
+|-
+|119
+|Gusgen Mines: Map 1
+|-
+|120
+|Gusgen Mines: Map 2
+|-
+|121
+|Gusgen Mines: Map 3
+|-
+|122
+|Gusgen Mines: Map 4
+|-
+|123
+|Gustav Tunnel: Map 1
+|-
+|124
+|Gustav Tunnel: Map 2
+|-
+|125
+|Inner Horutoto Ruins: Map 1
+|-
+|126
+|Inner Horutoto Ruins: Map 2
+|-
+|127
+|Inner Horutoto Ruins: Map 3
+|-
+|128
+|Inner Horutoto Ruins: Map 4
+|-
+|129
+|Jugner Forest
+|-
+|130
+|Korroloka Tunnel: Map 1
+|-
+|131
+|Korroloka Tunnel: Map 2
+|-
+|132
+|Korroloka Tunnel: Map 3
+|-
+|133
+|Korroloka Tunnel: Map 4
+|-
+|134
+|Korroloka Tunnel: Map 5
+|-
+|135
+|Kuftal Tunnel: Map 1
+|-
+|136
+|Kuftal Tunnel: Map 2
+|-
+|137
+|Kuftal Tunnel: Map 3
+|-
+|138
+|Kuftal Tunnel: Map 4
+|-
+|139
+|Lufaise Meadows
+|-
+|140
+|Meriphataud Mountains
+|-
+|141
+|Misareaux Coast
+|-
+|142
+|Monastic Cavern
+|-
+|143
+|North Gustaberg
+|-
+|144
+|Palborough Mines: Map 1
+|-
+|145
+|Palborough Mines: Map 2
+|-
+|146
+|Palborough Mines: Map 3
+|-
+|147
+|Pashhow Marshlands
+|-
+|148
+|Promyvion Dem
+|-
+|149
+|Promyvion Holla
+|-
+|150
+|Promyvion Mea
+|-
+|151
+|Promyvion Vahzl
+|-
+|152
+|Qulun Dome
+|-
+|153
+|Riverne Site #A01
+|-
+|154
+|Riverne Site #B01
+|-
+|155
+|Ru'Aun Gardens
+|-
+|156
+|Sea Serpent Grotto: Map 1
+|-
+|157
+|Sea Serpent Grotto: Map 2
+|-
+|158
+|Sea Serpent Grotto: Map 3
+|-
+|159
+|Sea Serpent Grotto: Map 4
+|-
+|160
+|Sea Serpent Grotto: Map 5
+|-
+|161
+|Selbina
+|-
+|162
+|South Gustaberg
+|-
+|163
+|Temenos North: Map 1
+|-
+|164
+|Temenos North: Map 2
+|-
+|165
+|Temenos North: Map 3
+|-
+|166
+|Temenos North: Map 4
+|-
+|167
+|Temenos North: Map 5
+|-
+|168
+|Temenos North: Map 6
+|-
+|169
+|Temenos North: Map 7
+|-
+|170
+|Temenos East: Map 1
+|-
+|171
+|Temenos East: Map 2
+|-
+|172
+|Temenos East: Map 3
+|-
+|173
+|Temenos East: Map 4
+|-
+|174
+|Temenos East: Map 5
+|-
+|175
+|Temenos East: Map 6
+|-
+|176
+|Temenos East: Map 7
+|-
+|177
+|Temenos West: Map 1
+|-
+|178
+|Temenos West: Map 2
+|-
+|179
+|Temenos West: Map 3
+|-
+|180
+|Temenos West: Map 4
+|-
+|181
+|Temenos West: Map 5
+|-
+|182
+|Temenos West: Map 6
+|-
+|183
+|Temenos West: Map 7
+|-
+|184
+|Temenos Center: Map 1
+|-
+|185
+|Temenos Center: Map 2
+|-
+|186
+|Temenos Center: Map 3
+|-
+|187
+|Temenos Center: Map 4
+|-
+|188
+|Temenos Center: Basement
+|-
+|189
+|Temenos Entrance
+|-
+|190
+|Temple of Uggalepih: Map 1
+|-
+|191
+|Temple of Uggalepih: Map 2
+|-
+|192
+|Temple of Uggalepih: Map 3
+|-
+|193
+|Temple of Uggalepih: Map 4
+|-
+|194
+|The Boyahda Tree: Map 1
+|-
+|195
+|The Boyahda Tree: Map 2
+|-
+|196
+|The Boyahda Tree: Map 3
+|-
+|197
+|The Boyahda Tree: Map 4
+|-
+|198
+|The Eldieme Necropolis: Map 1
+|-
+|199
+|The Eldieme Necropolis: Map 2
+|-
+|200
+|The Eldieme Necropolis: Map 3
+|-
+|201
+|The Santuary of Zi'Tah
+|-
+|202
+|Uleguerand Range: Map 1
+|-
+|203
+|Uleguerand Range: Map 2
+|-
+|204
+|West Ronfaure
+|-
+|205
+|West Sarutabaruta
+|-
+|206
+|Windurst Walls
+|-
+|207
+|Xarcabard
+|-
+|208
+|Yhoator Jungle
+|-
+|209
+|Yughott Grotto: Map 1
+|-
+|210
+|Yughott Grotto: Map 2
+|-
+|211
+|Yuhtunga Jungle
+|-
+|212
+|Zeruhn Mines
+|-
+|213
+|Eastern Altepa Desert
+|-
+|214
+|Western Altepa Desert
+|-
+|215
+|Rabao
+|-
+|216
+|Quicksand Caves: Map 1
+|-
+|217
+|Quicksand Caves: Map 2
+|-
+|218
+|Quicksand Caves: Map 3
+|-
+|219
+|Quicksand Caves: Map 4
+|-
+|220
+|Quicksand Caves: Map 5
+|-
+|221
+|Quicksand Caves: Map 6
+|-
+|222
+|Quicksand Caves: Map 7
+|-
+|223
+|Quicksand Caves: Map 8
+|-
+|224
+|Sacrarium: Map 1
+|-
+|225
+|Sacrarium: Map 2
+|-
+|226
+|Carpenter's Landing: Map 1
+|-
+|227
+|Carpenter's Landing: Map 2
+|-
+|228
+|Sealion's Den
+|-
+|229
+|Phomiuna Aqueducts: Map 1
+|-
+|230
+|Phomiuna Aqueducts: Map 2
+|-
+|231
+|Phomiuna Aqueducts: Map 3
+|-
+|232
+|Fei'Yin: Map 1
+|-
+|233
+|Fei'Yin: Map 2
+|-
+|234
+|Ranguemont Pass
+|-
+|235
+|Ordelle's Caves: Map 1
+|-
+|236
+|Ordelle's Caves: Map 2
+|-
+|237
+|Ordelle's Caves: Map 3
+|-
+|238
+|Maze of Shakhrami: Map 1
+|-
+|239
+|Maze of Shakhrami: Map 2
+|-
+|240
+|Grand Palace of Hu'Xzoi: Map 1
+|-
+|241
+|Grand Palace of Hu'Xzoi: Map 2
+|-
+|242
+|Grand Palace of Hu'Xzoi: Map 3
+|-
+|243
+|Labyrinth of Onzozo
+|-
+|244
+|King Ranperres Tomb: Map 1
+|-
+|245
+|King Ranperres Tomb: Map 2
+|-
+|246
+|Outter Horutoto: Map 1
+|-
+|247
+|Outter Horutoto: Map 2
+|-
+|248
+|Outter Horutoto: Map 3
+|-
+|249
+|Outter Horutoto: Map 4
+|-
+|250
+|Outter Horutoto: Map 5
+|-
+|251
+|Oldton Movalpolos
+|-
+|252
+|Cape Teriggan
+|-
+|253
+|Toraimarai Canal: Map 1
+|-
+|254
+|Toraimarai Canal: Map 2
+|-
+|255
+|Hall of the Gods
+|-
+|256
+|Ve'Lugannon Palace: Map 1
+|-
+|257
+|Ve'Lugannon Palace: Map 2
+|-
+|258
+|Ve'Lugannon Palace: Map 3
+|-
+|259
+|Ve'Lugannon Palace: Map 4
+|-
+|260
+|Ve'Lugannon Palace: Map 5
+|-
+|261
+|Ve'Lugannon Palace: Map 6
+|-
+|262
+|Ve'Lugannon Palace: Map 6
+|-
+|263
+|Ve'Lugannon Palace: Map 7
+|-
+|264
+|Ve'Lugannon Palace: Map 8
+|-
+|265
+|Ve'Lugannon Palace: Map 9
+|-
+|266
+|The Shrine of Ru'Avitau: Map 1
+|-
+|267
+|The Shrine of Ru'Avitau: Map 2
+|-
+|268
+|The Shrine of Ru'Avitau: Map 3
+|-
+|269
+|The Shrine of Ru'Avitau: Map 4
+|-
+|270
+|The Shrine of Ru'Avitau: Map 5
+|-
+|271
+|The Shrine of Ru'Avitau: Map 6
+|-
+|272
+|Den of Rancor: Map 1
+|-
+|273
+|Den of Rancor: Map 2
+|-
+|274
+|Den of Rancor: Map 3
+|-
+|275
+|Den of Rancor: Map 4
+|-
+|276
+|Den of Rancor: Map 5
+|-
+|277
+|Den of Rancor: Map 6
+|-
+|278
+|Den of Rancor: Map 7
+|-
+|279
+|Den of Rancor: Map 8
+|-
+|280
+|Den of Rancor: Map 9
+|-
+|281
+|Dragon's Aery
+|-
+|282
+|Ro'Maeve
+|-
+|283
+|Ifrit's Cauldron: Map 1
+|-
+|284
+|Ifrit's Cauldron: Map 2
+|-
+|285
+|Ifrit's Cauldron: Map 3
+|-
+|286
+|Ifrit's Cauldron: Map 4
+|-
+|287
+|Ifrit's Cauldron: Map 5
+|-
+|288
+|Ifrit's Cauldron: Map 6
+|-
+|289
+|Ifrit's Cauldron: Map 7
+|-
+|290
+|Ifrit's Cauldron: Map 8
+|-
+|291
+|Kazham
+|-
+|292
+|Newton Movalpolos
+|-
+|293
+|Valley of Sorrows
+|}
 
