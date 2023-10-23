@@ -12,6 +12,16 @@ class MapData {
         return this.json[mapID].connections;
     }
 
+    getMapNamesArray(){
+        const mapNamesArray = [];
+        for (const [key, value] of Object.entries(this.json)){
+            if (this.json[key].name) {
+                var str = `${this.json[key].name} ` + `[` + `${key}` + `]` +  `\n`;
+                mapNamesArray.push(str);
+            }
+        }
+        return mapNamesArray;
+    }
 
     getMapFilename(mapID){
         if (mapID == null) return ;
@@ -24,6 +34,7 @@ class MapData {
         console.log(this.json);
     }
 
+    // Purely for printing a table of all the maps for copy/paste onto the wiki
     listMaps(){
         var str = ""
         for (const [key, value] of Object.entries(this.json)){

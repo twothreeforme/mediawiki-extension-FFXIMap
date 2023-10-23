@@ -1,4 +1,8 @@
-
+/*	Attributions:
+ *  Leaflet library used for all map related objects: https://leafletjs.com/
+ *	Leaflet.AnimatedSearchBox - Leaflet addon for search box - https://github.com/luka1199/Leaflet.AnimatedSearchBox/tree/master
+ *	
+ */
 
 /**
  * The map object used by leaflet 
@@ -95,11 +99,6 @@ function setPageAttributes() {
 		baseMapTilesDir = baseDir + 'maps/tiles/';
 		baseMapZonesDir = baseDir + 'maps/zones/';
 		baseMapMarkersDir = baseDir + 'maps/markers/';
-
-	var layersQuery = document.querySelector('#layers'),
-		dataLayers = layersQuery.dataset;
-		//console.log(dataLayers.name);
-
 		
 }
 
@@ -186,6 +185,7 @@ class FFXIMap {
 		// value = hover / pulse objects
 
 			// Must use a Pane to change the z-index of ONLY the polygons
+			// MUST DO THIS TO ENSURE THE MOUSE POSITION DOES NOT INTERFERE WITH THE PULSING ICONS
 			this.map.createPane('connectionsPane');
 			this.map.getPane('connectionsPane').style.zIndex = 601;
 
@@ -297,14 +297,16 @@ class FFXIMap {
 		
 			onAdd: function (map) {
 			  var latlng = L.DomUtil.create('div', 'mouseposition');
+			  latlng.setAttribute("style","width: 135px;text-align: center; border: 1.75px ridge #69696985; cursor:pointer; background-color: #F8F8F8;border-radius: 3px;");
 			  this._latlng = latlng;
 			  return latlng;
 			},
 		
 			updateHTML: function(lat, lng, currentZoom) {
-			  var latlng = "z:" + currentZoom + " " + lat + ", " + lng;
+			  var latlng = "Zoom:  " + currentZoom + "<br>";
+			  latlng += lat + ", " + lng;
 			  //this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
-			  this._latlng.innerHTML = "Pos: " + latlng;
+			  this._latlng.innerHTML = latlng;
 			}
 		});
 		
@@ -350,6 +352,9 @@ class FFXIMap {
 		// Setup new control layers for NPCs, zones, etc.
 		//this.layerControl = this.newControlLayers(_mapID);
 		this.addNPCControlLayers(_mapID);
+
+
+		this.addSearchBar(_mapID);
 
 		// Setup any additional markers/layers for connecting the next zone
 		this.setupZoneConnections(_mapID);
@@ -419,6 +424,10 @@ class FFXIMap {
 		// };
 		
 		// this.layerControl = new L.control.layers(null, npcLayer).addTo(this.map);
+	}
+
+	addSearchBar(_mapID){
+	
 	}
 
 }

@@ -78,24 +78,25 @@ class FFXIMap {
 			$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
 			$divID = "mapid_" . $mapID;
 
-			$style = "";
-			$style = $style . "height: " . (isset($params['height']) ? intval($params['height']) : 512) . "px; ";
-			$style = $style . "width: " . (isset($params['width']) ? intval($params['width']) : 512) . "px; ";
+			$height = isset($params['height']) ? intval($params['height']) : 512;
+			$width = isset($params['width']) ? intval($params['width']) : 512;
 
+			$style = "";
+			$style = $style . "height: " . $height . "px; ";
+			$style = $style . "width: " . $width . "px; ";
 
 			$script = "";
  
 			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\" data-zoom=\"" . $zoom . "\"     ></span>";
+			
+			$html = "<div class=\"search-box\">";
+			$html = $html . "<div class=\"row\">";
+			$html = $html . "<input id=\"input-box\" type=\"text\" placeholder=\"Search Maps..\" autocomplete=\"off\"> ";
+			$html = $html . "<button><i class = \"fa-solid fa-magnifying-glass\"></i></button>";
+			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div></div></div>" . $editingMode . $script . $tagAttributesJsonCode ;
 
-			/////////////////
-			//These lines should be removed eventually 
-			$layers = array('number'=>39);
-			$layersJson = json_encode($layers);
-			$layersJsonCode = "<span id=\"layers\" data-name=\"" . htmlspecialchars($layersJson, ENT_QUOTES, 'UTF-8') . "\"></span>";
-			/////////////////
-			
-			
-			return "<div id=".$divID." style=\"". $style . "\">".  "</div>" . $editingMode . $script . $tagAttributesJsonCode . $layersJsonCode ;	
+
+			return 	$html;
         }
 
 		public static function onParserAfterTidy( Parser &$parser, &$text ) {

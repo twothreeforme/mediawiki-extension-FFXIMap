@@ -3,34 +3,22 @@
 wfLoadExtension( 'FFXIMap' );
 ```
 
-This is a MediaWiki extension that adds a `{{#tag:FFXIMap}}` tag that creates an interactive map for FFXI. This extension is designed specifically to work with the HorizonXI Wiki. 
+This is a HorizonXI exclusive extension that adds an interactive FFXI map with the `<FFXIMap>` tag. 
+
+This is an interactive map for FFXI. This extension is designed specifically to work with the HorizonXI Wiki (https://horizonffxi.wiki/), and is built using the Leaflet library (https://leafletjs.com/). 
+
+The project was started to give players a more intuitive FFXI map tool. Basic functionality includes displaying a zone map (ie: Upper Jeuno) in a custom sized window, zoom controls, and clickable links for all zone connections. Advanced functionality includes displaying pulsating icons on the map for user defined things, for instance NPCs in a city or Treasure Coffers in a zone. The advanced functions work in a local testing environment and are currently being migrated to the Wiki for editors to evaluate. 
 
 
+The Basics: 
+To have an interactive map displayed on a wiki page you would add <FFXIMap /> to the page. Every parameter added to the tag is "optional" and by omitting any particular parameter the extension will just apply a default value in it's place (see Parameters table below for details). 
 
-Notes / Adjustments
-----
-Metalworks: doesnt have a direct connection listed on the map, add a custom image overlay? 
-Lower Delkfutt's Tower: Map 4: Add connections to Embassy links? 
-Mhaura: Add Ferry? 
-Selbina: Add Ferry?
-Kazham: Add Ferry?
-Delkfultts Tower: teleports can take you to more than one place... 
-Middle Delkfutt's Tower: Map 2 - where does that go? [G-6] 
-Pso'Xja: Map 20 - stone door and other exit? 
-Upper Delkfutt's Tower: Map 3 - #5 connection?
-Upper Delkfutt's Tower: Map 4-6 - need connections
-All Crags need Al'Taieu added
-All Apollyon / Temenos zone maps
-Burning Circle connections purposefully left out
-Promys have no connections inside
-Ru'Aun Gardens - need to add layers that depict the teleporters
-Uleguard Range - underground connections not listed on map 1; need to adjust hover/pulse coordinates when graphics updated
-Inner Horu - add West Saruta[205]
-Yuhtunga Jungle - 3/4/5 into Ifrit's Cauldron? Not listed Ifrit Cauldron maps...
-Grand Palace of Hu'Xzoi - maps 1 and 2 - no connections
-The Shrine of Ru'Avitau: Map 1 - e & f are not connected
-Castle Oztroja: Map 4 - K connection broken ? probably linked to Map 4 incorrectly
-Crawlers Nest -> Rolanberry Fields... recheck connections 1 and 2, 2 is incorrect
+This is an example of a working tag with likely to be the most commonly used parameters for displaying a map:
+<FFXIMap mapID=62 zoom=1 width=512 height=512 />
+In this example we have chosen to display the "Upper Jeuno" map, with a desired width and height and a particular zoom level.    
+
+*For v1 of this extension, please always include the "mapID" parameter with a desired map number, and ensure it is not 0. MapID 0 is saved for "world map" features set to be released at a later date. 
+
 
 -----------------
 Known Issues:
@@ -103,6 +91,42 @@ Cargo Query: (JSON)
         }
     ]
 }
+//////
+Parameters
+
+==Tag Parameters==
+{| class="wikitable"
+|+
+!parameter
+!default
+!type
+!description
+|-
+|mapid
+|0
+|number
+|Map id corresponds with the map name, listed below. See table "Map ID Data" below for details on these values. As of release of this map feature, please use values > 0. The World Map feature is being released at a later date and is not currently working. 
+|-
+|zoom
+|1
+|number
+|Values range from 0-6, with 0 being very "zoomed out" and 6 being very "zoomed in". 
+|-
+|width
+|512
+|number
+|Width of window displaying the map. All testing has been with "square" maps where width and height matched values. Rectangular shaped windows appear to work with current settings.
+|-
+|height
+|512
+|number
+|Height of window displaying the map. All testing has been with "square" maps where width and height matched values. Rectangular shaped windows appear to work with current settings.  
+|-
+|showdetails
+|false
+|text [ true/false ]
+|Displays mouse coordinates on bottom left of window. When mouse is clicked on map the coordinates of the mouse are printed to a new <div> below the map. <div> is reset if mouse clicks a new zone connection in map. This is primarily used for editors to help grab coordinate arrays quickly. 
+|}
 
 ////////////////////////////
 Map IDs

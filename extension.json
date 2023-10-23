@@ -14,9 +14,6 @@
 	"AutoloadClasses": {
 		"FFXIMap": "FFXIMap_body.php"
 	},
-	"ExtensionMessagesFiles": {
-		"FFXIMap": "FFXIMap.magic.php"
-	},
 	"ResourceModules": {
 		"ext.leafletMain" : {
 			"localBasePath": "modules/",
@@ -39,11 +36,8 @@
 			],
 			"styles": [
 				"ext.FFXIMap.css"
-			],
-			"messages": [
-				"FFXIMaps-msg-label"
 			]
-		}
+		}		
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "FFXIMap::onParserInit",
