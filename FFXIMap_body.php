@@ -26,7 +26,7 @@ class FFXIMap {
 			//MWDebug::log('$params: '.$params['mapid']);
 			////////////////////
 
-			$parser->getOutput()->updateCacheExpiry(0);
+			//$parser->getOutput()->updateCacheExpiry(0);
 			$parser->getOutput()->addModules(['ext.leafletMain']);
 			$parser->getOutput()->addModules(['ext.FFXIMap']);
 
@@ -99,11 +99,11 @@ class FFXIMap {
 			return 	$html;
         }
 
-		public static function onParserAfterTidy( Parser &$parser, &$text ) {
-			return true;
-		}
+		// public static function onParserAfterTidy( Parser &$parser, &$text ) {
+		// 	return true;
+		// }
 
-		public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
-			return true;
-		}
+		// public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+		// 	return true;
+		// }
 }
