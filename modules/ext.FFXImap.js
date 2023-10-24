@@ -138,7 +138,6 @@ function setupMapData() {
 class FFXIMap {
 	connectionLayerHover;
 	
-
 	constructor(divID, mapID, tileset, minzoom, maxzoom, zoom) {
 		
 		this.divID = typeof divID !== 'undefined' ? divID : "mapID_0";
@@ -433,6 +432,8 @@ class FFXIMap {
 
 }
 
+
+//Adding search bar eventually 
 class SearchBar{
 
 	constructor(){
