@@ -5,9 +5,9 @@
 		"Shocks"
 	],
 	"url": "https://github.com/twothreeforme/mediawiki-extension-FFXIMap",
-	"descriptionmsg": "Adds <FFXIMap> tag for MediaWiki use. Forked from https://github.com/atitd-community/mediawiki-emap. ",
+	"descriptionmsg": "Adds <FFXIMap> tag for interactive maps on the HorizonXI Wiki. ",
 	"license-name": "MIT",
-	"type": "module",
+	"type": "ffxi_module",
 	"requires": {
 		"MediaWiki": ">= 1.25.0"
 	},
@@ -16,8 +16,8 @@
 	},
 	"ResourceModules": {
 		"ext.leafletMain" : {
-			"localBasePath": "modules/",
-			"remoteExtPath": "FFXIMap/modules/",
+			"localBasePath": "modules",
+			"remoteExtPath": "FFXIMap/modules",
 			"packageFiles": [
 				"leaflet.js"
 			],
@@ -26,8 +26,8 @@
 			]
 		},
 		"ext.FFXIMap": {
-			"localBasePath": "modules/",
-			"remoteExtPath": "FFXIMap/modules/",
+			"localBasePath": "modules",
+			"remoteExtPath": "FFXIMap/modules",
 			"packageFiles": [
 				"ext.FFXIMap.js",
 				"mapdata.json",
@@ -35,7 +35,8 @@
 				"ext.mapMarker.js"
 			],
 			"styles": [
-				"ext.FFXIMap.css"
+				"ext.FFXIMap.css",
+				"searchBarStyle.css"
 			]
 		}		
 	},

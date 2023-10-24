@@ -170,6 +170,7 @@ class FFXIMap {
 		// Sets up all associated layers/layerGroups
 		this.newMapWithControls(this.mapID);
 
+		//this.searchBar = new SearchBar();
 	}
 	
 
@@ -427,7 +428,77 @@ class FFXIMap {
 	}
 
 	addSearchBar(_mapID){
-	
+		
 	}
 
+}
+
+class SearchBar{
+
+	constructor(){
+		// getting all required elements
+		this.searchWrapper = document.querySelector(".search-input");
+		this.inputBox = this.searchWrapper.querySelector("input");
+		this.suggBox = this.searchWrapper.querySelector(".autocom-box");
+		this.icon = this.searchWrapper.querySelector(".icon");
+		this.linkTag = this.searchWrapper.querySelector("a");
+		this.webLink;
+	
+
+		// if user press any key and release
+		this.inputBox.onkeyup = (e)=>{
+			let userData = e.target.value; //user enetered data
+			let emptyArray = [];
+			if(userData){
+				this.icon.onclick = ()=>{
+					this.webLink = `https://www.google.com/search?q=${userData}`;
+					this.linkTag.setAttribute("href", this.webLink);
+					this.linkTag.click();
+				}
+				emptyArray = suggestions.filter((data)=>{
+					//filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
+					return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+				});
+				emptyArray = emptyArray.map((data)=>{
+					// passing return data inside li tag
+					return data = `
+					${data}
+					`;
+				});
+				this.searchWrapper.classList.add("active"); //show autocomplete box
+				showSuggestions(emptyArray);
+				let allList = this.suggBox.querySelectorAll("li");
+				for (let i = 0; i < allList.length; i++) {
+					//adding onclick attribute in all li tag
+					allList[i].setAttribute("onclick", "select(this)");
+				}
+			}else{
+				this.searchWrapper.classList.remove("active"); //hide autocomplete box
+			}
+		}
+	}
+	
+	select(element){
+		let selectData = element.textContent;
+		this.inputBox.value = selectData;
+		this.icon.onclick = ()=>{
+			this.webLink = `https://www.google.com/search?q=${selectData}`;
+			this.linkTag.setAttribute("href", this.webLink);
+			this.linkTag.click();
+		}
+		this.searchWrapper.classList.remove("active");
+	}
+
+	showSuggestions(list){
+		let listData;
+		if(!list.length){
+			userValue = this.inputBox.value;
+			listData = `
+		${userValue}
+		`;
+			}else{
+			listData = list.join('');
+			}
+			this.suggBox.innerHTML = listData;
+	}
 }

@@ -26,7 +26,7 @@ class FFXIMap {
 			//MWDebug::log('$params: '.$params['mapid']);
 			////////////////////
 
-			//$parser->getOutput()->updateCacheExpiry(0);
+			$parser->getOutput()->updateCacheExpiry(0);
 			$parser->getOutput()->addModules(['ext.leafletMain']);
 			$parser->getOutput()->addModules(['ext.FFXIMap']);
 
@@ -89,12 +89,14 @@ class FFXIMap {
  
 			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\" data-zoom=\"" . $zoom . "\"     ></span>";
 			
-			$html = "<div class=\"search-box\">";
-			$html = $html . "<div class=\"row\">";
-			$html = $html . "<input id=\"input-box\" type=\"text\" placeholder=\"Search Maps..\" autocomplete=\"off\"> ";
-			$html = $html . "<button><i class = \"fa-solid fa-magnifying-glass\"></i></button>";
-			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div></div></div>" . $editingMode . $script . $tagAttributesJsonCode ;
-
+			$html = "";
+			// $html = "<div class=\"wrapper\">";
+			// $html = $html . "<div class=\"search-input\">";
+			// $html = $html . "<a href=\"\" target=\"_blank\" hidden></a>";
+			// $html = $html . "<input type=\"text\" placeholder=\"Type to search..\">";
+			// $html = $html . "<div class=\"autocom-box\"></div>";
+			// $html = $html . "<div class=\"icon\"><i class=\"fas fa-search\"></i></div></div>";
+			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div></div>" . $editingMode . $script . $tagAttributesJsonCode ;
 
 			return 	$html;
         }

@@ -62,14 +62,10 @@ http://localhost/api.php?action=query&prop=revisions&rvprop=content&format=json&
    
    
 Cargo Table
-
 /////////
-Template:FFXIMap_Markers
+Template:FFXIMap Markers
 ///
 <noinclude>
-{{#template_params:mapID (label=MapID)
-|position (label=Position)
-|entityType (label=Entity Type) }}
 {{#cargo_declare:_table=ffximap_markers
 |mapID=Integer
 |position=List (,) of Integer
@@ -77,6 +73,5 @@ Template:FFXIMap_Markers
 </noinclude>
 <includeonly>
 {{#cargo_store:_table=ffximap_markers}}
-{{#template_display:_format=standard}}
 [[Category:FFXIMap Markers]]
 </includeonly>
