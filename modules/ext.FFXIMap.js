@@ -381,7 +381,7 @@ class FFXIMap {
 				data.cargoquery.forEach((d) => {
 					var page, entityType, posX, posY, mapID;
 					Object.entries(d.title).forEach(([key, value]) => {
-						//console.log(`${key}: ${value}`);
+						console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
 						else if ( key == 'entityType') entityType = value;
 						else if ( key == 'mapID') mapID = value;
