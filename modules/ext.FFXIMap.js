@@ -366,7 +366,6 @@ class FFXIMap {
 
 	async addNPCControlLayers(_mapID){
 		if (mapID == null) return ;
-		
 		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,mapid&where=mapid=${_mapID}&format=json`;
 		//console.log(url);
 		// const response = await fetch(url);
