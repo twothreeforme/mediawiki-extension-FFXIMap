@@ -367,7 +367,7 @@ class FFXIMap {
 	async addNPCControlLayers(_mapID){
 		if (mapID == null) return ;
 		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,mapid&where=mapid=${_mapID}&format=json`;
-		//console.log(url);
+		console.log(url);
 		// const response = await fetch(url);
 		// const temp = await response.json();
 
@@ -381,10 +381,10 @@ class FFXIMap {
 				data.cargoquery.forEach((d) => {
 					var page, entityType, posX, posY, mapID;
 					Object.entries(d.title).forEach(([key, value]) => {
-						console.log(`${key}: ${value}`);
+						//console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
-						else if ( key == 'entityType') entityType = value;
-						else if ( key == 'mapID') mapID = value;
+						else if ( key == 'entitytype') entityType = value;
+						else if ( key == 'mapid') mapID = value;
 						else if ( key == 'position') {
 							var posArray = value.split(',');
 							posX = parseFloat(posArray[0]);
@@ -399,7 +399,7 @@ class FFXIMap {
 						markerLayers.push(marker);
 					}
 				  });
-				//console.log(data.cargoquery);
+				// console.log(data.cargoquery);
 
 				if (markerLayers.length > 0) {
 					var npc_list = L.layerGroup(markerLayers);
