@@ -28,6 +28,7 @@ class FFXIMap {
 
 			$parser->getOutput()->updateCacheExpiry(0);
 			$parser->getOutput()->addModules(['ext.leafletMain']);
+			$parser->getOutput()->addModules(['ext.leafletSearch']);
 			$parser->getOutput()->addModules(['ext.FFXIMap']);
 
 			global $wgFFXIMapBasePath;
@@ -82,21 +83,31 @@ class FFXIMap {
 			$width = isset($params['width']) ? intval($params['width']) : 512;
 
 			$style = "";
-			$style = $style . "height: " . $height . "px; ";
-			$style = $style . "width: " . $width . "px; ";
+			$style = $style . "height: " . $height . "px; width: " . $width . "px; margin: 10px auto 0;";
+			// $style = $style . "z-index: -1; ";
 
 			$script = "";
  
 			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\" data-zoom=\"" . $zoom . "\"     ></span>";
 			
 			$html = "";
-			// $html = "<div class=\"wrapper\">";
+			// $html = "<div class=\"wrapper\" style=\"". $style ."\">";
 			// $html = $html . "<div class=\"search-input\">";
 			// $html = $html . "<a href=\"\" target=\"_blank\" hidden></a>";
-			// $html = $html . "<input type=\"text\" placeholder=\"Type to search..\">";
-			// $html = $html . "<div class=\"autocom-box\"></div>";
-			// $html = $html . "<div class=\"icon\"><i class=\"fas fa-search\"></i></div></div>";
-			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div></div>" . $editingMode . $script . $tagAttributesJsonCode ;
+			// $html = $html . "<input type=\"text\" id=\"myInput\" onkeyup=\"myFunction()\" placeholder=\"Search for names..\">";
+
+			// $html = $html . "<div class=\"wrapper\" style=\"max-width: ". $width . "px;\"\">
+			// 					<div class=\"map-search-box\">
+			// 						<div class=\"map-search-box-row\">
+			// 							<input type=\"text\" id=\"map-search-input-box\" placeholder=\"Search Maps...\" autocomplete=\"off\">
+			// 							<button><img src=\"images/search_icon.png\" height=\"22\"/></button>
+			// 						</div>
+			// 						<div class=\"map-search-result-box\"></div>
+			// 					</div>";
+
+			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
+			//$html = $html . "</div>";
+			$html = $html . $editingMode . $script . $tagAttributesJsonCode ;
 
 			return 	$html;
         }

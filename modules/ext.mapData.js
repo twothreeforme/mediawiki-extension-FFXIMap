@@ -42,12 +42,17 @@ class MapData {
         }
         return str;
     }
-    // parseDB(dbEntities){
-    //     var _parsed = dbEntities;
 
+    searchBarMapsList(){
+        let mapList = {};
 
-    //     return _parsed;
-    // }
+        for (const [key, value] of Object.entries(this.json)){
+            var str = `${this.json[key].name} ` + `[` + `${key}` + `]`;
+            mapList[key] = str;
+            //console.log(key  + ":" + str)
+        }
+        return mapList;
+    }
 
 }
 

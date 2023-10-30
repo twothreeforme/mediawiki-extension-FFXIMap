@@ -1,6 +1,6 @@
 /*	Attributions:
  *  Leaflet library used for all map related objects: https://leafletjs.com/
- *	Leaflet.AnimatedSearchBox - Leaflet addon for search box - https://github.com/luka1199/Leaflet.AnimatedSearchBox/tree/master
+ *	Leaflet Control Search - Copyright Stefano Cudini - Leaflet addon for search box - https://github.com/stefanocudini/leaflet-search
  *	
  */
 
@@ -139,7 +139,8 @@ class FFXIMap {
 	connectionLayerHover;
 	
 	constructor(divID, mapID, tileset, minzoom, maxzoom, zoom) {
-		
+		//console.log('FFXIMap constructor began');
+
 		this.divID = typeof divID !== 'undefined' ? divID : "mapID_0";
 		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
@@ -272,7 +273,7 @@ class FFXIMap {
 	}
 
 	destroyControlLayers(){
-		if (this.layerControl !== undefined ) this.layerControl.remove(this.map);
+		if (this.controlLayer !== undefined ) this.controlLayer.remove(this.map);
 		if (this.position !== undefined)   this.map.removeControl(this.position);
 	}
 
@@ -350,7 +351,7 @@ class FFXIMap {
 		this.newMap(_mapID);
 
 		// Setup new control layers for NPCs, zones, etc.
-		//this.layerControl = this.newControlLayers(_mapID);
+		//this.controlLayer = this.newControlLayers(_mapID);
 		this.addNPCControlLayers(_mapID);
 
 
@@ -408,7 +409,7 @@ class FFXIMap {
 						"<span style='color: green'>NPCs</span>": npc_list
 					};
 		
-					this.layerControl = new L.control.layers(null, npcLayer).addTo(this.map);
+					this.controlLayer = new L.control.layers(null, npcLayer).addTo(this.map);
 				}
 			})
 			.catch(console.error);
@@ -423,83 +424,34 @@ class FFXIMap {
 		// 	"<span style='color: green'>NPCs</span>": npc_list
 		// };
 		
-		// this.layerControl = new L.control.layers(null, npcLayer).addTo(this.map);
+		// this.controlLayer = new L.control.layers(null, npcLayer).addTo(this.map);
 	}
 
+	
 	addSearchBar(_mapID){
-		
-	}
+	if (this.controlSearchBar ) return;
 
-}
+	this.controlSearchBar = new L.Control.Search({
+		//layer: new L.LayerGroup()
+		sourceData: mapDataModel.searchBarMapsList(),
 
-
-//Adding search bar eventually 
-class SearchBar{
-
-	constructor(){
-		// getting all required elements
-		this.searchWrapper = document.querySelector(".search-input");
-		this.inputBox = this.searchWrapper.querySelector("input");
-		this.suggBox = this.searchWrapper.querySelector(".autocom-box");
-		this.icon = this.searchWrapper.querySelector(".icon");
-		this.linkTag = this.searchWrapper.querySelector("a");
-		this.webLink;
-	
-
-		// if user press any key and release
-		this.inputBox.onkeyup = (e)=>{
-			let userData = e.target.value; //user enetered data
-			let emptyArray = [];
-			if(userData){
-				this.icon.onclick = ()=>{
-					this.webLink = `https://www.google.com/search?q=${userData}`;
-					this.linkTag.setAttribute("href", this.webLink);
-					this.linkTag.click();
-				}
-				emptyArray = suggestions.filter((data)=>{
-					//filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
-					return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
-				});
-				emptyArray = emptyArray.map((data)=>{
-					// passing return data inside li tag
-					return data = `
-					${data}
-					`;
-				});
-				this.searchWrapper.classList.add("active"); //show autocomplete box
-				showSuggestions(emptyArray);
-				let allList = this.suggBox.querySelectorAll("li");
-				for (let i = 0; i < allList.length; i++) {
-					//adding onclick attribute in all li tag
-					allList[i].setAttribute("onclick", "select(this)");
-				}
-			}else{
-				this.searchWrapper.classList.remove("active"); //hide autocomplete box
-			}
-		}
-	}
-	
-	select(element){
-		let selectData = element.textContent;
-		this.inputBox.value = selectData;
-		this.icon.onclick = ()=>{
-			this.webLink = `https://www.google.com/search?q=${selectData}`;
-			this.linkTag.setAttribute("href", this.webLink);
-			this.linkTag.click();
-		}
-		this.searchWrapper.classList.remove("active");
-	}
-
-	showSuggestions(list){
-		let listData;
-		if(!list.length){
-			userValue = this.inputBox.value;
-			listData = `
-		${userValue}
-		`;
-			}else{
-			listData = list.join('');
-			}
-			this.suggBox.innerHTML = listData;
+	 	}).on('search:expanded', function () {
+			this._input.onkeyup = function(){
+		  		// console.log(this.value)
+				// let result = [];
+				// let input = this.value;
+				// if (input.length){
+				// 	result = this.sourceData.filter((keyword)=>{
+				// 		return keyword.toLowerCase().includes(input.toLowerCase());
+				// 	});
+				// 	console.log(result);
+				// }
+			}	
+		}).on('search:locationfound', (e) => {
+			//console.log(e.mapid);
+			this.resetMapTo(e.mapid);
+		}).addTo(this.map);
 	}
 }
+
+

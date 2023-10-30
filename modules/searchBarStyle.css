@@ -1,71 +1,73 @@
 
-.wrapper{
-  max-width: 450px;
-  margin: 150px auto;
+.wrapper {
+	background: #0ebdb4;
+	width: 600px;
 }
 
-.wrapper .search-input{
-  background: #fff;
-  width: 100%;
-  border-radius: 5px;
-  position: relative;
-  box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
+
+.map-object {
+	background: #be5e5e;
+	margin: 10px auto 0;
 }
 
-.search-input input{
-  height: 55px;
-  width: 100%;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-  padding: 0 60px 0 20px;
-  font-size: 18px;
-  box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+.map-search-box{
+	width: 600px;
+	background: #fff;
+	margin: 200px auto 0;
+	border-radius: 5px;
+	position: relative;
+  
 }
 
-.search-input.active input{
-  border-radius: 5px 5px 0 0;
+.map-search-box-row{
+	display: flex;
+	align-items: center;
+	padding: 10px 20px;
 }
 
-.search-input .autocom-box{
-  padding: 0;
-  opacity: 0;
-  pointer-events: none;
-  max-height: 280px;
-  overflow-y: auto;
+#map-search-input-box{
+	flex: 1;
+	height: 50px;
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 24px; 
+	color: #333;
+	
 }
 
-.search-input.active .autocom-box{
-  padding: 10px 8px;
-  opacity: 1;
-  pointer-events: auto;
+button{
+	background: transparent;
+	border: 0;
+	outline: 0;
 }
 
-.autocom-box li{
-  list-style: none;
-  padding: 8px 12px;
-  display: none;
-  width: 100%;
-  cursor: default;
-  border-radius: 3px;
+
+::placeholder{
+	color: #555;
 }
 
-.search-input.active .autocom-box li{
-  display: block;
-}
-.autocom-box li:hover{
-  background: #efefef;
+.map-search-result-box{
+	max-height: 300px;
+	overflow-y: scroll;
+	position: absolute;
+  width: inherit;
+  background: inherit;
 }
 
-.search-input .icon{
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  height: 55px;
-  width: 55px;
-  text-align: center;
-  line-height: 55px;
-  font-size: 20px;
-  color: #644bff;
-  cursor: pointer;
+.map-search-result-box ul{
+	border-top: 1px solid #999;
+	padding: 15px 10px;
 }
+
+.map-search-result-box ul li{
+	list-style: none;
+	border-radius: 3px;
+	padding: 15px 10px;
+	cursor: pointer;
+}
+
+.map-search-result-box ul li:hover{
+	background: #e9f3ff;
+}
+

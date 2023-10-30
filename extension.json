@@ -38,7 +38,17 @@
 				"ext.FFXIMap.css",
 				"searchBarStyle.css"
 			]
-		}		
+		},
+		"ext.leafletSearch" : {
+			"localBasePath": "modules",
+			"remoteExtPath": "FFXIMap/modules",
+			"packageFiles": [
+				"leaflet-search.js"
+			],
+			"styles": [
+				"leaflet-search.css"
+			]
+		}
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "FFXIMap::onParserInit"
