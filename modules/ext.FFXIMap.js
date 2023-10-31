@@ -160,7 +160,7 @@ class FFXIMap {
 		//console.log(parentDivWidth + " " + mapDivWidth);
 		if (parentDivWidth < mapDivWidth ) {
 			//console.log("adjusting screen size to account for mobile");
-			if (parentDivWidth < 400)  document.getElementById(this.divID).style.width = `400px`; 
+			if (parentDivWidth < 375)  document.getElementById(this.divID).style.width = `375px`; 
 			else document.getElementById(this.divID).style.width = `${parentDivWidth}px`;
 			document.getElementById(this.divID).style.height = document.getElementById(this.divID).style.width;
 		}
