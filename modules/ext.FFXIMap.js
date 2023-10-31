@@ -58,8 +58,8 @@ let mapDataModel = null;
 
 
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
-	//console.log('mw.hook( \'wikipage.content\' ) FIRED');
-	
+	//console.log('mw.hook( \'wikipage.content\' ) FIRED'); 
+
 	setPageAttributes();
 	setupMarkers();
 	setupMapData();
@@ -153,6 +153,16 @@ class FFXIMap {
 
 		//I have no idea why these bounds work... 
 		this.bounds = [[0,0], [256,256]];
+
+		//one last check for mobile vs desktop 
+		const mapDivWidth = document.getElementById(this.divID).clientWidth;
+		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
+		//console.log(parentDivWidth + " " + mapDivWidth);
+		if (parentDivWidth < mapDivWidth) {
+			//console.log("adjusting screen size to account for mobile");
+			document.getElementById(this.divID).style.width = `${parentDivWidth}px`;
+			document.getElementById(this.divID).style.height = document.getElementById(this.divID).style.width;
+		}
 
 		this.map = L.map(this.divID, {
 			crs: L.CRS.Simple, // CRS.Simple, which represents a square grid:
