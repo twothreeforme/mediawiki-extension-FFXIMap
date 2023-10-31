@@ -405,9 +405,10 @@ class FFXIMap {
 						}
 					  });
 					if ( page !== undefined && entityType !== undefined &&  posX !== undefined && posY !== undefined && mapID !== undefined) {
+						var template = `<p>[[${page}]] (${posX}, ${posY})</p><p>image goes here<br></p><p>link goes here</p>`;
 						var marker = L.marker([posX, posY], {
 							icon: mapMarkers.npcMarker
-							}).bindPopup(`${page} (${posX}, ${posY})`);
+							}).bindPopup(L.Util.template(template, null));
 						markerLayers.push(marker);
 					}
 				  });

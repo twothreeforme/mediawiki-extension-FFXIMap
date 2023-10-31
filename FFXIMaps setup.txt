@@ -75,3 +75,31 @@ Template:FFXIMap Markers
 {{#cargo_store:_table=ffximap_markers}}
 [[Category:FFXIMap Markers]]
 </includeonly>
+
+//////
+
+ToAU Maps
+
+
+ Al Zahbi
+ Aht Urhgan Whitegate
+ Bhaflau Thickets
+ Wajaom Woodlands
+ Aydeewa Subterrane
+ Mamook
+ Alzadaal Undersea Ruins
+ Nyzul Isle
+ Mount Zhayolm
+ Nashmau
+ Caedarva Mire
+ Arrapago Reef
+ Mamool Ja Training Grounds
+ Silver Sea Remnants
+ Arrapago Remnants
+ Zhayolm Remnants
+ Lebros Cavern
+ Halvung
+ Periqia
+ Leujaoam Sanctum
+Ilrusi Atoll
+ Talacca Cove

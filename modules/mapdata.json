@@ -5739,7 +5739,1494 @@
                     "pulse" : [[114.81055, 156.75], [123.43555, 76.625]]
                 }
             }
+        },
+        "294": {
+            "name": "Al Zahbi",
+            "filename": "al_zahbi.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "295": {
+            "name": "Aht Urhgan Whitegate",
+            "filename": "aht_urhgan_whitegate.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "296": {
+            "name": "Bhaflau Thickets: Map 1",
+            "filename": "bhaflau_thickets_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "297": {
+            "name": "Bhaflau Thickets: Map 2",
+            "filename": "bhaflau_thickets_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "298": {
+            "name": "Wajaom Woodlands",
+            "filename": "wajaom_woodlands.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "299": {
+            "name": "Aydeewa Subterrane: Map 1",
+            "filename": "aydeewa_subterrane_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "300": {
+            "name": "Aydeewa Subterrane: Map 2",
+            "filename": "aydeewa_subterrane_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "301": {
+            "name": "Aydeewa Subterrane: Map 3",
+            "filename": "aydeewa_subterrane_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "302": {
+            "name": "Aydeewa Subterrane: Map 4",
+            "filename": "aydeewa_subterrane_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "303": {
+            "name": "Aydeewa Subterrane: Map 5",
+            "filename": "aydeewa_subterrane_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "304": {
+            "name": "Aydeewa Subterrane: Map 6",
+            "filename": "aydeewa_subterrane_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "305": {
+            "name": "Aydeewa Subterrane: Map 7",
+            "filename": "aydeewa_subterrane_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "306": {
+            "name": "Mamook: Map 1",
+            "filename": "mamook_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "307": {
+            "name": "Mamook: Map 2",
+            "filename": "mamook_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "308": {
+            "name": "Mamook: Map 3",
+            "filename": "mamook_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "309": {
+            "name": "Alzadaal Undersea Ruins: Map 1",
+            "filename": "alzadaal_undersea_ruins_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "310": {
+            "name": "Alzadaal Undersea Ruins: Map 2",
+            "filename": "alzadaal_undersea_ruins_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "311": {
+            "name": "Alzadaal Undersea Ruins: Map 3",
+            "filename": "alzadaal_undersea_ruins_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "312": {
+            "name": "Alzadaal Undersea Ruins: Map 4",
+            "filename": "alzadaal_undersea_ruins_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "313": {
+            "name": "Alzadaal Undersea Ruins: Map 5",
+            "filename": "alzadaal_undersea_ruins_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "314": {
+            "name": "Alzadaal Undersea Ruins: Map 6",
+            "filename": "alzadaal_undersea_ruins_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "315": {
+            "name": "Alzadaal Undersea Ruins: Map 7",
+            "filename": "alzadaal_undersea_ruins_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "316": {
+            "name": "Alzadaal Undersea Ruins: Map 8",
+            "filename": "alzadaal_undersea_ruins_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "317": {
+            "name": "Alzadaal Undersea Ruins: Map 9",
+            "filename": "alzadaal_undersea_ruins_9.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "318": {
+            "name": "Alzadaal Undersea Ruins: Map 10",
+            "filename": "alzadaal_undersea_ruins_10.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "319": {
+            "name": "Nyzul Isle: Map 1",
+            "filename": "nyzul_isle_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "320": {
+            "name": "Nyzul Isle: Map 2",
+            "filename": "nyzul_isle_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "321": {
+            "name": "Nyzul Isle: Map 3",
+            "filename": "nyzul_isle_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "322": {
+            "name": "Nyzul Isle: Map 4",
+            "filename": "nyzul_isle_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "323": {
+            "name": "Nyzul Isle: Map 5",
+            "filename": "nyzul_isle_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "324": {
+            "name": "Nyzul Isle: Map 6",
+            "filename": "nyzul_isle_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "325": {
+            "name": "Nyzul Isle: Map 7",
+            "filename": "nyzul_isle_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "326": {
+            "name": "Nyzul Isle: Map 8",
+            "filename": "nyzul_isle_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "327": {
+            "name": "Mount Zhayolm",
+            "filename": "mount_zhayolm.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "328": {
+            "name": "Nashmau",
+            "filename": "nashmau.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "329": {
+            "name": "Caedarva Mire: Map 1",
+            "filename": "caedarva_mire_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "330": {
+            "name": "Caedarva Mire: Map 2",
+            "filename": "caedarva_mire_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "331": {
+            "name": "Caedarva Mire: Map 3",
+            "filename": "caedarva_mire_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "332": {
+            "name": "Caedarva Mire: Map 4",
+            "filename": "caedarva_mire_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "333": {
+            "name": "Arrapago Reef: Map 1",
+            "filename": "arrapago_reef_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "334": {
+            "name": "Arrapago Reef: Map 2",
+            "filename": "arrapago_reef_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "335": {
+            "name": "Arrapago Reef: Map 3",
+            "filename": "arrapago_reef_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "336": {
+            "name": "Arrapago Reef: Map 4",
+            "filename": "arrapago_reef_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "337": {
+            "name": "Arrapago Reef: Map 5",
+            "filename": "arrapago_reef_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "338": {
+            "name": "Arrapago Reef: Map 6",
+            "filename": "arrapago_reef_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "339": {
+            "name": "Arrapago Reef: Map 7",
+            "filename": "arrapago_reef_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "340": {
+            "name": "Arrapago Reef: Map 8",
+            "filename": "arrapago_reef_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "341": {
+            "name": "Arrapago Reef: Map 9",
+            "filename": "arrapago_reef_9.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "342": {
+            "name": "Arrapago Reef: Map 10",
+            "filename": "arrapago_reef_10.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "343": {
+            "name": "Arrapago Reef: Map 11",
+            "filename": "arrapago_reef_11.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "344": {
+            "name": "Mamool Ja Training Grounds: Map 1",
+            "filename": "mamool-ja-training-grounds_1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "345": {
+            "name": "Mamool Ja Training Grounds: Map 2",
+            "filename": "mamool-ja-training-grounds_2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "346": {
+            "name": "Mamool Ja Training Grounds: Map 3",
+            "filename": "mamool-ja-training-grounds_3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "347": {
+            "name": "Mamool Ja Training Grounds: Map 4",
+            "filename": "mamool-ja-training-grounds_4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "348": {
+            "name": "Mamool Ja Training Grounds: Map 5",
+            "filename": "mamool-ja-training-grounds_5.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "349": {
+            "name": "Mamool Ja Training Grounds: Map 6",
+            "filename": "mamool-ja-training-grounds_6.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "350": {
+            "name": "Mamool Ja Training Grounds: Map 7",
+            "filename": "mamool-ja-training-grounds_7.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "351": {
+            "name": "Mamool Ja Training Grounds: Map 8",
+            "filename": "mamool-ja-training-grounds_8.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "352": {
+            "name": "Mamool Ja Training Grounds: Map 9",
+            "filename": "mamool-ja-training-grounds_9.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "353": {
+            "name": "Mamool Ja Training Grounds: Map 10",
+            "filename": "mamool-ja-training-grounds_10.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "354": {
+            "name": "Talacca Cove",
+            "filename": "talacca_cove.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "355": {
+            "name": "Silver Sea Remnants: Map 1",
+            "filename": "silver-sea-remnants_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "356": {
+            "name": "Silver Sea Remnants: Map 2",
+            "filename": "silver-sea-remnants_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "357": {
+            "name": "Silver Sea Remnants: Map 3",
+            "filename": "silver-sea-remnants_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "358": {
+            "name": "Silver Sea Remnants: Map 4",
+            "filename": "silver-sea-remnants_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "359": {
+            "name": "Silver Sea Remnants: Map 5",
+            "filename": "silver-sea-remnants_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "360": {
+            "name": "Arrapago Remnants: Map 1",
+            "filename": "arrapago-remnants_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "361": {
+            "name": "Arrapago Remnants: Map 2",
+            "filename": "arrapago-remnants_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "362": {
+            "name": "Arrapago Remnants: Map 3",
+            "filename": "arrapago-remnants_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "363": {
+            "name": "Arrapago Remnants: Map 4",
+            "filename": "arrapago-remnants_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "364": {
+            "name": "Arrapago Remnants: Map 5",
+            "filename": "arrapago-remnants_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "365": {
+            "name": "Arrapago Remnants: Map 6",
+            "filename": "arrapago-remnants_6.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "366": {
+            "name": "Arrapago Remnants: Map 7",
+            "filename": "arrapago-remnants_7.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "367": {
+            "name": "Zhayolm Remnants: Map 1",
+            "filename": "zhayolm-remnants_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "368": {
+            "name": "Zhayolm Remnants: Map 2",
+            "filename": "zhayolm-remnants_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "369": {
+            "name": "Zhayolm Remnants: Map 3",
+            "filename": "zhayolm-remnants_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "370": {
+            "name": "Zhayolm Remnants: Map 4",
+            "filename": "zhayolm-remnants_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "371": {
+            "name": "Zhayolm Remnants: Map 5",
+            "filename": "zhayolm-remnants_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "372": {
+            "name": "Zhayolm Remnants: Map 6",
+            "filename": "zhayolm-remnants_6.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "373": {
+            "name": "Zhayolm Remnants: Map 7",
+            "filename": "zhayolm-remnants_7.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "374": {
+            "name": "Lebros Cavern: Map 1",
+            "filename": "lebros-cavern_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "375": {
+            "name": "Lebros Cavern: Map 2",
+            "filename": "lebros-cavern_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "376": {
+            "name": "Lebros Cavern: Map 3",
+            "filename": "lebros-cavern_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "377": {
+            "name": "Lebros Cavern: Map 4",
+            "filename": "lebros-cavern_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "378": {
+            "name": "Lebros Cavern: Map 5",
+            "filename": "lebros-cavern_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "379": {
+            "name": "Lebros Cavern: Map 6",
+            "filename": "lebros-cavern_6.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "380": {
+            "name": "Lebros Cavern: Map 7",
+            "filename": "lebros-cavern_7.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "381": {
+            "name": "Lebros Cavern: Map 8",
+            "filename": "lebros-cavern_8.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "382": {
+            "name": "Lebros Cavern: Map 9",
+            "filename": "lebros-cavern_9.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "383": {
+            "name": "Lebros Cavern: Map 10",
+            "filename": "lebros-cavern_10.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "384": {
+            "name": "Halvung: Map 1",
+            "filename": "halvung_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "385": {
+            "name": "Halvung: Map 2",
+            "filename": "halvung_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "386": {
+            "name": "Halvung: Map 3",
+            "filename": "halvung_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "387": {
+            "name": "Halvung: Map 4",
+            "filename": "halvung_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "388": {
+            "name": "Periqia: Map 1",
+            "filename": "periqia_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "389": {
+            "name": "Periqia: Map 2",
+            "filename": "periqia_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "390": {
+            "name": "Periqia: Map 3",
+            "filename": "periqia_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "391": {
+            "name": "Periqia: Map 4",
+            "filename": "periqia_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "392": {
+            "name": "Periqia: Map 5",
+            "filename": "periqia_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "393": {
+            "name": "Periqia: Map 6",
+            "filename": "periqia_6.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "394": {
+            "name": "Periqia: Map 7",
+            "filename": "periqia_7.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "395": {
+            "name": "Periqia: Map 8",
+            "filename": "periqia_8.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "396": {
+            "name": "Periqia: Map 9",
+            "filename": "periqia_9.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "397": {
+            "name": "Periqia: Map 10",
+            "filename": "periqia_10.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "398": {
+            "name": "Leujaoam Sanctum: Map 1",
+            "filename": "leujaoam-sanctum_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "399": {
+            "name": "Leujaoam Sanctum: Map 2",
+            "filename": "leujaoam-sanctum_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "400": {
+            "name": "Leujaoam Sanctum: Map 3",
+            "filename": "leujaoam-sanctum_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "401": {
+            "name": "Leujaoam Sanctum: Map 4",
+            "filename": "leujaoam-sanctum_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "402": {
+            "name": "Leujaoam Sanctum: Map 5",
+            "filename": "leujaoam-sanctum_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "403": {
+            "name": "Leujaoam Sanctum: Map 6",
+            "filename": "leujaoam-sanctum_6.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "404": {
+            "name": "Leujaoam Sanctum: Map 7",
+            "filename": "leujaoam-sanctum_7.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "405": {
+            "name": "Leujaoam Sanctum: Map 8",
+            "filename": "leujaoam-sanctum_8.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "406": {
+            "name": "Leujaoam Sanctum: Map 9",
+            "filename": "leujaoam-sanctum_9.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "407": {
+            "name": "Leujaoam Sanctum: Map 10",
+            "filename": "leujaoam-sanctum_10.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "408": {
+            "name": "Ilrusi Atoll: Map 1",
+            "filename": "ilrusi-atoll_1.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "409": {
+            "name": "Ilrusi Atoll: Map 2",
+            "filename": "ilrusi-atoll_2.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "410": {
+            "name": "Ilrusi Atoll: Map 3",
+            "filename": "ilrusi-atoll_3.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "411": {
+            "name": "Ilrusi Atoll: Map 4",
+            "filename": "ilrusi-atoll_4.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "412": {
+            "name": "Ilrusi Atoll: Map 5",
+            "filename": "ilrusi-atoll_5.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "413": {
+            "name": "Ilrusi Atoll: Map 6",
+            "filename": "ilrusi-atoll_6.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "414": {
+            "name": "Ilrusi Atoll: Map 7",
+            "filename": "ilrusi-atoll_7.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "415": {
+            "name": "Ilrusi Atoll: Map 8",
+            "filename": "ilrusi-atoll_8.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "416": {
+            "name": "Ilrusi Atoll: Map 9",
+            "filename": "ilrusi-atoll_9.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+        "417": {
+            "name": "Ilrusi Atoll: Map 10",
+            "filename": "ilrusi-atoll_10.jpg",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
         }
-
     }
 }
