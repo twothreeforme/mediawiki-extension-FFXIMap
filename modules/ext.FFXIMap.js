@@ -158,9 +158,10 @@ class FFXIMap {
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
 		//console.log(parentDivWidth + " " + mapDivWidth);
-		if (parentDivWidth < mapDivWidth) {
+		if (parentDivWidth < mapDivWidth ) {
 			//console.log("adjusting screen size to account for mobile");
-			document.getElementById(this.divID).style.width = `${parentDivWidth}px`;
+			if (parentDivWidth < 400)  document.getElementById(this.divID).style.width = `400px`; 
+			else document.getElementById(this.divID).style.width = `${parentDivWidth}px`;
 			document.getElementById(this.divID).style.height = document.getElementById(this.divID).style.width;
 		}
 
