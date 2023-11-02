@@ -4,6 +4,29 @@
  *	
  */
 
+
+ /**
+ * _hookNewMap created to support a proper hook function using mw.hook
+ * Original design was not loading entire ext.FFXIMap.js file after an 
+ * edit was made on the wiki page, so following any edit (and saving)
+ * the map would not immediately load due to the FFXIMap class not loading
+ * yet. Unsure really why the ex.FFXIMap.js was firing the mw.hook and the 
+ * FFXIMap class was not loaded, but setting up ext.FFXIMap-hook.js forces
+ * the entire ext.FFXIMap.js to load prior to beginning this _hookNewMap
+ * sequence, and thus solves the problem.
+ * 
+ * Function meant to set up the map from scratch, called from ext.FFXIMap-hook.js
+ * using mw.hook after the full wikipage content has loaded.  
+ */	
+function _hookNewMap(){
+	setPageAttributes();
+	setupMarkers();
+	setupMapData();
+	setupNewMap();
+}
+exports._hookNewMap = _hookNewMap;
+
+
 /**
  * The map object used by leaflet 
  * @return {FFXIMap} FFXIMap object. 
@@ -42,7 +65,6 @@ let tileset,
  * Object containing the various icons used as map markers
  * and functions supporting icon display.
  * Icons returned follow the leaflet Icon object model
- * @string baseMapMarkersDir: location of icon image files, passed to constructor after wikiContent is loaded
  * @return {MapMarkers} MapMarkers object
  */	
 const MapMarkers = require("./ext.mapMarker.js");
@@ -55,17 +77,6 @@ let mapMarkers = null;
  */	
 const MapData = require("./ext.mapData.js");
 let mapDataModel = null;
-
-
-mw.hook( 'wikipage.content' ).add( function ( $content ) {
-	//console.log('mw.hook( \'wikipage.content\' ) FIRED'); 
-
-	setPageAttributes();
-	setupMarkers();
-	setupMapData();
-
-	setupNewMap();
-});
 
 function setupNewMap(_mapID) {
 	if (m != undefined)  {
@@ -141,7 +152,7 @@ class FFXIMap {
 	constructor(divID, mapID, tileset, minzoom, maxzoom, zoom) {
 		//console.log('FFXIMap constructor began');
 
-		this.divID = typeof divID !== 'undefined' ? divID : "mapID_0";
+		this.divID = typeof divID !== 'undefined' ? divID : "mapid_0";
 		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
 
@@ -365,7 +376,7 @@ class FFXIMap {
 		//this.controlLayer = this.newControlLayers(_mapID);
 		this.addNPCControlLayers(_mapID);
 
-
+		// Setup new control layer for the search bar
 		this.addSearchBar(_mapID);
 
 		// Setup any additional markers/layers for connecting the next zone
@@ -395,6 +406,7 @@ class FFXIMap {
 					Object.entries(d.title).forEach(([key, value]) => {
 						//console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
+						//these key values must match (case-sensitive) the values in the database
 						else if ( key == 'entitytype') entityType = value;
 						else if ( key == 'mapid') mapID = value;
 						else if ( key == 'position') {

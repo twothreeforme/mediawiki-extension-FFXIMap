@@ -29,6 +29,7 @@
 			"localBasePath": "modules",
 			"remoteExtPath": "FFXIMap/modules",
 			"packageFiles": [
+				"ext.FFXIMap-hook.js",
 				"ext.FFXIMap.js",
 				"mapdata.json",
 				"ext.mapData.js",
