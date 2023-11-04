@@ -91,24 +91,10 @@ class FFXIMap {
 			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\" data-zoom=\"" . $zoom . "\"     ></span>";
 			
 			$html = "";
-			// $html = "<div class=\"wrapper\" style=\"". $style ."\">";
-			// $html = $html . "<div class=\"search-input\">";
-			// $html = $html . "<a href=\"\" target=\"_blank\" hidden></a>";
-			// $html = $html . "<input type=\"text\" id=\"myInput\" onkeyup=\"myFunction()\" placeholder=\"Search for names..\">";
-
-			// $html = $html . "<div class=\"wrapper\" style=\"max-width: ". $width . "px;\"\">
-			// 					<div class=\"map-search-box\">
-			// 						<div class=\"map-search-box-row\">
-			// 							<input type=\"text\" id=\"map-search-input-box\" placeholder=\"Search Maps...\" autocomplete=\"off\">
-			// 							<button><img src=\"images/search_icon.png\" height=\"22\"/></button>
-			// 						</div>
-			// 						<div class=\"map-search-result-box\"></div>
-			// 					</div>";
-
 			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
 			//$html = $html . "</div>";
 			$html = $html . $editingMode . $script . $tagAttributesJsonCode ;
-
+			
 			return 	$html;
         }
 

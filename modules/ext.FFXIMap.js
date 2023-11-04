@@ -28,11 +28,10 @@ exports._hookNewMap = _hookNewMap;
 
 
 /**
- * The map object used by leaflet 
- * @return {FFXIMap} FFXIMap object. 
+ * The map object used by leaflet  
  */
 let m = null;
-let map = null;
+//let map = null;
 
 //
 /**
@@ -56,9 +55,7 @@ let tileset,
 	baseDir,
 	baseMapDir,
 	baseMapTilesDir,
-	baseMapZonesDir,
-	currentMapImageOverlay;
-
+	baseMapZonesDir;
 
 /**
  * class MapMarkers defined in ext.maphelper.js
@@ -128,10 +125,10 @@ function setupMarkers() {
 	// console.log( typeof(temp) );
 	mapMarkers = new MapMarkers;
 
-	L.Marker.prototype.options.icon = L.icon({
-			iconRetinaUrl: baseMapMarkersDir + 'npc-icon-2x.png',
-			iconUrl: baseMapMarkersDir + 'npc-icon.png',
-	});
+	// L.Marker.prototype.options.icon = L.icon({
+	// 		iconRetinaUrl: baseMapMarkersDir + 'npc-icon-2x.png',
+	// 		iconUrl: baseMapMarkersDir + 'npc-icon.png',
+	// });
 }
 
 /**
@@ -389,8 +386,8 @@ class FFXIMap {
 
 	async addNPCControlLayers(_mapID){
 		if (mapID == null) return ;
-		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,mapid&where=mapid=${_mapID}&format=json`;
-		console.log(url);
+		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,image,mapid&where=mapid=${_mapID}&format=json`;
+		
 		// const response = await fetch(url);
 		// const temp = await response.json();
 
@@ -402,7 +399,7 @@ class FFXIMap {
 			.then((data) => {
 				if (data.cargoquery == null ) return;
 				data.cargoquery.forEach((d) => {
-					var page, entityType, posX, posY, mapID;
+					var page, entityType, posX, posY, mapID, imageurl;
 					Object.entries(d.title).forEach(([key, value]) => {
 						//console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
@@ -415,12 +412,30 @@ class FFXIMap {
 							posY = parseFloat(posArray[1]);
 							//console.log(posArray[0] + " : " + posArray[1]);
 						}
+						else if ( key == 'image' && value !== null) {
+							imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
+						}
 					  });
 					if ( page !== undefined && entityType !== undefined &&  posX !== undefined && posY !== undefined && mapID !== undefined) {
-						var template = `<p>[[${page}]] (${posX}, ${posY})</p><p>image goes here<br></p><p>link goes here</p>`;
+						
+						//move to MapMarker class once this is functioning correctly
+						//var popuptemplate = `<p><center>${page} (${posX}, ${posY})</center></p>`;
+						var tooltiptemplate = `<p><center>${page}<br> (${posX}, ${posY})</center></p>`; 
+						if (imageurl !== undefined) {
+							tooltiptemplate += `<img src="${imageurl}" alt="Italian Trulli">`;
+							//console.log(imageurl);
+						}
+						//////
+
 						var marker = L.marker([posX, posY], {
 							icon: mapMarkers.npcMarker
-							}).bindPopup(L.Util.template(template, null));
+							})
+							//.bindPopup(L.Util.template(popuptemplate, null))
+							.bindTooltip(L.Util.template(tooltiptemplate, null))
+							.on('click', (e) => {
+									window.open(mw.config.get('wgServer') + `/index.php?title=${page}`);
+									//console.log(mw.config.get('wgServer') + `/${page}`);
+							});
 						markerLayers.push(marker);
 					}
 				  });
@@ -476,6 +491,8 @@ class FFXIMap {
 			this.resetMapTo(e.mapid);
 		}).addTo(this.map);
 	}
+
+	
 }
 
 

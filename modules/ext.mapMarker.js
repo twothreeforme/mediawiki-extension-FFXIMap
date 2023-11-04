@@ -5,7 +5,7 @@ class MapMarker {
     npcMarker = L.icon({
         	iconRetinaUrl: baseMapMarkersDir + 'npc-icon-2x.png',
         	iconUrl: baseMapMarkersDir + 'npc-icon.png',
-        	iconSize: [12, 12],
+        	iconSize: [9, 9],
         	iconAnchor: [6, 6],
         	className: 'blinking'
         });
