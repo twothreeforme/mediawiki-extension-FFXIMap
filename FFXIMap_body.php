@@ -71,9 +71,11 @@ class FFXIMap {
 					$zoom = $maxZoom;
 			}
 
-			$editingMode = "";
+			$showdetails = "";
+			$showdetailsDiv = "";
 			if ( (isset($params['showdetails']) ) && ( $params['showdetails'] == "true" ) ){
-				$editingMode = "<div id=\"polyEditing\"></div>";
+				$showdetailsDiv = "<div id=\"polyEditing\"></div>";
+				$showdetails = true;
 			}
 
 			$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
@@ -88,12 +90,12 @@ class FFXIMap {
 
 			$script = "";
  
-			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\" data-maxZoom=\"" . $maxZoom . "\" data-zoom=\"" . $zoom . "\"     ></span>";
+			$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\"></span>";
 			
 			$html = "";
 			$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
 			//$html = $html . "</div>";
-			$html = $html . $editingMode . $script . $tagAttributesJsonCode ;
+			$html = $html . $showdetailsDiv . $script . $tagAttributesJsonCode ;
 			
 			return 	$html;
         }

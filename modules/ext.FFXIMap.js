@@ -52,6 +52,7 @@ let tileset,
 	minZoom,
 	maxZoom,
 	zoom,
+	showdetails,
 	baseDir,
 	baseMapDir,
 	baseMapTilesDir,
@@ -101,7 +102,7 @@ function setPageAttributes() {
 		minZoom = dataTagAttributes.minzoom;
 		maxZoom = dataTagAttributes.maxzoom;
 		zoom = dataTagAttributes.zoom;
-
+		showdetails = dataTagAttributes.showdetails;
 		baseDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/';
 		baseMapDir = baseDir + 'maps/';
 		baseMapTilesDir = baseDir + 'maps/tiles/';
@@ -162,6 +163,10 @@ class FFXIMap {
 		//I have no idea why these bounds work... 
 		this.bounds = [[0,0], [256,256]];
 
+		// Map viewing history supports the back button and returning to previously viewed maps
+		this.mapHistory = new MapHistory();
+
+
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
@@ -188,7 +193,6 @@ class FFXIMap {
 		// Assigns new map imageoverlay/tiles
 		// Sets up all associated layers/layerGroups
 		this.newMapWithControls(this.mapID);
-
 		//this.searchBar = new SearchBar();
 	}
 	
@@ -272,32 +276,40 @@ class FFXIMap {
 		this.map.setZoom(this.zoom);
 	}
 
-	newControlLayers(_mapID){
-		if (_mapID == undefined) return null;
+	// newControlLayers(_mapID){
+	// 	if (_mapID == undefined) return null;
 		
-		var _ = addMarkersLayerGroups(_mapID);
+	// 	var _ = addMarkersLayerGroups(_mapID);
 
 
-		var	denver = L.marker([116, 147], {
-			icon: mapMarkers.npcMarker
-		}).bindPopup('NPC Name (x, y)');
+	// 	var	denver = L.marker([116, 147], {
+	// 		icon: mapMarkers.npcMarker
+	// 	}).bindPopup('NPC Name (x, y)');
 
-		var npc_list = L.layerGroup([denver]);
+	// 	var npc_list = L.layerGroup([denver]);
 		
-		var npcLayer = {
-			"<span style='color: green'>NPCs</span>": npc_list
-		};
+	// 	var npcLayer = {
+	// 		"<span style='color: green'>NPCs</span>": npc_list
+	// 	};
 
-		return new L.control.layers(null, npcLayer).addTo(this.map); 
-	}
+	// 	return new L.control.layers(null, npcLayer).addTo(this.map); 
+	// }
 
 	destroyControlLayers(){
 		if (this.controlLayer !== undefined ) this.controlLayer.remove(this.map);
 		if (this.position !== undefined)   this.map.removeControl(this.position);
 	}
 
-	resetMapTo(_mapID) {
 
+	resetMapTo(_mapID) {
+		//console.log("resetMapTo: _mapID:" + _mapID + " this.mapID:" + this.mapID + " getLast:" + this.mapHistory.getLast());
+		if (_mapID != this.mapID && this.mapID != this.mapHistory.getLast()) this.mapHistory.add(this.mapID);
+		else if (this.mapHistory.getLength() == 0) this.mapHistory.add(this.mapID);
+
+		this._resetMapTo(_mapID);
+	}
+	
+	_resetMapTo(_mapID){
 		// Breakdown everything
 		this.destroyControlLayers();
 
@@ -306,6 +318,10 @@ class FFXIMap {
 
 		// Setup new map
 		this.newMapWithControls(_mapID);
+	}
+
+	resetMapfromBackButton(_mapID){
+		this._resetMapTo(_mapID);
 	}
 
 	display_coordinates(){
@@ -366,9 +382,9 @@ class FFXIMap {
 	}
 
 	newMapWithControls(_mapID){
-		// Establish new map
+			// Establish new map
 		this.newMap(_mapID);
-
+		
 		// Setup new control layers for NPCs, zones, etc.
 		//this.controlLayer = this.newControlLayers(_mapID);
 		this.addNPCControlLayers(_mapID);
@@ -376,23 +392,27 @@ class FFXIMap {
 		// Setup new control layer for the search bar
 		this.addSearchBar(_mapID);
 
+		// Setup Back button - for loading previously viewed maps
+		//console.log("newMapWithControls: " + this.mapHistory.getLength() +" " + this.mapHistory.getIndex(0));
+		if (this.mapHistory.getLength() >= 1 && this.mapHistory.getIndex(0) != _mapID) this.addBackButton();
+		else if (this.mapHistory.getLength() == 0 && this.backButton ) {
+			this.map.removeControl(this.backButton);
+			this.backButton = null;
+		}
 		// Setup any additional markers/layers for connecting the next zone
 		this.setupZoneConnections(_mapID);
 
 		//Coordinate display
 		//mainly for debugging
-		this.display_coordinates();
+		if (showdetails == true) this.display_coordinates();
+
+		this.mapID = _mapID;	
 	}
 
 	async addNPCControlLayers(_mapID){
 		if (mapID == null) return ;
 		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,image,mapid&where=mapid=${_mapID}&format=json`;
 		
-		// const response = await fetch(url);
-		// const temp = await response.json();
-
-		// console.log(typeof temp);
-	
 		const markerLayers = [];
 		fetch(url)
 			.then((response) => response.json())
@@ -492,7 +512,65 @@ class FFXIMap {
 		}).addTo(this.map);
 	}
 
+	addBackButton() {
+		if( this.backButton ) return;
+
+		// from https://web.archive.org/web/20191218192541/http://www.coffeegnome.net/control-button-leaflet/
+		let BackButton = L.Control.extend({
+			options: {
+			  position: 'topleft' 
+			},
+			onAdd: (e) => {
+				var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-worldmap');
+				//graphics managed in leaflet.css
+				container.onclick = (e) => {
+				  this.backButtonClicked();
+				}					
+				return container;
+			},
+		  });
+
+		  this.backButton = new BackButton();
+		  this.map.addControl(this.backButton);
+	}
+
+	backButtonClicked(){
+		var changeMapto = this.mapHistory.getLast();
+		this.mapHistory.clearMap();
+		//console.log("back to: " + changeMapto);
+		this.resetMapfromBackButton(changeMapto);
+		
+	}
 	
 }
 
+class MapHistory{
+	constructor(){
+        this.mapArray = [];
+    }
 
+	add(newMap){
+		this.mapArray.push(newMap);
+		if (this.mapArray.length > 6) this.mapArray.shift();
+		//console.log("add:" + this.mapArray);
+	}
+
+	clearMap(){
+		this.mapArray.pop();
+		//console.log("clear: " + this.mapArray);
+	}
+
+	getLength(){
+		return this.mapArray.length;
+	}
+
+	getIndex(index){
+		return this.mapArray[index];
+	}
+
+	getLast(){
+		return this.mapArray[this.mapArray.length - 1];
+	}
+
+
+}

@@ -650,6 +650,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border-right-color: #fff;
 	}
 
+
+.leaflet-control-worldmap {
+	width:30px;
+	height:30px;
+	background-color: #fff;
+	background-image: url(images/back.png);
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: center center; 
+}
+
+.leaflet-control-worldmap:hover {
+	background-color: #f4f4f4;
+	background-image: url(images/back_dim.png);
+	cursor: pointer;
+}
+
+
 /* Printing */
 
 @media print {
