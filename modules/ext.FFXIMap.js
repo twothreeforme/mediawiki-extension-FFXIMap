@@ -440,11 +440,12 @@ class FFXIMap {
 						
 						//move to MapMarker class once this is functioning correctly
 						//var popuptemplate = `<p><center>${page} (${posX}, ${posY})</center></p>`;
-						var tooltiptemplate = `<div><p><center>${page}<br> (${posX}, ${posY})</center></p></div>`; 
+						var tooltiptemplate = `<div class="ffximap-icon-tooltip"><p><center>${page}<br> (${posX}, ${posY})</center></p>`; 
 						if (imageurl !== undefined) {
-							tooltiptemplate += `<img src="${imageurl}" alt="Italian Trulli">`;
+							tooltiptemplate += `<img src="${imageurl}">`;
 							//console.log(imageurl);
 						}
+						tooltiptemplate += `</div>`;
 						//////
 
 						var marker = L.marker([posX, posY], {
