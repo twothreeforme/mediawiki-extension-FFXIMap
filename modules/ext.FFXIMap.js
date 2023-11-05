@@ -440,7 +440,7 @@ class FFXIMap {
 						
 						//move to MapMarker class once this is functioning correctly
 						//var popuptemplate = `<p><center>${page} (${posX}, ${posY})</center></p>`;
-						var tooltiptemplate = `<p><center>${page}<br> (${posX}, ${posY})</center></p>`; 
+						var tooltiptemplate = `<div><p><center>${page}<br> (${posX}, ${posY})</center></p></div>`; 
 						if (imageurl !== undefined) {
 							tooltiptemplate += `<img src="${imageurl}" alt="Italian Trulli">`;
 							//console.log(imageurl);
@@ -451,10 +451,12 @@ class FFXIMap {
 							icon: mapMarkers.npcMarker
 							})
 							//.bindPopup(L.Util.template(popuptemplate, null))
-							.bindTooltip(L.Util.template(tooltiptemplate, null))
+							.bindTooltip(L.Util.template(tooltiptemplate, null), {
+								opacity: 1.0
+							})
 							.on('click', (e) => {
-									window.open(mw.config.get('wgServer') + `/index.php?title=${page}`);
-									//console.log(mw.config.get('wgServer') + `/${page}`);
+									window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
+									//console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
 							});
 						markerLayers.push(marker);
 					}
