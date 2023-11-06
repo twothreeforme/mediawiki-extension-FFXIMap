@@ -414,33 +414,40 @@ class FFXIMap {
 		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,image,mapid&where=mapid=${_mapID}&format=json`;
 		
 		const markerLayers = [];
+
+		/* 
+		Table structure:
+			Page - String	
+			mapid - Integer
+			mapx - Float
+			mapy - Float
+			entitytype - List of Page, delimiter: ,
+			image - File
+			displayposition - String 
+		*/
+
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.cargoquery == null ) return;
 				data.cargoquery.forEach((d) => {
-					var page, entityType, posX, posY, mapID, imageurl;
+					var page, entitytype, mapx, mapy, mapid, imageurl, displayposition;
 					Object.entries(d.title).forEach(([key, value]) => {
 						//console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
-						//these key values must match (case-sensitive) the values in the database
-						else if ( key == 'entitytype') entityType = value;
-						else if ( key == 'mapid') mapID = value;
-						else if ( key == 'position') {
-							var posArray = value.split(',');
-							posX = parseFloat(posArray[0]);
-							posY = parseFloat(posArray[1]);
-							//console.log(posArray[0] + " : " + posArray[1]);
-						}
+						else if ( key == 'entitytype') entitytype = value;
+						else if ( key == 'mapid') mapid = value;
+						else if ( key == 'mapx') mapx = value;
+						else if ( key == 'mapy') mapy = value;
 						else if ( key == 'image' && value !== null) {
 							imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
 						}
+						else if ( key == 'displayposition') displayposition = value;
 					  });
-					if ( page !== undefined && entityType !== undefined &&  posX !== undefined && posY !== undefined && mapID !== undefined) {
+					if ( page !== undefined && entitytype !== undefined &&  mapx !== undefined && mapy !== undefined && mapid !== undefined && displayposition !== undefined) {
 						
 						//move to MapMarker class once this is functioning correctly
-						//var popuptemplate = `<p><center>${page} (${posX}, ${posY})</center></p>`;
-						var tooltiptemplate = `<div class="ffximap-icon-tooltip"><p><center>${page}<br> (${posX}, ${posY})</center></p>`; 
+						var tooltiptemplate = `<div class="ffximap-icon-tooltip"><p><center>${page}<br> ${displayposition}</center></p>`; 
 						if (imageurl !== undefined) {
 							tooltiptemplate += `<img src="${imageurl}">`;
 							//console.log(imageurl);
@@ -448,7 +455,7 @@ class FFXIMap {
 						tooltiptemplate += `</div>`;
 						//////
 
-						var marker = L.marker([posX, posY], {
+						var marker = L.marker([mapx, mapy], {
 							icon: mapMarkers.npcMarker
 							})
 							//.bindPopup(L.Util.template(popuptemplate, null))
