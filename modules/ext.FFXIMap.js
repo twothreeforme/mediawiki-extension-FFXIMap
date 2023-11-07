@@ -183,10 +183,8 @@ class FFXIMap {
 			measureControl: false,
 			minZoom: 1,
 			maxZoom: 6,
-			fitBounds: this.bounds,
 			wheelPxPerZoomLevel: 90,
 			maxBoundsViscosity: 0.75,
-			maxBounds: this.bounds,
 			attribution: this.attrib,
 		}).setView([0,0], this.zoom);
 
@@ -253,24 +251,27 @@ class FFXIMap {
 		if (_mapID == undefined) _mapID = this.mapID;
 		
 		if ( _mapID == 0 ) {
+			
+
 			//********* World Map
 			L.tileLayer(this.tileset, {
-				maxZoom: this.maxzoom,
-				minZoom: this.minzoom,
-				continuousWorld: false,
-				noWrap: true,
-				maxBoundsViscosity: 0.75,
-				maxBounds: this.bounds,
+				// continuousWorld: false,
+				// noWrap: true,
+				// maxBoundsViscosity: 0.75,
+				// fitBounds: this.bounds,
+				// maxBounds: [[-256,0], [0,256]],
+				// //fitBounds: [[0,0], [256,256]],
 				attribution: this.attrib
 			}).addTo(this.map);
+			this.map.setMaxBounds( [[-256,0], [0,256]]);
 		}
 		else {
-			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), 
-				this.bounds, 
+			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), this.bounds, 
 				{
 					attribution: this.attrib 
 				});
 			this.currentMapImageOverlay.addTo(this.map);
+			this.map.setMaxBounds(this.bounds);
 		}
 
 		this.map.setZoom(this.zoom);
@@ -382,7 +383,7 @@ class FFXIMap {
 	}
 
 	newMapWithControls(_mapID){
-			// Establish new map
+		// Establish new map
 		this.newMap(_mapID);
 		
 		// Setup new control layers for NPCs, zones, etc.
@@ -411,7 +412,6 @@ class FFXIMap {
 
 	async addNPCControlLayers(_mapID){
 		if (mapID == null) return ;
-		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,position,image,mapid&where=mapid=${_mapID}&format=json`;
 		
 		const markerLayers = [];
 
@@ -425,13 +425,16 @@ class FFXIMap {
 			image - File
 			displayposition - String 
 		*/
+		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers_test&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
 
+		//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,imageurl,displayposition&where=mapid=${_mapID}&format=json`;
+		console.log(`${url}`);
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.cargoquery == null ) return;
 				data.cargoquery.forEach((d) => {
-					var page, entitytype, mapx, mapy, mapid, imageurl, displayposition;
+					var page,entitytype,mapx,mapy,mapid,imageurl,displayposition;
 					Object.entries(d.title).forEach(([key, value]) => {
 						//console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
@@ -444,6 +447,7 @@ class FFXIMap {
 						}
 						else if ( key == 'displayposition') displayposition = value;
 					  });
+					
 					if ( page !== undefined && entitytype !== undefined &&  mapx !== undefined && mapy !== undefined && mapid !== undefined && displayposition !== undefined) {
 						
 						//move to MapMarker class once this is functioning correctly
