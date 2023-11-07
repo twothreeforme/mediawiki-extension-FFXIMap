@@ -192,6 +192,7 @@ class FFXIMap {
 		// Sets up all associated layers/layerGroups
 		this.newMapWithControls(this.mapID);
 		//this.searchBar = new SearchBar();
+		this.addWaterMark();
 	}
 	
 
@@ -425,7 +426,7 @@ class FFXIMap {
 			image - File
 			displayposition - String 
 		*/
-		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers_test&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
 
 		//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,imageurl,displayposition&where=mapid=${_mapID}&format=json`;
 		console.log(`${url}`);
@@ -556,6 +557,28 @@ class FFXIMap {
 		
 	}
 	
+	addWaterMark(){
+		L.Control.Watermark = L.Control.extend({
+			onAdd: function(map) {
+				var img = L.DomUtil.create('img');
+		
+				img.src = baseDir + '/modules/images/wiki_logo.png';
+				img.style.width = '60px';
+				img.style.opacity = '0.25';
+				return img;
+			},
+		
+			onRemove: function(map) {
+				// Nothing to do here
+			}
+		});
+		
+		L.control.watermark = function(opts) {
+			return new L.Control.Watermark(opts);
+		}
+		
+		L.control.watermark({ position: 'bottomright' }).addTo(this.map);
+	}
 }
 
 class MapHistory{
