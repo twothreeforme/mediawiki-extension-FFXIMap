@@ -1,7 +1,7 @@
 /*	Attributions:
  *  Leaflet library used for all map related objects: https://leafletjs.com/
  *	Leaflet Control Search - Copyright Stefano Cudini - Leaflet addon for search box - https://github.com/stefanocudini/leaflet-search
- *	
+ *	Accessing CSS custom properties through javascript - https://stackoverflow.com/questions/36088655/accessing-a-css-custom-property-aka-css-variable-through-javascript
  */
 
 
@@ -417,7 +417,7 @@ class FFXIMap {
 		const markerLayers = [];
 
 		/* 
-		Table structure:
+		Table/Template structure:
 			Page - String	
 			mapid - Integer
 			mapx - Float
@@ -426,16 +426,23 @@ class FFXIMap {
 			image - File
 			displayposition - String 
 		*/
-		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
 
-		//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,imageurl,displayposition&where=mapid=${_mapID}&format=json`;
-		console.log(`${url}`);
+		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximap_markers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+		//console.log(`${url}`);
+
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.cargoquery == null ) return;
 				data.cargoquery.forEach((d) => {
-					var page,entitytype,mapx,mapy,mapid,imageurl,displayposition;
+					var page,
+						entitytype = "",
+						mapx = "",
+						mapy = "",
+						mapid = "",
+						imageurl = "",
+						displayposition = "";
+
 					Object.entries(d.title).forEach(([key, value]) => {
 						//console.log(`${key}: ${value}`);
 						if ( key == 'Page') page = value;
@@ -449,7 +456,7 @@ class FFXIMap {
 						else if ( key == 'displayposition') displayposition = value;
 					  });
 					
-					if ( page !== undefined && entitytype !== undefined &&  mapx !== undefined && mapy !== undefined && mapid !== undefined && displayposition !== undefined) {
+					if ( page !== undefined && entitytype !== "" &&  mapx !== "" && mapy !== "" && mapid !== "") {
 						
 						//move to MapMarker class once this is functioning correctly
 						var tooltiptemplate = `<div class="ffximap-icon-tooltip"><p><center>${page}<br> ${displayposition}</center></p>`; 
@@ -460,10 +467,7 @@ class FFXIMap {
 						tooltiptemplate += `</div>`;
 						//////
 
-						var marker = L.marker([mapx, mapy], {
-							icon: mapMarkers.npcMarker
-							})
-							//.bindPopup(L.Util.template(popuptemplate, null))
+						var marker = mapMarkers.circle([mapx, mapy])
 							.bindTooltip(L.Util.template(tooltiptemplate, null), {
 								opacity: 1.0
 							})
@@ -471,10 +475,11 @@ class FFXIMap {
 									window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
 									//console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
 							});
+						//console.log(marker);
 						markerLayers.push(marker);
 					}
 				  });
-				// console.log(data.cargoquery);
+				//console.log(data.cargoquery);
 
 				if (markerLayers.length > 0) {
 					var npc_list = L.layerGroup(markerLayers);
@@ -484,21 +489,19 @@ class FFXIMap {
 					};
 		
 					this.controlLayer = new L.control.layers(null, npcLayer).addTo(this.map);
+					
+					this.map.on('zoomend', function(e) {
+						var actualZoom = e.target._zoom
+						npc_list.eachLayer(function (_marker) { 
+							if (_marker instanceof L.Marker){
+								_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
+							}});
+		
+					});
 				}
 			})
 			.catch(console.error);
-
-		// var	denver = L.marker([116, 147], {
-		// 	icon: mapMarkers.npcMarker
-		// }).bindPopup('NPC Name (x, y)');
-	
-		// var npc_list = L.layerGroup([denver]);
 		
-		// var npcLayer = {
-		// 	"<span style='color: green'>NPCs</span>": npc_list
-		// };
-		
-		// this.controlLayer = new L.control.layers(null, npcLayer).addTo(this.map);
 	}
 
 	
@@ -563,7 +566,7 @@ class FFXIMap {
 				var img = L.DomUtil.create('img');
 		
 				img.src = baseDir + '/modules/images/wiki_logo.png';
-				img.style.width = '60px';
+				img.style.width = '50px';
 				img.style.opacity = '0.25';
 				return img;
 			},
@@ -577,7 +580,7 @@ class FFXIMap {
 			return new L.Control.Watermark(opts);
 		}
 		
-		L.control.watermark({ position: 'bottomright' }).addTo(this.map);
+		L.control.watermark({ position: 'bottomleft' }).addTo(this.map);
 	}
 }
 

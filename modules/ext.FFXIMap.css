@@ -10,7 +10,13 @@
   from { opacity: 0.5; } 
 }
 
-.blinking {
+.ffximap-marker {
+  border: 1px solid #000000;
+  background-color: rgb(44, 216, 96);
+  border-radius: 10px;
+}
+
+.ffximap-marker.ffximap-marker-blinking{
   animation: fade 1s infinite alternate;
 }
 
@@ -20,9 +26,12 @@
 
 .gps_ring {	
   border: 4px solid #644119;
+  border-radius: 30px;
   -webkit-border-radius: 30px;
   height: 30px;
-  width: 30px;		
+  width: 30px;	
+  animation: pulsate 2s ease-out;	
+  animation-iteration-count: infinite; 
   -webkit-animation: pulsate 2s ease-out;
   -webkit-animation-iteration-count: infinite; 
   /*opacity: 0.0*/
