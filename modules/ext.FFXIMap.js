@@ -299,7 +299,10 @@ class FFXIMap {
 	// }
 
 	destroyControlLayers(){
-		if (this.controlLayer !== undefined ) this.controlLayer.remove(this.map);
+		if (this.controlLayer !== null ) {
+			this.controlLayer.remove(this.map);
+			this.controlLayer = null;
+		}
 		if (this.position !== undefined)   this.map.removeControl(this.position);
 	}
 
@@ -522,7 +525,7 @@ class FFXIMap {
 						var _layerGroupFromObject = L.layerGroup(value);
 						var _layerOverlays = { [key] : _layerGroupFromObject };
 
-						if ( this.controlLayer == undefined ) this.controlLayer = new L.control.layers(null, _layerOverlays).addTo(this.map);
+						if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, _layerOverlays).addTo(this.map);
 						else this.controlLayer.addOverlay(_layerGroupFromObject, key);
 
 						this.map.on('zoomend', function(e) {
@@ -543,28 +546,6 @@ class FFXIMap {
 					});
 
 				}
-
-
-
-				// if (markerLayers.length > 0) {
-				// 	var npc_list = L.layerGroup(markerLayers);
-		
-				// 	var npcLayer = {
-				// 		"<span style='color: green'>NPCs</span>": npc_list
-				// 	};
-		
-				// 	this.controlLayer = new L.control.layers(null, npcLayer).addTo(this.map);
-				// 	this.controlLayer.addOverlay(npc_list, "second NPC");
-
-				// 	this.map.on('zoomend', function(e) {
-				// 		var actualZoom = e.target._zoom
-				// 		npc_list.eachLayer(function (_marker) { 
-				// 			if (_marker instanceof L.Marker){
-				// 				_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
-				// 			}});
-		
-				// 	});
-				// }
 			})
 			.catch(console.error);
 	}
