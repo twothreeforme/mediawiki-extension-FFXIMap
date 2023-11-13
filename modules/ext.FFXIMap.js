@@ -295,6 +295,7 @@ class FFXIMap {
 				// fitBounds: this.bounds,
 				// maxBounds: [[-256,0], [0,256]],
 				// //fitBounds: [[0,0], [256,256]],
+				bounds: L.latLngBounds([-256,0], [0,256]),
 				attribution: this.attrib
 			}).addTo(this.map);
 			this.map.setMaxBounds( [[-256,0], [0,256]]);
