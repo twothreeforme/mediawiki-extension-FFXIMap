@@ -6,10 +6,6 @@
   top: 0;
 }
 
-@keyframes fade { 
-  from { opacity: 0.5; } 
-}
-
 .ffximap-marker {
   border: 1px solid #000000;
   background-color: rgb(44, 216, 96);
@@ -20,30 +16,40 @@
   animation: fade 1s infinite alternate;
 }
 
-.css-icon {
-
-}
-
-.gps_ring {	
+.ffximap-connection-marker {	
+  height: 30px;
+  width: 30px;
   border: 4px solid #644119;
+
   border-radius: 30px;
   -webkit-border-radius: 30px;
-  height: 30px;
-  width: 30px;	
+
   animation: pulsate 2s ease-out;	
-  animation-iteration-count: infinite; 
+  animation-iteration-count: infinite;
   -webkit-animation: pulsate 2s ease-out;
-  -webkit-animation-iteration-count: infinite; 
-  /*opacity: 0.0*/
+  -webkit-animation-iteration-count: infinite;
 }
 
-@-webkit-keyframes pulsate {
-      0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+@keyframes fade { 
+  from { opacity: 0.5; } 
+}
+
+@keyframes pulsate {
+      0% {transform: scale(0.1, 0.1); opacity: 0.0;}
       50% {opacity: 1.0;}
-      100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+      100% {transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
 .ffximap-icon-tooltip {
   
+}
+
+.ffximap-connection-multiple-popup .leaflet-popup-content-wrapper{
+  opacity: 0.85;
+  background-color: rgb(255, 255, 255);
+}
+
+.ffximap-connection-multiple-popup .leaflet-popup-tip {
+  background-color: rgb(255, 255, 255);
 }
 

@@ -3,6 +3,7 @@
  *	Leaflet Control Search - Copyright Stefano Cudini - Leaflet addon for search box - https://github.com/stefanocudini/leaflet-search
  *	Accessing CSS custom properties through javascript - https://stackoverflow.com/questions/36088655/accessing-a-css-custom-property-aka-css-variable-through-javascript
  *  Markers in multiple layer groups - https://stackoverflow.com/questions/71644888/having-leaflet-markers-visible-in-more-than-one-layer
+ *  Javascript function links inside leaflet popup - https://stackoverflow.com/questions/13698975/click-link-inside-leaflet-popup-and-do-javascript 
  */
 
 
@@ -166,8 +167,8 @@ class FFXIMap {
 
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
-
-
+		
+		
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
@@ -178,6 +179,9 @@ class FFXIMap {
 			else document.getElementById(this.divID).style.width = `${parentDivWidth}px`;
 			document.getElementById(this.divID).style.height = document.getElementById(this.divID).style.width;
 		}
+
+		this.screenW = window.screen.width;
+		//console.log(`${this.screenW} : ${document.getElementById(this.divID).style.width}`);
 
 		this.map = L.map(this.divID, {
 			crs: L.CRS.Simple, // CRS.Simple, which represents a square grid:
@@ -224,7 +228,8 @@ class FFXIMap {
 				poly.on('mouseover', () => {
 					var _connectionslayerGroup = L.layerGroup();
 					for (const [_key, _value] of Object.entries(_connections[key].pulse)) {
-						mapMarkers.connectionMarker(_value).addTo(_connectionslayerGroup);
+						//mapMarkers.connectionMarker(_value).addTo(_connectionslayerGroup);
+						L.marker(_value, { icon: mapMarkers.connectionMarker() }).addTo(_connectionslayerGroup);
 					}
 					this.map.addLayer(_connectionslayerGroup);
 					this.connectionLayerHover = _connectionslayerGroup;
@@ -234,11 +239,36 @@ class FFXIMap {
 					this.map.removeLayer(this.connectionLayerHover);
 					this.connectionLayerHover = null;
 					});
-
-				poly.on('click', () => {
-					//console.log(key);
-					this.resetMapTo(key);
+				
+				if ( key == "multiple" ) {
+					var div = document.createElement("div");
+					div.innerHTML = ``;
+					div.className = CSS.connectionMultiple_Popup;
+					
+					_connections[key].links.forEach((l) => {					
+						const button = document.createElement("a");
+							button.innerHTML = mapDataModel.getMapName(l);
+							button.onclick = () =>  {
+								this.resetMapTo(l);
+							}
+						div.appendChild(document.createElement("br"));
+						div.appendChild(button);
+					
 					});
+
+					//poly.bindPopup(mapDataModel.multipleConnectionsPopupHTML(_connections[key].links));
+					poly.bindPopup(div, {
+						className: 'ffximap-connection-multiple-popup'
+					});
+
+				}
+				else {
+					poly.on('click', () => {
+						//console.log(key);
+						this.resetMapTo(key);
+						});
+				}
+				
 			
 		}
 
@@ -299,7 +329,8 @@ class FFXIMap {
 	// }
 
 	destroyControlLayers(){
-		if (this.controlLayer !== null ) {
+		if (this.controlLayer !== null && this.controlLayer !== undefined) {
+			//console.log(this.controlLayer + " : " + this.map);
 			this.controlLayer.remove(this.map);
 			this.controlLayer = null;
 		}
@@ -498,7 +529,9 @@ class FFXIMap {
 						tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
 						//////
 
-						var marker = mapMarkers.circle([mapx, mapy])
+						var marker = L.marker([mapx, mapy], {
+								icon: mapMarkers.icon_NPC()
+							})
 							.bindTooltip(L.Util.template(tooltiptemplate, null), {
 								opacity: 1.0
 							})

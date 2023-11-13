@@ -23,6 +23,10 @@ class MapData {
         return mapNamesArray;
     }
 
+    getMapName(mapid){
+        return this.json[mapid].name;
+    }
+
     getMapFilename(mapID){
         if (mapID == null) return ;
         mapID = typeof mapID == 'string' ? mapID : `${mapID}`;

@@ -1,10 +1,11 @@
 
+
 class MapMarker {
-    baseMapMarkersDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/maps/markers/';
+    //baseMapMarkersDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/maps/markers/';
 
     #divIcon_markerCircle() {
         return L.divIcon({
-            className: 'ffximap-marker ffximap-marker-blinking',
+            className: CSS.npc,
             html: " ",
             iconSize: [8,8]
         });
@@ -12,30 +13,28 @@ class MapMarker {
 
     #divIcon_markerCircle_2x() {
         return L.divIcon({
-            className: 'ffximap-marker ffximap-marker-blinking',
+            className: CSS.npc,
             html: " ",
             iconSize: [13,13]
         });
     }
 
-    circle(coords){
-        return L.marker(coords, {
-            icon: this.#divIcon_markerCircle()
-        });
+    icon_NPC(){
+        return this.#divIcon_markerCircle();
+        
         // return L.circleMarker(coords, {
         //     className: 'ffximap-marker ffximap-marker-blinking',
         //     html: " "
         // });
     }
     
-    connectionMarker(coords){
-        return L.marker(coords, {
-            icon: L.divIcon({
-                className: 'css-icon',
-                html: '<div class="gps_ring"></div>',
-                iconAnchor: [20,20]
-              })
-        });
+    connectionMarker(){
+        return L.divIcon({
+            className: ``,
+            html: `<div class="${CSS.connection}"></div>`,
+            //html: '<div style="height:30px;width:30px;"></div>',
+            iconAnchor: [20,20]
+            })
     }
 
     scaledIcon(currentZoom, _marker){
@@ -63,3 +62,20 @@ class MapMarker {
 }
 
 module.exports = MapMarker;
+
+
+const MapMarkerIconType = {
+    Connection: 0,
+    NPC: 1,
+    Enemy: 2,
+    ExpCamp: 3,
+    MiningNode: 4
+}
+
+class CSS {
+
+    static connection = 'ffximap-connection-marker';
+    static npc = 'ffximap-marker ffximap-marker-blinking';
+    static connectionMultiple_Popup = 'ffximap-connection-multiple-popup';
+
+}
