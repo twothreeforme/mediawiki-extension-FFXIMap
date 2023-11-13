@@ -159,6 +159,7 @@ class FFXIMap {
 		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : 1;
 		this.maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 6;
 		this.zoom = typeof zoom !== 'undefined' ? zoom : 1;
+		this.zoomSnap = 0.25;
 
 		this.attrib = '© Remapster|© Square Enix|© FFXI-Atlas';
 
@@ -188,6 +189,7 @@ class FFXIMap {
 			measureControl: false,
 			minZoom: 1,
 			maxZoom: 6,
+			zoomSnap: this.zoomSnap,
 			wheelPxPerZoomLevel: 90,
 			maxBoundsViscosity: 0.75,
 			attribution: this.attrib,
@@ -308,25 +310,6 @@ class FFXIMap {
 
 		this.map.setZoom(this.zoom);
 	}
-
-	// newControlLayers(_mapID){
-	// 	if (_mapID == undefined) return null;
-		
-	// 	var _ = addMarkersLayerGroups(_mapID);
-
-
-	// 	var	denver = L.marker([116, 147], {
-	// 		icon: mapMarkers.npcMarker
-	// 	}).bindPopup('NPC Name (x, y)');
-
-	// 	var npc_list = L.layerGroup([denver]);
-		
-	// 	var npcLayer = {
-	// 		"<span style='color: green'>NPCs</span>": npc_list
-	// 	};
-
-	// 	return new L.control.layers(null, npcLayer).addTo(this.map); 
-	// }
 
 	destroyControlLayers(){
 		if (this.controlLayer !== null && this.controlLayer !== undefined) {
