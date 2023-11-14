@@ -44,31 +44,13 @@ class FFXIMap {
 		// Checking defaults for, and setting, $params prior to anything
 		$zoom_levels = array(0,1,2,3,4,5,6);
 		$maxZoom = 6;
-		if (isset($params['maxzoom'])){
-			$found_key = array_search($params['maxzoom'],$zoom_levels);
-			if($found_key !== FALSE) {
-				$maxZoom = $zoom_levels[$found_key];
-				}
-		}
-
 		$minZoom = 0;
-		if (isset($params['minzoom'])){
-			$found_key = array_search($params['minzoom'],$zoom_levels);
-			if($found_key !== FALSE) {
-				$minZoom = $zoom_levels[$found_key];
-				}
-		}
 
 		$zoom = 1;
-		if (isset($params['zoom'])){
-			$found_key = array_search($params['zoom'],$zoom_levels);
-			if($found_key !== FALSE) {
-				$zoom = $zoom_levels[$found_key];
-				}
-			if($zoom < $minZoom)
-				$zoom = $minZoom;
-			else if($zoom > $maxZoom)
-				$zoom = $maxZoom;
+		if (isset($params['zoom']) && $params['zoom'] >= 0 && $params['zoom'] <= 6){
+			$zoom = $params['zoom'];
+			if($zoom < $minZoom) $zoom = $minZoom;
+			else if($zoom > $maxZoom) $zoom = $maxZoom;
 		}
 
 		$showdetails = "";

@@ -61,7 +61,7 @@ class MapMarker {
 
 }
 
-module.exports = MapMarker;
+
 
 
 const MapMarkerIconType = {
@@ -79,3 +79,5 @@ class CSS {
     static connectionMultiple_Popup = 'ffximap-connection-multiple-popup';
 
 }
+
+module.exports = MapMarker;

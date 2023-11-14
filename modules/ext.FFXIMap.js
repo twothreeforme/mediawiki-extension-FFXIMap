@@ -8,7 +8,7 @@
 
 
  /**
- * _hookNewMap created to support a proper hook function using mw.hook
+ * _hookNewMap created to support a proper hook function using mw.hook .
  * Original design was not loading entire ext.FFXIMap.js file after an 
  * edit was made on the wiki page, so following any edit (and saving)
  * the map would not immediately load due to the FFXIMap class not loading
@@ -33,7 +33,6 @@ exports._hookNewMap = _hookNewMap;
  * The map object used by leaflet  
  */
 let m = null;
-//let map = null;
 
 //
 /**
@@ -69,6 +68,7 @@ let tileset,
  */	
 const MapMarkers = require("./ext.mapMarker.js");
 let mapMarkers = null;
+
 
 /**
  * class MapData defined in ext.mapData.js
@@ -143,6 +143,7 @@ function setupMapData() {
 	//console.log(baseDir + 'modules/mapdata.json');
 	var data = require("./mapdata.json");
 	mapDataModel = new MapData(data);
+	//console.log(mapDataModel.listMaps());
 }
 
 
@@ -187,10 +188,10 @@ class FFXIMap {
 		this.map = L.map(this.divID, {
 			crs: L.CRS.Simple, // CRS.Simple, which represents a square grid:
 			measureControl: false,
-			minZoom: 1,
-			maxZoom: 6,
+			minZoom: this.minzoom,
+			maxZoom: this.maxzoom,
 			zoomSnap: this.zoomSnap,
-			wheelPxPerZoomLevel: 90,
+			wheelPxPerZoomLevel: 70,
 			maxBoundsViscosity: 0.75,
 			attribution: this.attrib,
 		}).setView([0,0], this.zoom);
@@ -242,25 +243,30 @@ class FFXIMap {
 					this.connectionLayerHover = null;
 					});
 				
+
 				if ( key == "multiple" ) {
+
+					//console.log(CSS.connectionMultiple_Popup);
+
+
 					var div = document.createElement("div");
 					div.innerHTML = ``;
-					div.className = CSS.connectionMultiple_Popup;
 					
 					_connections[key].links.forEach((l) => {					
-						const button = document.createElement("a");
-							button.innerHTML = mapDataModel.getMapName(l);
-							button.onclick = () =>  {
-								this.resetMapTo(l);
-							}
+						const maplink = document.createElement("a");
+						maplink.innerHTML = mapDataModel.getMapName(l);
+						maplink.style.color = "#644119";
+						maplink.onclick = () =>  {
+							this.resetMapTo(l);
+						}
 						div.appendChild(document.createElement("br"));
-						div.appendChild(button);
+						div.appendChild(maplink);
 					
 					});
 
 					//poly.bindPopup(mapDataModel.multipleConnectionsPopupHTML(_connections[key].links));
 					poly.bindPopup(div, {
-						className: 'ffximap-connection-multiple-popup'
+						className: `ffximap-connection-multiple-popup`
 					});
 
 				}
@@ -285,7 +291,6 @@ class FFXIMap {
 		if (_mapID == undefined) _mapID = this.mapID;
 		
 		if ( _mapID == 0 ) {
-			
 
 			//********* World Map
 			L.tileLayer(this.tileset, {
@@ -359,11 +364,12 @@ class FFXIMap {
 			  return latlng;
 			},
 		
-			updateHTML: function(lat, lng, currentZoom) {
-			  var latlng = "Zoom:  " + currentZoom + "<br>";
-			  latlng += lat + ", " + lng;
-			  //this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
-			  this._latlng.innerHTML = latlng;
+			updateHTML: function(lat, lng, currentZoom, mapid) {
+				var m = "Map ID: " + mapid + "<br>";
+				var latlng = "Zoom:  " + currentZoom + "<br>";
+				latlng += lat + ", " + lng;
+				//this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
+				this._latlng.innerHTML = m + latlng;
 			}
 		});
 		
@@ -378,7 +384,7 @@ class FFXIMap {
 			let lng = Math.round(event.latlng.lng * 100000) / 100000;
 			
 			var currentZoom = this.map.getZoom();
-			this.position.updateHTML(lat, lng, currentZoom);
+			this.position.updateHTML(lat, lng, currentZoom, this.mapID);
 		});
 
 
@@ -471,28 +477,6 @@ class FFXIMap {
 							var tempArray = value.split(',');
 							for (let i = 0; i < tempArray.length; i++) { tempArray[i] = tempArray[i].trim(); }
 							entitytypeArray = Array.from(new Set(entitytypeArray.concat(tempArray)));
-							
-							
-							// entityTypeNamesArray.forEach(value => {
-							// 	console.log(value);
-							//   })
-
-							// entityTypeNamesArray.forEach((value, index, self) => {								
-							// 	console.log(`index: ${index}, value: ${value}`)
-							// 	entitytypeArray.forEach((type) => {
-							// 		//console.log(`type: ${type}, key: ${key}`)
-							// 		if (key == type) console.log(`found: ${value}`);
-							// 		else {
-							// 			entityTypeNamesArray[type] = [];
-							// 			console.log(`added: ${value}`);
-							// 		}
-									
-							// 	});
-							// });
-							
-							
-							
-							//entityTypeNamesArray = Array.from(new Set(entityTypeNamesArray.concat(tempArray)));
 						}
 						else if ( key == 'mapid') mapid = value;
 						else if ( key == 'mapx') mapx = value;
@@ -569,28 +553,28 @@ class FFXIMap {
 
 	
 	addSearchBar(_mapID){
-	if (this.controlSearchBar ) return;
+		if (this.controlSearchBar ) return;
 
-	this.controlSearchBar = new L.Control.Search({
-		//layer: new L.LayerGroup()
-		sourceData: mapDataModel.searchBarMapsList(),
+		this.controlSearchBar = new L.Control.Search({
+			//layer: new L.LayerGroup()
+			sourceData: mapDataModel.searchBarMapsList(),
 
-	 	}).on('search:expanded', function () {
-			this._input.onkeyup = function(){
-		  		// console.log(this.value)
-				// let result = [];
-				// let input = this.value;
-				// if (input.length){
-				// 	result = this.sourceData.filter((keyword)=>{
-				// 		return keyword.toLowerCase().includes(input.toLowerCase());
-				// 	});
-				// 	console.log(result);
-				// }
-			}	
-		}).on('search:locationfound', (e) => {
-			//console.log(e.mapid);
-			this.resetMapTo(e.mapid);
-		}).addTo(this.map);
+			}).on('search:expanded', function () {
+				this._input.onkeyup = function(){
+					// console.log(this.value)
+					// let result = [];
+					// let input = this.value;
+					// if (input.length){
+					// 	result = this.sourceData.filter((keyword)=>{
+					// 		return keyword.toLowerCase().includes(input.toLowerCase());
+					// 	});
+					// 	console.log(result);
+					// }
+				}	
+			}).on('search:locationfound', (e) => {
+				//console.log(e.mapid);
+				this.resetMapTo(e.mapid);
+			}).addTo(this.map);
 	}
 
 	addBackButton() {
@@ -644,6 +628,10 @@ class FFXIMap {
 		}
 		
 		L.control.watermark({ position: 'bottomleft' }).addTo(this.map);
+	}
+
+	_preloadMaps(){
+
 	}
 }
 

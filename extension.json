@@ -40,10 +40,10 @@
 			"remoteExtPath": "FFXIMap/modules",
 			"packageFiles": [
 				"ext.FFXIMap-hook.js",
-				"ext.FFXIMap.js",
 				"mapdata.json",
 				"ext.mapData.js",
-				"ext.mapMarker.js"
+				"ext.mapMarker.js",
+				"ext.FFXIMap.js"
 			],
 			"styles": [
 				"ext.FFXIMap.css",

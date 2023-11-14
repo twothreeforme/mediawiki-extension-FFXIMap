@@ -45,11 +45,11 @@
 }
 
 .ffximap-connection-multiple-popup .leaflet-popup-content-wrapper{
-  opacity: 0.85;
-  background-color: rgb(255, 255, 255);
+  opacity: 0.95;
+  background-color: #efd391;
 }
 
 .ffximap-connection-multiple-popup .leaflet-popup-tip {
-  background-color: rgb(255, 255, 255);
+  background-color: #efd391;
 }
 
