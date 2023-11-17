@@ -162,7 +162,7 @@ class FFXIMap {
 		this.zoom = typeof zoom !== 'undefined' ? zoom : 1;
 		this.zoomSnap = 0.25;
 
-		this.attrib = '© Remapster|© Square Enix|© FFXI-Atlas';
+		this.attrib = '©Remapster |©Square Enix| ©FFXI-Atlas';
 
 		//I have no idea why these bounds work... 
 		this.bounds = [[0,0], [256,256]];
@@ -212,8 +212,8 @@ class FFXIMap {
 		if (_connections == null ) return;
 
 		for (const [key, value] of Object.entries(_connections)) {
-		// key = mapID for the connection map
-		// value = hover / pulse objects
+			// key = mapID for the connection map
+			// value = hover / pulse objects
 
 			// Must use a Pane to change the z-index of ONLY the polygons
 			// MUST DO THIS TO ENSURE THE MOUSE POSITION DOES NOT INTERFERE WITH THE PULSING ICONS
@@ -271,10 +271,23 @@ class FFXIMap {
 
 				}
 				else {
+
 					poly.on('click', () => {
 						//console.log(key);
 						this.resetMapTo(key);
 						});
+
+						//preload images into memory, so load times for any connections are reduced
+					//console.log(key);
+					
+					let preloadedImage = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(key), this.bounds)
+						preloadedImage._initImage();
+						// preloadedImage.once('load', () => {
+						// 	this.map.eachLayer((layer) => {
+						// 		this.map.removeLayer(layer);
+						// 	});
+						// });
+
 				}
 				
 			
@@ -411,7 +424,7 @@ class FFXIMap {
 	newMapWithControls(_mapID){
 		// Establish new map
 		this.newMap(_mapID);
-		
+	
 		// Setup new control layers for NPCs, zones, etc.
 		//this.controlLayer = this.newControlLayers(_mapID);
 		this.addNPCControlLayers(_mapID);
@@ -630,7 +643,7 @@ class FFXIMap {
 		L.control.watermark({ position: 'bottomleft' }).addTo(this.map);
 	}
 
-	_preloadMaps(){
+	async _preloadConnectionMaps(){
 
 	}
 }
