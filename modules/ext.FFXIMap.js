@@ -193,9 +193,12 @@ class FFXIMap {
 			zoomSnap: this.zoomSnap,
 			wheelPxPerZoomLevel: 70,
 			maxBoundsViscosity: 0.75,
-			attribution: this.attrib,
+			//attribution: this.attrib
+			attributionControl: false
 		}).setView([0,0], this.zoom);
 
+		var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
+		
 		// Assigns new map imageoverlay/tiles
 		// Sets up all associated layers/layerGroups
 		this.newMapWithControls(this.mapID);
@@ -270,15 +273,14 @@ class FFXIMap {
 					});
 
 				}
-				else {
+				else if( !isNaN(parseInt(key)) ) {
 
 					poly.on('click', () => {
 						//console.log(key);
 						this.resetMapTo(key);
 						});
 
-						//preload images into memory, so load times for any connections are reduced
-					//console.log(key);
+					//preload images into memory, so load times for any connections are reduced
 					
 					let preloadedImage = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(key), this.bounds)
 						preloadedImage._initImage();
@@ -287,10 +289,7 @@ class FFXIMap {
 						// 		this.map.removeLayer(layer);
 						// 	});
 						// });
-
 				}
-				
-			
 		}
 
 	}
@@ -425,6 +424,9 @@ class FFXIMap {
 		// Establish new map
 		this.newMap(_mapID);
 	
+		// Setup any additional markers/layers for connecting the next zone
+		this.setupZoneConnections(_mapID);
+		
 		// Setup new control layers for NPCs, zones, etc.
 		//this.controlLayer = this.newControlLayers(_mapID);
 		this.addNPCControlLayers(_mapID);
@@ -439,8 +441,6 @@ class FFXIMap {
 			this.map.removeControl(this.backButton);
 			this.backButton = null;
 		}
-		// Setup any additional markers/layers for connecting the next zone
-		this.setupZoneConnections(_mapID);
 
 		//Coordinate display
 		//mainly for debugging
