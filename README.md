@@ -20,6 +20,7 @@ In this example we have chosen to display the "Upper Jeuno" map, with a desired 
 *For v1 of this extension, please always include the "mapID" parameter with a desired map number, and ensure it is not 0. MapID 0 is saved for "world map" features set to be released at a later date. 
 
 
+
 -----------------
 Known Issues:
 ----

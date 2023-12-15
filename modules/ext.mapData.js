@@ -4,6 +4,12 @@ class MapData {
         this.json = json.mapData;
     }
     
+    getEntities(mapID){
+        if (mapID == null) return ;
+        mapID = typeof mapID == 'string' ? mapID : `${mapID}`;
+        //console.log(mapID + ": " + this.json[mapID].connections);
+        return this.json[mapID].entities;
+    }
 
     getConnections(mapID){
         if (mapID == null) return ;
@@ -25,6 +31,10 @@ class MapData {
 
     getMapName(mapid){
         return this.json[mapid].name;
+    }
+
+    getMapBounds(mapid){
+        return [this.json[mapid].bounds[0], this.json[mapid].bounds[1] ];
     }
 
     getMapFilename(mapID){
