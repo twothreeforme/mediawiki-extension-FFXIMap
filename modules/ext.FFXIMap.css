@@ -12,7 +12,7 @@
   border-radius: 10px;
 }
 
-.ffximap-marker.ffximap-marker-blinking{
+.ffximap-marker .ffximap-marker-blinking {
   animation: fade 1s infinite alternate;
 }
 
@@ -40,16 +40,14 @@
       100% {transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
-.ffximap-icon-tooltip {
-  
+.ffximap-icon-tooltip img {
+  display: block;
 }
 
-.ffximap-connection-multiple-popup .leaflet-popup-content-wrapper{
+.ffximap-connection-multiple-popup .leaflet-popup-tip,
+.ffximap-connection-multiple-popup .leaflet-popup-content-wrapper {
   opacity: 0.95;
   background-color: #efd391;
 }
 
-.ffximap-connection-multiple-popup .leaflet-popup-tip {
-  background-color: #efd391;
-}
 

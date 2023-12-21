@@ -54,6 +54,8 @@ let tileset,
 	maxZoom,
 	zoom,
 	showdetails,
+	showconnections,
+	currentMapMarkersArray = {},
 	baseDir,
 	baseMapDir,
 	baseMapTilesDir,
@@ -106,7 +108,9 @@ function setPageAttributes() {
 		minZoom = dataTagAttributes.minzoom;
 		maxZoom = dataTagAttributes.maxzoom;
 		zoom = dataTagAttributes.zoom;
-		showdetails = dataTagAttributes.showdetails;
+		showdetails = (dataTagAttributes.showdetails === "1");
+		showconnections = (dataTagAttributes.showconnections === "1");
+
 		baseDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/';
 		baseMapDir = baseDir + 'maps/';
 		baseMapTilesDir = baseDir + 'maps/tiles/';
@@ -168,16 +172,10 @@ class FFXIMap {
 
 		this.attrib = '©Remapster |©Square Enix| ©FFXI-Atlas';
 
-		//I have no idea why these bounds work... 
-		//this.bounds = [[0,0], [256,256]];
-		//this.bounds = [[0,0], [640,640]];
 		this.bounds = mapDataModel.getMapBounds(this.mapID);
-		
-		console.log(this.bounds);
 
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
-		
 		
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
@@ -222,19 +220,27 @@ class FFXIMap {
 		const _connections = mapDataModel.getConnections(_mapID);
 		if (_connections == null ) return;
 
+		// Must use a Pane to change the z-index of ONLY the polygons
+		// We set the pane zIndex for the polygons higher, so the mouseover doesnt interfere with the pulsing markers
+		// We also set this manually below the default marker zIndex of 600, so all connection related 
+		// stuffs are below any entity markers we draw to the map later
+		this.map.createPane('connectionsPane_hover');
+		this.map.getPane('connectionsPane_hover').style.zIndex = 499;
+
+		this.map.createPane('connectionsPane_pulse');
+		this.map.getPane('connectionsPane_pulse').style.zIndex = 498;
+
 		for (const [key, value] of Object.entries(_connections)) {
 			// key = mapID for the connection map
 			// value = hover / pulse objects
 
-			// Must use a Pane to change the z-index of ONLY the polygons
-			// MUST DO THIS TO ENSURE THE MOUSE POSITION DOES NOT INTERFERE WITH THE PULSING ICONS
-			this.map.createPane('connectionsPane');
-			this.map.getPane('connectionsPane').style.zIndex = 601;
-
 			// Transparent polygon
 			// Options: must include Pane to ensure z-index is set
-			var polygonOptions = {color: '#ff000000', weight: 0, stroke: false, pane: 'connectionsPane'};
-
+			// Changes based on input from the user with 'showconnections' tag attribute
+			var _color = '#ff000000';
+			if (showconnections == true) { _color = '#ff4f4f'; }
+			var polygonOptions = {color: _color, weight: 0, stroke: false, pane: 'connectionsPane_hover'};
+			
 			var poly = L.polygon(_connections[key].hover, polygonOptions);
 				poly.addTo(this.map);
 				//poly.bringToFront();
@@ -243,7 +249,7 @@ class FFXIMap {
 					var _connectionslayerGroup = L.layerGroup();
 					for (const [_key, _value] of Object.entries(_connections[key].pulse)) {
 						//mapMarkers.connectionMarker(_value).addTo(_connectionslayerGroup);
-						L.marker(_value, { icon: mapMarkers.connectionMarker() }).addTo(_connectionslayerGroup);
+						L.marker(_value, { icon: mapMarkers.connectionMarker(), pane: 'connectionsPane_pulse' }).addTo(_connectionslayerGroup);
 					}
 					this.map.addLayer(_connectionslayerGroup);
 					this.connectionLayerHover = _connectionslayerGroup;
@@ -258,7 +264,6 @@ class FFXIMap {
 				if ( key == "multiple" ) {
 
 					//console.log(CSS.connectionMultiple_Popup);
-
 
 					var div = document.createElement("div");
 					div.innerHTML = ``;
@@ -290,7 +295,7 @@ class FFXIMap {
 
 					//preload images into memory, so load times for any connections are reduced
 					
-					let preloadedImage = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(key), this.bounds)
+					let preloadedImage = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(key), mapDataModel.getMapBounds(key))
 						preloadedImage._initImage();
 						// preloadedImage.once('load', () => {
 						// 	this.map.eachLayer((layer) => {
@@ -314,29 +319,25 @@ class FFXIMap {
 
 			//********* World Map
 			L.tileLayer(this.tileset, {
-				// continuousWorld: false,
-				// noWrap: true,
-				// maxBoundsViscosity: 0.75,
-				// fitBounds: this.bounds,
-				// maxBounds: [[-256,0], [0,256]],
-				// //fitBounds: [[0,0], [256,256]],
-
-				//bounds: L.latLngBounds([-256,0], [0,256]),
-				bounds: L.latLngBounds([-640,0], [0,640]),
+				bounds: L.latLngBounds([-256,0], [0,256]),
 				attribution: this.attrib
 			}).addTo(this.map);
 			this.map.setMaxBounds( [[-256,0], [0,256]]);
+			this.map.fitBounds( [[-256,0], [0,256]]);
 		}
 		else {
-			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), this.bounds, 
+			var bounds = mapDataModel.getMapBounds(_mapID);
+			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), bounds, 
 				{
 					attribution: this.attrib 
 				});
 			this.currentMapImageOverlay.addTo(this.map);
-			this.map.setMaxBounds(this.bounds);
+			this.map.fitBounds(bounds);
+			this.map.setMaxBounds(bounds);
+			
 		}
 
-		this.map.setZoom(this.zoom);
+		//this.map.setZoom(this.zoom);
 	}
 
 	destroyControlLayers(){
@@ -346,6 +347,8 @@ class FFXIMap {
 			this.controlLayer = null;
 		}
 		if (this.position !== undefined)   this.map.removeControl(this.position);
+
+		currentMapMarkersArray = {};
 	}
 
 
@@ -381,26 +384,20 @@ class FFXIMap {
 		
 			onAdd: function (map) {
 			  var latlng = L.DomUtil.create('div', 'mouseposition');
-			  latlng.setAttribute("style","width: 135px;text-align: center; border: 1.75px ridge #69696985; cursor:pointer; background-color: #F8F8F8;border-radius: 3px;");
+			  latlng.setAttribute("style","width: 135px; font-size: 12px; text-align: center; border: 1.75px ridge #69696985; cursor:pointer; background-color: #F8F8F8;b order-radius: 3px;");
 			  this._latlng = latlng;
 			  return latlng;
 			},
 		
 			updateHTML: function(lat, lng, currentZoom, mapid) {
-				// var m = "Map ID: " + mapid + "<br>";
-				// var latlng = "Zoom:  " + currentZoom + "<br>";
-				// latlng += lat + ", " + lng;
-				// //this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
-				// this._latlng.innerHTML = m + latlng;
-
-				var mapW = this.map._container.offsetWidth;
-				var mapH = this.map._container.offsetHeigth;
-
-				console.log(event.containerPoint.x * 1024 / mapW);
-				console.log(event.containerPoint.y * 1024 / mapH);
-
-
-
+				var m = "Map ID: " + mapid + "<br>";
+				var latlng = "Zoom:  " + currentZoom + "<br>";
+				latlng += lat + ", " + lng;
+				if ( mapDataModel.hasBounds(mapid) == true ) latlng += "<br>(in-game coords)";
+				else latlng += "<br>(default coords)";
+				
+				//this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
+				this._latlng.innerHTML = m + latlng;
 			}
 		});
 		
@@ -410,13 +407,15 @@ class FFXIMap {
 		*/
 		this.position = new Position();
 		this.map.addControl(this.position);
-		this.map.addEventListener('mousemove', (event) => {
-			let lat = Math.round(event.latlng.lat * 100000) / 100000;
-			let lng = Math.round(event.latlng.lng * 100000) / 100000;
-			
+		this.map.addEventListener('mousemove', (e) => {
 			var currentZoom = this.map.getZoom();
-			//this.position.updateHTML(lat, lng, currentZoom, this.mapID);
-			this.position.updateHTML(event, lng, currentZoom, this.mapID);
+			
+			var x = Math.round(e.latlng.lat * 1000) / 1000,	 // Math.round helps us get the number down to 3 decimal places
+				y = Math.round(e.latlng.lng * 1000) / 1000;
+
+			// if ( mapDataModel.hasBounds(this.mapID) == true ) this.position.updateHTML(y, x, currentZoom, this.mapID);
+			// else this.position.updateHTML(x, y, currentZoom, this.mapID);	
+			this.position.updateHTML(x, y, currentZoom, this.mapID);
 		});
 
 
@@ -428,11 +427,15 @@ class FFXIMap {
 
 		//console.log(mapDataModel.listMaps());
 
-		this.map.on('click', function(e) {        
-			let lat = Math.round(e.latlng.lat * 100000) / 100000;
-			let lng = Math.round(e.latlng.lng * 100000) / 100000;
+		this.map.on('click', (e) => {
+			var x = Math.round(e.latlng.lat * 1000) / 1000,	// Math.round helps us get the number down to 3 decimal places
+				y = Math.round(e.latlng.lng * 1000) / 1000;
 
-        	if (fieldNameElement) { fieldNameElement.innerHTML += '[' + lat + ", " + lng + '], '; }
+        	if (fieldNameElement) { 
+				if ( mapDataModel.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], '; 
+				else fieldNameElement.innerHTML += '[' + x + ", " + y + '], '; 
+			}	
+			
 		});
 	}
 
@@ -447,11 +450,9 @@ class FFXIMap {
 		// Setup any additional markers/layers for connecting the next zone
 		this.setupZoneConnections(_mapID);
 		
-		// Setup new control layers for NPCs, zones, etc.
-		//this.controlLayer = this.newControlLayers(_mapID);
-		this.addNPCControlLayersFromJSObject(_mapID);
-		this.addNPCControlLayersFromFetch(_mapID);
-
+		// Setup Map Markers
+		this.addMapMarkers(_mapID);
+		
 		// Setup new control layer for the search bar
 		this.addSearchBar(_mapID);
 
@@ -470,12 +471,125 @@ class FFXIMap {
 		this.mapID = _mapID;	
 	}
 
+	async addMapMarkers(_mapID){
+
+		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+        //console.log(url);
+
+        const response = await fetch(url);
+		var mapMarkersFromJSObject = mapDataModel.getJSObjectEntities(_mapID);
+        const data = await response.json();
+        const mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
+		
+		// If both markers object are 'undefined' then there are no markers, and return out of this function
+		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
+		
+		// If there are JSObject markers and markers from the Cargo query, 
+		// then cycle through them and adjust the JSObject markers to match the
+		// cargo query ones
+
+		if ( typeof(mapMarkersFromFetch) != 'undefined') {
+			mapMarkersFromFetch.forEach((entityFetch) => {
+				var shouldAddToArray = true;
+
+				for ( const entityJS in mapMarkersFromJSObject) {
+					if ( entityJS['page'] == entityFetch['page']){
+						entityJS['mapx'] = entityFetch['mapx'];
+						entityJS['mapy'] = entityFetch['mapy'];
+						entityJS['imageurl'] = entityFetch['imageurl'];
+						entityJS['displayposition'] = entityFetch['displayposition'];
+						shouldAddToArray = false;
+						break;
+					}
+				}	
+	
+				if ( shouldAddToArray == true) mapMarkersFromJSObject.push(entityFetch);
+			});
+		}
+
+		//console.log(mapMarkersFromJSObject);
+		//console.log(parsedEntities);
+		//var mapMarkersFromJSObject = mapDataModel.fetchEntities(_mapID);
+		
+		// validateMarkers();
+
+		// Create markers for all the entities found in current map 
+		let entityTypeNamesObject = { };
+		
+		//console.log(mapMarkersFromJSObject[1]);
+
+		mapMarkersFromJSObject.forEach((e) => {
+			// ***************************************** 
+			
+			//console.log("addMapMarkers:" ,e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], _mapID);
+			const marker = this._createEntityMarker(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], _mapID);
+			
+			e['type'].forEach(value => {
+
+				if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
+				//console.log(`${e['page']}: adding: value: ${value}, pushing ${marker} `);
+				entityTypeNamesObject[`${value}`].push(marker);
+			});
+		});
+		
+		if (Object.keys(entityTypeNamesObject).length > 0) {
+			this._createEntityMapObject(entityTypeNamesObject);
+		}
+	}
+
+
+	// addNPCControlLayersFromJSObject(_mapID){
+	// 	if (_mapID == null || mapDataModel.hasEntities(_mapID) == false) return ;
+
+	// 	const entities = mapDataModel.getEntities(_mapID);
+	
+	// 	var entityArray = []; 
+
+	// 	for ( var i=0; i < entities.length ; i++ ){
+	// 		var page,
+	// 			mapx = "",
+	// 			mapy = "",
+	// 			displayposition = "",
+	// 			entitytypeArray = [],
+	// 			entity = {};
+
+	// 		page = entities[i][1];
+	// 		mapx = entities[i][4];
+	// 		mapy = entities[i][2];
+
+	// 		if ( mapDataModel.isWithinBounds(mapx, mapy, _mapID) == true ) {
+	// 			console.log(`addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map bounds !`);
+	// 			continue;
+	// 		}
+
+	// 		var tempArray = entities[i][0];
+	// 		for (let x = 0; x < tempArray.length; x++) { tempArray[x] = tempArray[x].trim(); }
+	// 		entitytypeArray = entitytypeArray.concat(tempArray);
+
+	// 		//mapid = _mapID;
+	// 		displayposition = `(${mapx},${mapy})`;
+
+	// 		entity['page'] = page;
+	// 		entity['mapx'] = mapx;
+	// 		entity['mapy'] = mapy;
+	// 		entity['type'] = entitytypeArray;
+	// 		entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}&width=175`;
+	// 		entity['displayposition'] = displayposition;
+
+	// 		entityArray.push(entity);
+	// 	}
+
+	// 	return entityArray;
+	// }
+
+
 	async addNPCControlLayersFromFetch(_mapID){
 		if (_mapID == null) return ;
 		
 		let markerLayers = [];
 		//let entitytypeArray = [];
-		// let entityTypeNamesObject = { };
+		let entityTypeNamesObject = { };
+
 		/* 
 		Table/Template structure:
 			Page - String	
@@ -488,164 +602,126 @@ class FFXIMap {
 		*/
 
 		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-		//console.log(`${url}`);
+		// console.log(`${url}`);
 
-		fetch(url)
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.cargoquery == null ) return;
-				data.cargoquery.forEach((d) => {
-					var page,
-						mapx = "",
-						mapy = "",
-						mapid = "",
-						imageurl = "",
-						displayposition = "",
-						entitytypeArray = [];
-
-					Object.entries(d.title).forEach(([key, value]) => {
-						//console.log(`${key}: ${value}`);
-						if ( key == 'Page') page = value;
-						else if ( key == 'entitytype') {
-							//console.log("***"+page);
-							var tempArray = value.split(',');
-							for (let i = 0; i < tempArray.length; i++) { tempArray[i] = tempArray[i].trim(); }
-							entitytypeArray = Array.from(new Set(entitytypeArray.concat(tempArray)));
-						}
-						//else if ( key == 'mapid') mapid = value;
-						else if ( key == 'mapx') mapx = value;
-						else if ( key == 'mapy') mapy = value;
-						else if ( key == 'image' && value !== null) {
-							imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
-						}
-						else if ( key == 'displayposition') displayposition = value;
-					  });
+		// fetch(url)
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		if (data.cargoquery == null ) return;
+		// 		data.cargoquery.forEach((d) => {
 					
-					if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "") { //&& mapid !== "") {
-						this._testFunction(page, entitytypeArray, mapx, mapy, imageurl, displayposition, mapid);
-					}
+		// 			var page,
+		// 				mapx = "",
+		// 				mapy = "",
+		// 				mapid = "",
+		// 				imageurl = "",
+		// 				displayposition = "",
+		// 				entitytypeArray = [];
 
-					// if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "" && mapid !== "") {
-						
-					// 	//move to MapMarker class once this is functioning correctly
-					// 	var tooltiptemplate = `<div class="ffximap-icon-tooltip">`; 
-					// 	if (imageurl !== undefined) {
-					// 		tooltiptemplate += `<img src="${imageurl}">`;
-					// 	}
-					// 	tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
-					// 	//////
+		// 			Object.entries(d.title).forEach(([key, value]) => {
+		// 				//console.log(`${key}: ${value}`);
+		// 				if ( key == 'Page') page = value;
+		// 				else if ( key == 'entitytype') {
+		// 					//console.log("***"+page);
+		// 					var tempArray = value.split(',');
+		// 					for (let i = 0; i < tempArray.length; i++) { tempArray[i] = tempArray[i].trim(); }
+		// 					entitytypeArray = Array.from(new Set(entitytypeArray.concat(tempArray)));
+		// 				}
+		// 				//else if ( key == 'mapid') mapid = value;
+		// 				else if ( key == 'mapx') mapx = value;
+		// 				else if ( key == 'mapy') mapy = value;
+		// 				else if ( key == 'image' && value !== null) {
+		// 					imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
+		// 				}
+		// 				else if ( key == 'displayposition') displayposition = value;
+		// 			  });
+					
+		// 			// if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "") { //&& mapid !== "") {
+		// 			// 	const marker = this._createEntityMarker(page, mapx, mapy, imageurl, displayposition, mapid);
+		// 			// 	//entityTypeNamesObject = entityTypeNamesObject.concat(marker);
 
-					// 	var marker = L.marker([mapx, mapy], {
-					// 			icon: mapMarkers.icon_NPC()
-					// 		})
-					// 		.bindTooltip(L.Util.template(tooltiptemplate, null), {
-					// 			opacity: 1.0
-					// 		})
-					// 		.on('click', (e) => {
-					// 				window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
-					// 				//console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
-					// 		});
-						
-					// 	entitytypeArray.forEach(value => {
-					// 		if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
-					// 		//console.log(`@${page}: adding: value: ${value} `);
-					// 		entityTypeNamesObject[`${value}`].push(marker);
-					// 		});
-					// }
-				  });
+		// 			// 	entitytypeArray.forEach(value => {
+		// 			// 		if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
+		// 			// 		//console.log(`@${page}: adding: value: ${value} `);
+		// 			// 		entityTypeNamesObject[`${value}`].push(marker);
+		// 			// 		});
+		// 			// 	entitytypeArray = [];
+		// 			// }
+		// 		  });
 				  
-				// if (Object.keys(entityTypeNamesObject).length > 0) {
-				// 	_createEntityMapObject(entityTypeNamesObject);
-				// }
-			})
-			.catch(console.error);
+		// 		// if (Object.keys(entityTypeNamesObject).length > 0) {
+		// 		// 	this._createEntityMapObject(entityTypeNamesObject);
+		// 		// }
+		// 	})
+		// 	.catch(console.error);
+
+		return mapDataModel.fetchEntities(_mapID);
 	}
 
-	async addNPCControlLayersFromJSObject(_mapID){
-		if (_mapID == null) return ;
-
-		const entities = mapDataModel.getEntities(_mapID);
+	_createEntityMapObject(entityTypeNamesObject){
 		
-		var page,
-		mapx = "",
-		mapy = "",
-		mapid = "",
-		imageurl = "",
-		displayposition = "",
-		entitytypeArray = [];
+		// var _layerOverlays = {};
 
-		for ( var i=0; i < entities.length ; i++ ){
-			page = entities[i][0];
-			mapx = entities[i][1];
-			mapy = entities[i][2];
-			mapid = entities[i][3];
-			displayposition = `(${mapx},${mapy})`;
-
-			if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "") { //&& mapid !== "") {
-				this._testFunction(page, entitytypeArray, mapx, mapy, imageurl, displayposition, mapid);
-			}
-		}
-
-		// Object.entries(d.title).forEach(([key, value]) => {
-		// 	//console.log(`${key}: ${value}`);
-		// 	if ( key == 'Page') page = value;
-		// 	else if ( key == 'entitytype') {
-		// 		//console.log("***"+page);
-		// 		var tempArray = value.split(',');
-		// 		for (let i = 0; i < tempArray.length; i++) { tempArray[i] = tempArray[i].trim(); }
-		// 		entitytypeArray = Array.from(new Set(entitytypeArray.concat(tempArray)));
-		// 	}
-		// 	//else if ( key == 'mapid') mapid = value;
-		// 	else if ( key == 'mapx') mapx = value;
-		// 	else if ( key == 'mapy') mapy = value;
-		// 	else if ( key == 'image' && value !== null) {
-		// 		imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
-		// 	}
-		// 	else if ( key == 'displayposition') displayposition = value;
+		// for (const key in entityTypeNamesObject) {
+		// 	//console.log(key);
+		// 	var _layerGroupFromObject = L.layerGroup(entityTypeNamesObject[key]);
+		// 	if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, _layerOverlays).addTo(this.map);
+		// 	this.controlLayer.addOverlay(_layerGroupFromObject, key);
+		
+		// 	this.map.on('zoomend', (e) =>  {
+		// 		var actualZoom = e.target._zoom
+		// 		_layerGroupFromObject.eachLayer(function (_marker) { 
+		// 			if (_marker instanceof L.Marker){
+		// 				_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
+		// 			}});
 		// 	});
-
-		// if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "") { //&& mapid !== "") {
-		// this._testFunction(page, entitytypeArray, mapx, mapy, imageurl, displayposition, mapid);
-		// }
 	
+		// 	this.map.on("overlayremove", (e) =>  {
+		// 			if (this.map.hasLayer(_layerGroupFromObject)) {
+		// 				this.map.removeLayer(_layerGroupFromObject);
+		// 				this.map.addLayer(_layerGroupFromObject);
+		// 			}
+		// 	  });
+		// }
+
+		
+
+		Object.entries(entityTypeNamesObject).forEach(([key, value]) => {
+			//console.log(typeof(value));
+			var _layerGroupFromObject = L.layerGroup(value);
+			
+			//var _layerOverlays = { [key] : _layerGroupFromObject };
+
+			if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, null).addTo(this.map);
+			
+			this.controlLayer.addBaseLayer(_layerGroupFromObject, key);
+			//this.controlLayer.addOverlay(_layerGroupFromObject, key);
+
+			this.map.on('zoomend', (e) =>  {
+				var actualZoom = e.target._zoom
+				_layerGroupFromObject.eachLayer(function (_marker) { 
+					if (_marker instanceof L.Marker){
+						_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
+					}});
+			});
+
+			// this.map.on("overlayremove", (e) =>  {
+			// 	console.log('fire');
+			// 		if (this.map.hasLayer(_layerGroupFromObject)) {
+			// 			this.map.removeLayer(_layerGroupFromObject);
+			// 			this.map.addLayer(_layerGroupFromObject);
+			// 		}
+			// });
+		});
 	}
 
-	_testFunction(page, entitytypeArray, mapx, mapy, imageurl, displayposition, mapid){
-
-		let entityTypeNamesObject = { };
-
-		// var page,
-		// 	mapx = "",
-		// 	mapy = "",
-		// 	mapid = "",
-		// 	imageurl = "",
-		// 	displayposition = "",
-		// 	entitytypeArray = [];
-
-		// Object.entries(d).forEach(([key, value]) => {
-		// 	console.log(`${key}: ${value}`);
-		// 	if ( key == 'Page') page = value;
-		// 	else if ( key == 'entitytype') {
-		// 		//console.log("***"+page);
-		// 		var tempArray = value.split(',');
-		// 		for (let i = 0; i < tempArray.length; i++) { tempArray[i] = tempArray[i].trim(); }
-		// 		entitytypeArray = Array.from(new Set(entitytypeArray.concat(tempArray)));
-		// 	}
-		// 	else if ( key == 'mapid') mapid = value;
-		// 	else if ( key == 'mapx') mapx = value;
-		// 	else if ( key == 'mapy') mapy = value;
-		// 	else if ( key == 'image' && value !== null) {
-		// 		imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
-		// 	}
-		// 	else if ( key == 'displayposition') displayposition = value;
-		// 	});
-		
-		//if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "" && mapid !== "") {
+	_createEntityMarker(page, mapx, mapy, imageurl, displayposition, mapid){
 			
 			//move to MapMarker class once this is functioning correctly
 			var tooltiptemplate = `<div class="ffximap-icon-tooltip">`; 
 			if (imageurl !== undefined && imageurl !== null && imageurl != "") {
-				tooltiptemplate += `<img src="${imageurl}">`;
+
+				tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`;
 			}
 			tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
 			//////
@@ -660,46 +736,10 @@ class FFXIMap {
 						window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
 						//console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
 				});
-			
-			entitytypeArray.forEach(value => {
-				console.log('fire');
-				if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
-				//console.log(`@${page}: adding: value: ${value} `);
-				entityTypeNamesObject[`${value}`].push(marker);
-				});
-		//}
-		
-		if (Object.keys(entityTypeNamesObject).length > 0) {
-			_createEntityMapObject(entityTypeNamesObject);
-		}
+		return marker;
+
 	}
 
-	_createEntityMapObject(entityTypeNamesObject){
-		
-		Object.entries(entityTypeNamesObject).forEach(([key, value]) => {
-			var _layerGroupFromObject = L.layerGroup(value);
-			var _layerOverlays = { [key] : _layerGroupFromObject };
-
-			if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, _layerOverlays).addTo(this.map);
-			else this.controlLayer.addOverlay(_layerGroupFromObject, key);
-
-			this.map.on('zoomend', function(e) {
-				var actualZoom = e.target._zoom
-				_layerGroupFromObject.eachLayer(function (_marker) { 
-					if (_marker instanceof L.Marker){
-						_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
-					}});
-
-			});
-
-			this.map.on("overlayremove", (e) =>  {
-					if (this.map.hasLayer(_layerGroupFromObject)) {
-						this.map.removeLayer(_layerGroupFromObject);
-						this.map.addLayer(_layerGroupFromObject);
-					}
-			  });
-		});
-	}
 	
 	addSearchBar(_mapID){
 		if (this.controlSearchBar ) return;

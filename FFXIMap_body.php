@@ -31,8 +31,6 @@ class FFXIMap {
 		$parser->getOutput()->addModules(['ext.leafletSearch']);
 		$parser->getOutput()->addModules(['ext.FFXIMap']);
 
-		global $wgFFXIMapBasePath;
-
 		// $tileSource : location of tiles (or the tile server)
 		// each map should be it's own $mapIDNum as input
 		// tile server should be in this format: "/maps/mapID_X/{z}/{x}/{y}.jpeg" 
@@ -42,9 +40,9 @@ class FFXIMap {
 		// $tileSource = "./maps/tiles/{z}/{x}/{y}.jpeg";
 
 		// Checking defaults for, and setting, $params prior to anything
-		$zoom_levels = array(0,1,2,3,4,5,6);
+		//$zoom_levels = array(0,1,2,3,4,5,6);
 		$maxZoom = 6;
-		$minZoom = 0;
+		$minZoom = -2;
 
 		$zoom = 1;
 		if (isset($params['zoom']) && $params['zoom'] >= 0 && $params['zoom'] <= 6){
@@ -59,6 +57,8 @@ class FFXIMap {
 			$showdetailsDiv = "<div id=\"polyEditing\"></div>";
 			$showdetails = true;
 		}
+		
+		$showconnections = ($params['showconnections'] === "true") ? true : false;
 
 		$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
 		$divID = "mapid_" . $mapID;
@@ -72,7 +72,7 @@ class FFXIMap {
 
 		$script = "";
 
-		$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\"></span>";
+		$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\" data-showconnections=\"" . $showconnections . "\"></span>";
 		
 		$html = "";
 		$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
