@@ -1,31 +1,117 @@
 
 
 class MapMarker {
+    currentZoom;
+    icon = require("./iconsSVGData.js");
+
     //baseMapMarkersDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/maps/markers/';
 
-    #divIcon_markerCircle() {
-        return L.divIcon({
-            className: CSS.npc,
-            html: " ",
-            iconSize: [8,8]
-        });
-    }
+    #divIcon_marker(iconData, label) {
+        var labelHTML = ``;
+        if ( typeof(label) == 'string' && label != '' ) labelHTML = `</svg><span class=\"${CSS.markerLabel}\">${label}</span>`;
 
-    #divIcon_markerCircle_2x() {
         return L.divIcon({
-            className: CSS.npc,
-            html: " ",
-            iconSize: [13,13]
+            className: 'dummy-class',
+            //html: labelHTML,
+            html: `<svg class="${iconData[0]} ${CSS.markerBLINKING}" width="15" height="15" viewBox="0 -5 25 25" >` + iconData[1] + labelHTML,
+            iconSize: [0,0]
         });
-    }
 
-    icon_NPC(){
-        return this.#divIcon_markerCircle();
-        
-        // return L.circleMarker(coords, {
-        //     className: 'ffximap-marker ffximap-marker-blinking',
-        //     html: " "
+        // return L.divIcon({
+        //     className: iconTypeClass,
+        //     //html: labelHTML,
+        //     iconSize: [8,8],
+        //     iconAnchor: [0,0],
         // });
+        
+    }
+
+    #divIcon_marker_2x(iconData, label) {
+        var labelHTML = ``;
+        if ( typeof(label) == 'string' && label != '' ) labelHTML = `</svg><span class=\"${CSS.markerLabel}\">${label}</span>`;
+
+        return L.divIcon({
+            className: 'dummy-class',
+            //html: labelHTML,
+            html: `<svg class="${iconData[0]}-2X ${CSS.markerBLINKING}" width="15" height="15" viewBox="0 -5 25 25" >` + iconData[1] + labelHTML,
+            iconSize: [0,0]
+        });
+
+        // return L.divIcon({
+        //     className: iconTypeClass,
+        //     //html: labelHTML,
+        //     iconSize: [13,13],
+        //     iconAnchor: [0,0],
+        // });
+    }
+
+    #createDivIcon(type, label){
+        return this.#divIcon_marker(this.#getIconData(type), label);
+    }
+
+    #getIconData(type){
+        var iconTypeClass = CSS.markerNPC;
+        var iconSVG = ``;   
+
+        switch (type[0]) {
+            case 'NPC':
+                iconTypeClass = CSS.markerNPC;
+                iconSVG = this.icon.circle;
+                break;
+            case 'Home Point':
+                iconTypeClass = CSS.markerHOMEPOINT;
+                iconSVG = this.icon.homepoint;
+                break;
+            case 'Treasure Chest':
+                iconTypeClass = CSS.markerTREASURECHEST;
+                iconSVG = this.icon.treasure;
+                break;
+            case 'Treasure Coffer':
+                iconTypeClass = CSS.markerTREASURECOFFER;
+                iconSVG = this.icon.treasure;
+                break;
+            case 'Standard Merchant':
+                iconTypeClass = CSS.markerSTANDARDMERCHANT;
+                iconSVG = this.icon.circle;
+                break;
+            case '???':
+                iconTypeClass = CSS.markerQUESTIONMARK;
+                iconSVG = this.icon.circle;
+                break;
+            case 'Logging Point':
+                iconTypeClass = CSS.markerLOGGINGPOINT;
+                iconSVG = this.icon.logging;
+                break;
+            case 'Mining Point':
+                iconTypeClass = CSS.markerMININGPOINT;
+                iconSVG = this.icon.mining;
+                break;
+            case 'Excavation Point':
+                iconTypeClass = CSS.markerMININGPOINT;
+                iconSVG = this.icon.mining;
+                break;
+            case 'Harvesting Point':
+                iconTypeClass = CSS.markerHARVESTINGPOINT;
+                iconSVG = this.icon.harvesting;
+                break;
+            case 'Clamming Point':
+                iconTypeClass = CSS.markerCLAMMINGPOINT;
+                iconSVG = this.icon.clamming;
+                break;
+            case 'Chocobo':
+                iconTypeClass = CSS.markerCHOCOBO;
+                iconSVG = this.icon.chocobo;
+                break;
+            case 'Moogle':
+                iconTypeClass = CSS.markerMOOGLE;
+                iconSVG = this.icon.moogle;
+                break;
+            case 'Streetlamp':
+                iconTypeClass = CSS.markerSTREETLAMP;
+                iconSVG = this.icon.circle;
+                break;
+          }
+          return [iconTypeClass, iconSVG];
     }
     
     connectionMarker(){
@@ -37,47 +123,79 @@ class MapMarker {
             })
     }
 
-    scaledIcon(currentZoom, _marker){
-        if (currentZoom >= 0 && currentZoom < 3) return this.#divIcon_markerCircle();
-        else if (currentZoom >= 3) return this.#divIcon_markerCircle_2x();
+    scaledIcon(type, label){
+        //console.log(this.currentZoom);
+        if ( this.currentZoom < 2.5 ) return this.#divIcon_marker(this.#getIconData(type), label);
+        else return this.#divIcon_marker_2x(this.#getIconData(type),label);
     }
 
-    //get custom CSS variable.... https://stackoverflow.com/questions/70013627/from-class-scope-get-css-custom-property-variable-value-using-javascript
-    // #getCssVar(selector, style) {
-    //     var element = document.getElementsByClassName(selector);
-    //     if(!element[0]) { 
-    //         console.log(`element failed:${element.length}, selector: ${selector}`); 
-    //         return false 
-    //     }
-    //     var returnVar = getComputedStyle(element[0]).getPropertyValue(style);
-    //     if(!returnVar) { 
-    //         console.log('variable not defined'); 
-    //         return false 
-    //     }
-    //     else return returnVar;
-    //     //console.log(`${selector} : ${getComputedStyle(element).getPropertyValue(style)}`) 
-    //   }
+    generateIconHTML( iconArray, label) { 
+        var htmlOutput = iconArray[1];
+        if ( typeof(label) == 'string' && label != '' ) htmlOutput += `<span class=\"${CSS.markerLabel}\">${label}</span>`;
+        return htmlOutput;
+    }
 
+    new(page, mapx, mapy, imageurl, displayposition, type){
+        //move to MapMarker class once this is functioning correctly
+        var tooltiptemplate = `<div>`; 
+        if (imageurl !== undefined && imageurl !== null && imageurl != "") {
+
+            tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`;
+        }
+        tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
+        //////
+        
+        //var label = this.generateIconHTML(page);
+
+        var tempLabel = ( this.currentZoom >= 2.5) ? tempLabel = page : tempLabel = '';
+        
+        return L.marker([mapx, mapy], {
+                icon: this.scaledIcon(type, tempLabel),
+                name: page,
+                type: type
+            })
+            .bindTooltip(L.Util.template(tooltiptemplate, null), {
+                opacity: 1.0,
+                className: `${CSS.markerTooltip}`,
+                direction: 'left',
+                offset: L.point(0, 8)
+            })
+            .on('click', (e) => {
+                    window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
+                    //console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
+            });
+
+    }
 
 }
 
-
-
-
-const MapMarkerIconType = {
-    Connection: 0,
-    NPC: 1,
-    Enemy: 2,
-    ExpCamp: 3,
-    MiningNode: 4
-}
 
 class CSS {
 
     static connection = 'ffximap-connection-marker';
-    static npc = 'ffximap-marker ffximap-marker-blinking';
-    static connectionMultiple_Popup = 'ffximap-connection-multiple-popup';
+    static connectionMultiplePopup = 'ffximap-connection-multiple-popup';
+    
+    static markerBLINKING = 'ffximap-marker-blinking';
 
+    static markerNPC = 'ffximap-marker-npc';
+    static markerHOMEPOINT = 'ffximap-marker-homepoint';
+    static markerTREASURECHEST = "ffximap-marker-treasure-chest";
+    static markerTREASURECOFFER = "ffximap-marker-treasure-coffer";
+    static markerSTANDARDMERCHANT = "ffximap-marker-standardmerchant";
+    static markerQUESTIONMARK = "ffximap-marker-questionmark";
+    static markerLOGGINGPOINT = "ffximap-marker-loggingpoint";
+    static markerMININGPOINT = "ffximap-marker-miningpoint";
+    static markerHARVESTINGPOINT = "ffximap-marker-harvestingpoint";
+    static markerCLAMMINGPOINT = "ffximap-marker-clammingpoint";
+    static markerCHOCOBO = "ffximap-marker-chocobo";
+    static markerMOOGLE = "ffximap-marker-moogle";
+    static markerSTREETLAMP = "ffximap-marker-streetlamp";
+
+
+    static markerLabel = 'ffximap-marker-label';
+    static markerTooltip = 'ffximap-marker-toolip';
 }
 
-module.exports = MapMarker;
+
+
+module.exports = { MapMarker };

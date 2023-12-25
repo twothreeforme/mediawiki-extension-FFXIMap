@@ -6,16 +6,6 @@
   top: 0;
 }
 
-.ffximap-marker {
-  border: 1px solid #000000;
-  background-color: rgb(44, 216, 96);
-  border-radius: 10px;
-}
-
-.ffximap-marker .ffximap-marker-blinking {
-  animation: fade 1s infinite alternate;
-}
-
 .ffximap-connection-marker {	
   height: 30px;
   width: 30px;
@@ -40,10 +30,6 @@
       100% {transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
-.ffximap-icon-tooltip img {
-  display: block;
-}
-
 .ffximap-connection-multiple-popup .leaflet-popup-tip,
 .ffximap-connection-multiple-popup .leaflet-popup-content-wrapper {
   opacity: 0.95;
@@ -51,3 +37,177 @@
 }
 
 
+.ffximap-marker-npc, .ffximap-marker-npc-2X {
+  fill: #4dff4d;
+  fill-opacity: 0.84357542;
+  stroke: #000000;
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 255, 255));
+}
+
+.ffximap-marker-homepoint, .ffximap-marker-homepoint-2X {
+  fill:#00ffff;
+  stroke:#000000;
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 255, 255));
+}
+
+.ffximap-marker-treasure-coffer, .ffximap-marker-treasure-coffer-2X {
+  fill:#ff5555;
+  fill-opacity:0.843575;
+  stroke:#000000;
+  stroke-width:0.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 2px rgb(255, 255, 255));
+}
+
+.ffximap-marker-treasure-chest, .ffximap-marker-treasure-chest-2X {
+  fill:#ffee52;
+  fill-opacity:0.843575;
+  stroke:#000000;
+  stroke-width:0.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 2px rgb(255, 255, 255));
+}
+
+.ffximap-marker-standardmerchant, .ffximap-marker-standardmerchant-2X {
+  fill: #4dff4d;
+  fill-opacity: 0.84357542;
+  stroke: #000000;
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 255, 255));
+}
+
+.ffximap-marker-questionmark, .ffximap-marker-questionmark-2X {
+  fill: #fffb00;  
+  fill-opacity: 0.84357542;
+  stroke: #000000;
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 255, 255));
+}
+
+.ffximap-marker-loggingpoint, .ffximap-marker-loggingpoint-2X {
+  fill: #fce2ab;  
+  fill-opacity: 1;
+  stroke: #000000;
+  stroke-width:0.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter: drop-shadow(0px 0px 4px rgb(255, 255, 255));
+}
+
+.ffximap-marker-miningpoint, .ffximap-marker-miningpoint-2X {
+  fill: #fce2ab;  
+  fill-opacity: 1;
+  stroke: #000000;
+  stroke-width:0.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter: drop-shadow(0px 0px 4px rgb(255, 255, 255));
+}
+
+.ffximap-marker-harvestingpoint, .ffximap-marker-harvestingpoint-2X {
+  fill: #fce2ab;  
+  fill-opacity: 1;
+  stroke: #000000;
+  stroke-width:0.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter: drop-shadow(0px 0px 4px rgb(255, 255, 255));
+}
+
+.ffximap-marker-clammingpoint, .ffximap-marker-clammingpoint-2X {
+  fill: #fce2ab;  
+  fill-opacity: 1;
+  stroke: #000000;
+  stroke-width:0.3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter: drop-shadow(0px 0px 4px rgb(255, 255, 255));
+}
+
+.ffximap-marker-chocobo, .ffximap-marker-chocobo-2X {
+  fill: #fbff00;  
+  fill-opacity: 1;
+  stroke: #000000;
+  stroke-width:0.25px;
+  filter: drop-shadow(0px 0px 3px rgb(179, 179, 179));
+}
+
+.ffximap-marker-streetlamp, .ffximap-marker-streetlamp-2X {
+  fill: #00d9ff;
+  fill-opacity: 0.84357542;
+  stroke: #000000;
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 243, 135));
+}
+
+
+.ffximap-marker-label {
+  display: inline-block;
+  position: absolute; 
+  top: 4px; 
+  left: 17px; 
+  white-space: nowrap;
+  color: #ffffff; 
+  font-style: italic;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.ffximap-marker-npc-2X, .ffximap-marker-homepoint-2X, .ffximap-marker-treasure-chest-2X,
+.ffximap-marker-treasure-coffer-2X, .ffximap-marker-questionmark-2X, .ffximap-marker-standardmerchant-2X,
+.ffximap-marker-loggingpoint-2X, .ffximap-marker-miningpoint-2X, .ffximap-marker-harvestingpoint-2X,
+.ffximap-marker-clammingpoint-2X, .ffximap-marker-chocobo-2X, .ffximap-marker-moogle-2X,
+.ffximap-marker-streetlamp-2X {
+  transform: scale(1.75);
+}
+
+.ffximap-marker-blinking {
+  animation: fade 1s infinite alternate;
+}
+
+.ffximap-marker-toolip {
+  background-color: #edeadc;
+}
+
+.ffximap-marker-toolip img {
+  display: block;
+}
+
+.leaflet-tooltip-left.ffximap-marker-toolip::before{
+  border-left-color: #edeadc;
+}
+.leaflet-tooltip-right.ffximap-marker-toolip::before{
+  border-right-color: #edeadc;
+}

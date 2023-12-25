@@ -55,20 +55,17 @@ let tileset,
 	zoom,
 	showdetails,
 	showconnections,
-	currentMapMarkersArray = {},
+	loadedMapMarkersArray,
 	baseDir,
 	baseMapDir,
 	baseMapTilesDir,
 	baseMapZonesDir;
 
 /**
- * class MapMarkers defined in ext.maphelper.js
- * Object containing the various icons used as map markers
- * and functions supporting icon display.
- * Icons returned follow the leaflet Icon object model
- * @return {MapMarkers} MapMarkers object
- */	
-const MapMarkers = require("./ext.mapMarker.js");
+ * imported from ext.mapMarker.js
+ * contains module.exports {} 
+ *  */	
+const MapMarkersDataImport = require("./ext.mapMarker.js");
 let mapMarkers = null;
 
 
@@ -81,16 +78,17 @@ const MapData = require("./ext.mapData.js");
 let mapDataModel = null;
 
 
-
 function setupNewMap(_mapID) {
 	if (m != undefined)  {
 		console.log("setupNewMap: map undefined");
 		m.remove();
 		m = undefined;
 	}
+
 	if (_mapID == undefined) _mapID = mapID;
 	m = new FFXIMap( divID, _mapID, tileset, minZoom, maxZoom, zoom );
 }
+
 
 /**
  * Takes all custom <span> tag attributes and assigns those values to our global variables
@@ -119,30 +117,15 @@ function setPageAttributes() {
 		
 }
 
-function setupMarkers() {
 
-	// L.Marker.prototype.options.icon = L.icon({
-	// 	iconRetinaUrl: baseMapMarkersDir + 'npc-icon-2x.png',
-	// 	iconUrl: baseMapMarkersDir + 'npc-icon.png',
-	// 	iconSize: [12, 12],
-	// 	iconAnchor: [6, 6],
-	// 	className: 'blinking'
-	// });
-
-	
-	// let temp = new MapMarkers(baseMapMarkersDir);
-	// console.log( typeof(temp) );
-	mapMarkers = new MapMarkers;
-
-	// L.Marker.prototype.options.icon = L.icon({
-	// 		iconRetinaUrl: baseMapMarkersDir + 'npc-icon-2x.png',
-	// 		iconUrl: baseMapMarkersDir + 'npc-icon.png',
-	// });
+function setupMarkers() { 
+	mapMarkers = new MapMarkersDataImport.MapMarker();
 }
+
 
 /**
  * Takes all custom <span> tag attributes and assigns those values to our global variables
- * This is parsed from the document, after it the content is loaded
+ * This is parsed from the , after it the content is loaded
  * @return {nil} no return value 
  */
 function setupMapData() {
@@ -151,8 +134,6 @@ function setupMapData() {
 	mapDataModel = new MapData(data);
 	//console.log(mapDataModel.listMaps());
 }
-
-
 
 
 class FFXIMap {
@@ -248,7 +229,6 @@ class FFXIMap {
 				poly.on('mouseover', () => {
 					var _connectionslayerGroup = L.layerGroup();
 					for (const [_key, _value] of Object.entries(_connections[key].pulse)) {
-						//mapMarkers.connectionMarker(_value).addTo(_connectionslayerGroup);
 						L.marker(_value, { icon: mapMarkers.connectionMarker(), pane: 'connectionsPane_pulse' }).addTo(_connectionslayerGroup);
 					}
 					this.map.addLayer(_connectionslayerGroup);
@@ -309,10 +289,6 @@ class FFXIMap {
 	
 	newMap(_mapID){
 
-		this.map.eachLayer(function (layer) {
-			layer.remove();
-		});
-
 		if (_mapID == undefined) _mapID = this.mapID;
 		
 		if ( _mapID == 0 ) {
@@ -327,30 +303,54 @@ class FFXIMap {
 		}
 		else {
 			var bounds = mapDataModel.getMapBounds(_mapID);
+			//console.log(baseMapMarkersDir + "matte_black.png");
+			var blackBackground = L.imageOverlay(baseMapMarkersDir + "matte_black.png", bounds, 
+			{
+				opacity: 1.0,
+				zIndex: 0
+				//attribution: this.attrib 
+			});
+			blackBackground.addTo(this.map);
+
 			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), bounds, 
 				{
+					opacity: 1.0,
 					attribution: this.attrib 
 				});
 			this.currentMapImageOverlay.addTo(this.map);
 			this.map.fitBounds(bounds);
 			this.map.setMaxBounds(bounds);
+
+			
+
 			
 		}
-
+		mapMarkers.currentZoom = this.map.getZoom();
 		//this.map.setZoom(this.zoom);
+		this.map.on('zoomstart', (e) =>  {
+			mapMarkers.currentZoom = e.target._zoom;
+		});
+
+		this.map.on('zoomend', (e) =>  {
+			mapMarkers.currentZoom = e.target._zoom;
+		});
+
 	}
 
-	destroyControlLayers(){
+	destroyMap(){
 		if (this.controlLayer !== null && this.controlLayer !== undefined) {
 			//console.log(this.controlLayer + " : " + this.map);
 			this.controlLayer.remove(this.map);
 			this.controlLayer = null;
 		}
 		if (this.position !== undefined)   this.map.removeControl(this.position);
+		
+		loadedMapMarkersArray = null;
 
-		currentMapMarkersArray = {};
+		this.map.eachLayer((layer) => {
+			this.map.removeLayer(layer);
+		});
 	}
-
 
 	resetMapTo(_mapID) {
 		//console.log("resetMapTo: _mapID:" + _mapID + " this.mapID:" + this.mapID + " getLast:" + this.mapHistory.getLast());
@@ -362,7 +362,7 @@ class FFXIMap {
 	
 	_resetMapTo(_mapID){
 		// Breakdown everything
-		this.destroyControlLayers();
+		this.destroyMap();
 
 		// Remove Map events
 		this.removeMapEvents();
@@ -440,7 +440,66 @@ class FFXIMap {
 	}
 
 	removeMapEvents(){
+		
 		this.map.off('click');
+		this.map.off('zoomstart');
+		this.map.off('zoomend');
+		this.map.off('overlayadd');
+		this.map.off('overlayremove');
+
+	}
+
+	async addMapMarkers(_mapID){
+		
+		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+        //console.log(url);
+
+        var response = await fetch(url);
+		var mapMarkersFromJSObject = mapDataModel.getJSObjectEntities(_mapID);
+        var data = await response.json();
+        var mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
+		
+		// If both markers object are 'undefined' then there are no markers, and return out of this function
+		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
+		
+		// If there are JSObject markers and markers from the Cargo query, 
+		// then cycle through them and adjust the JSObject markers to match the
+		// cargo query ones
+		if ( typeof(mapMarkersFromFetch) != 'undefined') {
+			mapMarkersFromFetch.forEach((entityFetch) => {
+				var shouldAddToArray = true;
+
+				for ( var entityJS in mapMarkersFromJSObject) {
+					if ( entityJS['page'] == entityFetch['page']){
+						entityJS['mapx'] = entityFetch['mapx'];
+						entityJS['mapy'] = entityFetch['mapy'];
+						entityJS['imageurl'] = entityFetch['imageurl'];
+						entityJS['displayposition'] = entityFetch['displayposition'];
+						shouldAddToArray = false;
+						break;
+					}
+				}	
+	
+				if ( shouldAddToArray == true) mapMarkersFromJSObject.push(entityFetch);
+			});
+		}
+
+		var entityTypeNamesObject = { };
+		
+		mapMarkersFromJSObject.forEach((e) => {
+			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], e['type']);
+			
+			e['type'].forEach(value => {
+
+				if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
+				//console.log(`${e['page']}: adding: value: ${value}, pushing ${marker} `);
+				entityTypeNamesObject[`${value}`].push(marker);
+			});
+		});
+
+		if (Object.keys(entityTypeNamesObject).length > 0) {
+			this._createEntityMapObject(entityTypeNamesObject, _mapID);
+		}
 	}
 
 	newMapWithControls(_mapID){
@@ -471,276 +530,105 @@ class FFXIMap {
 		this.mapID = _mapID;	
 	}
 
-	async addMapMarkers(_mapID){
-
-		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-        //console.log(url);
-
-        const response = await fetch(url);
-		var mapMarkersFromJSObject = mapDataModel.getJSObjectEntities(_mapID);
-        const data = await response.json();
-        const mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
-		
-		// If both markers object are 'undefined' then there are no markers, and return out of this function
-		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
-		
-		// If there are JSObject markers and markers from the Cargo query, 
-		// then cycle through them and adjust the JSObject markers to match the
-		// cargo query ones
-
-		if ( typeof(mapMarkersFromFetch) != 'undefined') {
-			mapMarkersFromFetch.forEach((entityFetch) => {
-				var shouldAddToArray = true;
-
-				for ( const entityJS in mapMarkersFromJSObject) {
-					if ( entityJS['page'] == entityFetch['page']){
-						entityJS['mapx'] = entityFetch['mapx'];
-						entityJS['mapy'] = entityFetch['mapy'];
-						entityJS['imageurl'] = entityFetch['imageurl'];
-						entityJS['displayposition'] = entityFetch['displayposition'];
-						shouldAddToArray = false;
-						break;
-					}
-				}	
-	
-				if ( shouldAddToArray == true) mapMarkersFromJSObject.push(entityFetch);
-			});
-		}
-
-		//console.log(mapMarkersFromJSObject);
-		//console.log(parsedEntities);
-		//var mapMarkersFromJSObject = mapDataModel.fetchEntities(_mapID);
-		
-		// validateMarkers();
-
-		// Create markers for all the entities found in current map 
-		let entityTypeNamesObject = { };
-		
-		//console.log(mapMarkersFromJSObject[1]);
-
-		mapMarkersFromJSObject.forEach((e) => {
-			// ***************************************** 
-			
-			//console.log("addMapMarkers:" ,e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], _mapID);
-			const marker = this._createEntityMarker(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], _mapID);
-			
-			e['type'].forEach(value => {
-
-				if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
-				//console.log(`${e['page']}: adding: value: ${value}, pushing ${marker} `);
-				entityTypeNamesObject[`${value}`].push(marker);
-			});
-		});
-		
-		if (Object.keys(entityTypeNamesObject).length > 0) {
-			this._createEntityMapObject(entityTypeNamesObject);
-		}
-	}
-
-
-	// addNPCControlLayersFromJSObject(_mapID){
-	// 	if (_mapID == null || mapDataModel.hasEntities(_mapID) == false) return ;
-
-	// 	const entities = mapDataModel.getEntities(_mapID);
-	
-	// 	var entityArray = []; 
-
-	// 	for ( var i=0; i < entities.length ; i++ ){
-	// 		var page,
-	// 			mapx = "",
-	// 			mapy = "",
-	// 			displayposition = "",
-	// 			entitytypeArray = [],
-	// 			entity = {};
-
-	// 		page = entities[i][1];
-	// 		mapx = entities[i][4];
-	// 		mapy = entities[i][2];
-
-	// 		if ( mapDataModel.isWithinBounds(mapx, mapy, _mapID) == true ) {
-	// 			console.log(`addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map bounds !`);
-	// 			continue;
-	// 		}
-
-	// 		var tempArray = entities[i][0];
-	// 		for (let x = 0; x < tempArray.length; x++) { tempArray[x] = tempArray[x].trim(); }
-	// 		entitytypeArray = entitytypeArray.concat(tempArray);
-
-	// 		//mapid = _mapID;
-	// 		displayposition = `(${mapx},${mapy})`;
-
-	// 		entity['page'] = page;
-	// 		entity['mapx'] = mapx;
-	// 		entity['mapy'] = mapy;
-	// 		entity['type'] = entitytypeArray;
-	// 		entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}&width=175`;
-	// 		entity['displayposition'] = displayposition;
-
-	// 		entityArray.push(entity);
-	// 	}
-
-	// 	return entityArray;
+	// async addNPCControlLayersFromFetch(_mapID){
+	// 	if (_mapID == null) return ;
+	// 	//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+	// 	return mapDataModel.fetchEntities(_mapID);
 	// }
 
-
-	async addNPCControlLayersFromFetch(_mapID){
-		if (_mapID == null) return ;
+	_createEntityMapObject(entityTypeNamesObject, _mapID){
+		var count = 0;
+		var dummyLayers = [];
+		var markerOverlays = [];
+		var mapOverlays = {};
 		
-		let markerLayers = [];
-		//let entitytypeArray = [];
-		let entityTypeNamesObject = { };
-
-		/* 
-		Table/Template structure:
-			Page - String	
-			mapid - Integer
-			mapx - Float
-			mapy - Float
-			entitytype - List of Page, delimiter: ,
-			image - File
-			displayposition - String 
-		*/
-
-		let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-		// console.log(`${url}`);
-
-		// fetch(url)
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		if (data.cargoquery == null ) return;
-		// 		data.cargoquery.forEach((d) => {
-					
-		// 			var page,
-		// 				mapx = "",
-		// 				mapy = "",
-		// 				mapid = "",
-		// 				imageurl = "",
-		// 				displayposition = "",
-		// 				entitytypeArray = [];
-
-		// 			Object.entries(d.title).forEach(([key, value]) => {
-		// 				//console.log(`${key}: ${value}`);
-		// 				if ( key == 'Page') page = value;
-		// 				else if ( key == 'entitytype') {
-		// 					//console.log("***"+page);
-		// 					var tempArray = value.split(',');
-		// 					for (let i = 0; i < tempArray.length; i++) { tempArray[i] = tempArray[i].trim(); }
-		// 					entitytypeArray = Array.from(new Set(entitytypeArray.concat(tempArray)));
-		// 				}
-		// 				//else if ( key == 'mapid') mapid = value;
-		// 				else if ( key == 'mapx') mapx = value;
-		// 				else if ( key == 'mapy') mapy = value;
-		// 				else if ( key == 'image' && value !== null) {
-		// 					imageurl = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
-		// 				}
-		// 				else if ( key == 'displayposition') displayposition = value;
-		// 			  });
-					
-		// 			// if ( page !== undefined && entitytypeArray.length >=0 &&  mapx !== "" && mapy !== "") { //&& mapid !== "") {
-		// 			// 	const marker = this._createEntityMarker(page, mapx, mapy, imageurl, displayposition, mapid);
-		// 			// 	//entityTypeNamesObject = entityTypeNamesObject.concat(marker);
-
-		// 			// 	entitytypeArray.forEach(value => {
-		// 			// 		if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
-		// 			// 		//console.log(`@${page}: adding: value: ${value} `);
-		// 			// 		entityTypeNamesObject[`${value}`].push(marker);
-		// 			// 		});
-		// 			// 	entitytypeArray = [];
-		// 			// }
-		// 		  });
-				  
-		// 		// if (Object.keys(entityTypeNamesObject).length > 0) {
-		// 		// 	this._createEntityMapObject(entityTypeNamesObject);
-		// 		// }
-		// 	})
-		// 	.catch(console.error);
-
-		return mapDataModel.fetchEntities(_mapID);
-	}
-
-	_createEntityMapObject(entityTypeNamesObject){
-		
-		// var _layerOverlays = {};
-
-		// for (const key in entityTypeNamesObject) {
-		// 	//console.log(key);
-		// 	var _layerGroupFromObject = L.layerGroup(entityTypeNamesObject[key]);
-		// 	if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, _layerOverlays).addTo(this.map);
-		// 	this.controlLayer.addOverlay(_layerGroupFromObject, key);
-		
-		// 	this.map.on('zoomend', (e) =>  {
-		// 		var actualZoom = e.target._zoom
-		// 		_layerGroupFromObject.eachLayer(function (_marker) { 
-		// 			if (_marker instanceof L.Marker){
-		// 				_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
-		// 			}});
-		// 	});
-	
-		// 	this.map.on("overlayremove", (e) =>  {
-		// 			if (this.map.hasLayer(_layerGroupFromObject)) {
-		// 				this.map.removeLayer(_layerGroupFromObject);
-		// 				this.map.addLayer(_layerGroupFromObject);
-		// 			}
-		// 	  });
-		// }
-
-		
-
-		Object.entries(entityTypeNamesObject).forEach(([key, value]) => {
-			//console.log(typeof(value));
-			var _layerGroupFromObject = L.layerGroup(value);
+		for (const key in entityTypeNamesObject){
 			
-			//var _layerOverlays = { [key] : _layerGroupFromObject };
+			var _layerGroupFromObject = entityTypeNamesObject[key];
+			dummyLayers[count] = L.polyline([[0, 0], [0, 0]], { 
+				id : count, 
+				stroke: false, 
+				interactive: false
+			}); 
+			markerOverlays[count] = _layerGroupFromObject;
+			mapOverlays[key] = dummyLayers[count];
+			count++;
+		}
 
-			if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, null).addTo(this.map);
-			
-			this.controlLayer.addBaseLayer(_layerGroupFromObject, key);
-			//this.controlLayer.addOverlay(_layerGroupFromObject, key);
+		//console.log(_mapID, loadedMapMarkersArray);
+		loadedMapMarkersArray = {};
+		loadedMapMarkersArray =  L.layerGroup([]).addTo(this.map);
 
-			this.map.on('zoomend', (e) =>  {
-				var actualZoom = e.target._zoom
-				_layerGroupFromObject.eachLayer(function (_marker) { 
-					if (_marker instanceof L.Marker){
-						_marker.setIcon(mapMarkers.scaledIcon(actualZoom, _marker));
-					}});
-			});
 
-			// this.map.on("overlayremove", (e) =>  {
-			// 	console.log('fire');
-			// 		if (this.map.hasLayer(_layerGroupFromObject)) {
-			// 			this.map.removeLayer(_layerGroupFromObject);
-			// 			this.map.addLayer(_layerGroupFromObject);
-			// 		}
-			// });
+		if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
+		else this.controlLayer = L.control.layers(null, mapOverlays).addTo(this.map);
+
+		function adjustMarkersForZoom(zoomLevel){
+			loadedMapMarkersArray.eachLayer(function (_marker) { 
+				if (_marker instanceof L.Marker){
+					//console.log(_marker.options.name);
+					if ( zoomLevel < 2.5 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
+					else _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, _marker.options.name));
+				}});
+		}
+
+		let preZoom;
+		this.map.on('zoomstart', (e) =>  {
+			//mapMarkers.currentZoom = e.target._zoom;
+			preZoom = e.target._zoom
 		});
-	}
 
-	_createEntityMarker(page, mapx, mapy, imageurl, displayposition, mapid){
-			
-			//move to MapMarker class once this is functioning correctly
-			var tooltiptemplate = `<div class="ffximap-icon-tooltip">`; 
-			if (imageurl !== undefined && imageurl !== null && imageurl != "") {
+		this.map.on('zoomend', (e) =>  {
+			//mapMarkers.currentZoom = e.target._zoom;
+			var postZoom = e.target._zoom;
+			if ( (preZoom < 2.5 && postZoom >= 2.5) || (preZoom >= 2.5 && postZoom < 2.5) ) adjustMarkersForZoom(this.map.getZoom());
+		});
 
-				tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`;
+		this.map.on('overlayadd', (evt) => {
+			var i = mapOverlays[evt.name].options.id;
+			//console.log(i);
+			for (var j = 0; j < markerOverlays[i].length; j++) {
+			  if (loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
+				markerOverlays[i][j].myCount += 1;
+				}
+			  else {  
+				markerOverlays[i][j].myCount = 1;
+				markerOverlays[i][j].addTo(loadedMapMarkersArray);
+			  }
 			}
-			tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
-			//////
-
-			var marker = L.marker([mapx, mapy], {
-					icon: mapMarkers.icon_NPC()
-				})
-				.bindTooltip(L.Util.template(tooltiptemplate, null), {
-					opacity: 1.0
-				})
-				.on('click', (e) => {
-						window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
-						//console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
+			if ( loadedMapMarkersArray.getLayers().length > 0 ){
+				this.map.eachLayer((layer) => {
+					if (layer == this.currentMapImageOverlay) {
+						layer.setOpacity(0.5);
+					}
 				});
-		return marker;
+			} ;
 
+			adjustMarkersForZoom(this.map.getZoom());
+		  });
+		  
+		this.map.on('overlayremove', (evt) => {
+			var i = mapOverlays[evt.name].options.id;
+			//console.log(i);
+			for (var j = 0; j < markerOverlays[i].length; j++) {
+			  if (loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
+				markerOverlays[i][j].myCount -= 1;
+				if (markerOverlays[i][j].myCount == 0) {
+					loadedMapMarkersArray.removeLayer(markerOverlays[i][j]);
+				}
+			  }
+			}
+			if ( loadedMapMarkersArray.getLayers().length < 1 ){
+				this.map.eachLayer((layer) => {
+					if (layer == this.currentMapImageOverlay) {
+						layer.setOpacity(1.0);
+					}
+				});
+			} ;
+
+		  });
 	}
 
-	
 	addSearchBar(_mapID){
 		if (this.controlSearchBar ) return;
 

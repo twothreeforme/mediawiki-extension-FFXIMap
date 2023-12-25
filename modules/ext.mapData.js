@@ -107,7 +107,7 @@ class MapData {
 			mapy = entities[i][2];
 
 			if ( this.isWithinBounds(mapx, mapy, _mapID) == true ) {
-				console.log(`addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map bounds !`);
+				console.log(`FFXIMap: addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map bounds !`);
 				continue;
 			}
 
@@ -153,7 +153,8 @@ class MapData {
                 else if ( key == 'mapx') entity['mapx'] = value;
                 else if ( key == 'mapy') entity['mapy'] = value;
                 else if ( key == 'image' && value !== null) {
-                    entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`; 
+                    entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`;
+                    this.fetchImage(entity['imageurl'], entity['page']);
                 }
                 else if ( key == 'displayposition') entity['displayposition'] = value;
                
@@ -173,6 +174,18 @@ class MapData {
         const data = await response.json();
         const parsedEntities = parseFetchedEntities(data);
         return parsedEntities;
+    }
+
+    async fetchImage(url, entityName){
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok && response.status != 404) {  throw new Error(`FFXIMap: ${response.status} ${response.statusText}`); }
+            else if (response.status == 404) console.log(`FFXIMap: [${entityName}] No image found`);
+          } catch (error) {
+            console.log(`FFXIMap: fetchImage() error`);
+          }
+
     }
 
 }

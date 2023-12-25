@@ -42,7 +42,7 @@ class FFXIMap {
 		// Checking defaults for, and setting, $params prior to anything
 		//$zoom_levels = array(0,1,2,3,4,5,6);
 		$maxZoom = 6;
-		$minZoom = -2;
+		$minZoom = 0;
 
 		$zoom = 1;
 		if (isset($params['zoom']) && $params['zoom'] >= 0 && $params['zoom'] <= 6){

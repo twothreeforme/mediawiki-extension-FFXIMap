@@ -43,6 +43,7 @@
 				"mapdata.json",
 				"ext.mapData.js",
 				"ext.mapMarker.js",
+				"iconsSVGData.js",
 				"ext.FFXIMap.js"
 			],
 			"styles": [
