@@ -122,7 +122,9 @@ class MapData {
 			entity['mapx'] = mapx;
 			entity['mapy'] = mapy;
 			entity['type'] = entitytypeArray;
-			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}&width=175`;
+			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
+            console.log("JS:[page] ", page + `.png`);
+
 			entity['displayposition'] = displayposition;
 
 			entityArray.push(entity);
@@ -154,7 +156,9 @@ class MapData {
                 else if ( key == 'mapy') entity['mapy'] = value;
                 else if ( key == 'image' && value !== null) {
                     entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`;
-                    this.fetchImage(entity['imageurl'], entity['page']);
+                    console.log("Cargo:[page] ", value);
+
+                    this.fetchImage(entity['imageurl'], value);
                 }
                 else if ( key == 'displayposition') entity['displayposition'] = value;
                
@@ -185,6 +189,33 @@ class MapData {
           } catch (error) {
             console.log(`FFXIMap: fetchImage() error`);
           }
+
+    }
+
+    async fetchImageURL(entityName){
+        var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
+
+        var params = {
+            action: "query",
+            prop: "images",
+            titles: entityName,
+            format: "json"
+        };
+        
+        url = url + "?origin=*";
+        Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+        
+        fetch(url)
+            .then(function(response){return response.json();})
+            .then(function(response) {
+                var pages = response.query.pages;
+                for (var page in pages) {
+                    for (var img of pages[page].images) {
+                        console.log(img.title);
+                    }
+                }
+            })
+            .catch(function(error){console.log(error);});
 
     }
 
