@@ -177,7 +177,7 @@ class MapData {
     }
 
     async fetchImage(url, entityName){
-
+        console.log(url);
         try {
             const response = await fetch(url);
             if (!response.ok && response.status != 404) {  throw new Error(`FFXIMap: ${response.status} ${response.statusText}`); }
