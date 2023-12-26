@@ -171,7 +171,7 @@ class MapMarker {
 
         function tipHTML(page, imageurl, displayposition){
             var tooltiptemplate = `<div>`; 
-            if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`; }
+            if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="[[File:${imageurl}]]" alt=\"\" class="img-alt">`; }
             tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
             return tooltiptemplate;
         }
@@ -202,11 +202,11 @@ class MapMarker {
                         var tempStr = img.title.replace("File:", "");
                         var tempStrSplit = tempStr.split('.');
                         //console.log("img:", tempStr[0]);
-                        console.log("Searching: ", pages[page].title, tempStrSplit);   
+                        //console.log("Searching: ", pages[page].title, tempStrSplit);   
                         if ( tempStrSplit[0] == pages[page].title ) {
-                            console.log("FOUND: ", pages[page].title, tempStr);
+                            console.log("FOUND: ", pages[page].title, tempStr, img.title);
                             //return tempStr;
-                            var tip = tipHTML(marker.options.name, img.title);
+                            var tip = tipHTML(marker.options.name, img.title, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
                             marker.bindTooltip(L.Util.template(tip, null), {
                                 opacity: 1.0,
                                 className: `${CSS.markerTooltip}`,
