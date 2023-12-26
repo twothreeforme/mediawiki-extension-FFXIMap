@@ -174,7 +174,14 @@ class MapMarker {
             var tooltiptemplate = `<div>`; 
             if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${url}" alt=\"\" class="img-alt">`; }
             tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
-            return tooltiptemplate;
+            
+            marker.bindTooltip(L.Util.template(tip, null), {
+                opacity: 1.0,
+                className: `${CSS.markerTooltip}`,
+                direction: 'left',
+                offset: L.point(0, 8)
+            });
+
         }
 
         var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
@@ -197,7 +204,10 @@ class MapMarker {
                 var pages = response.query.pages;
                 for (var page in pages) {
                     console.log(pages[page]);
-                    if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
+                    if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) {
+                        tipHTML(marker.options.name, null, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
+                        continue;
+                    }
                     
                     for (var img of pages[page].images) {
                         var tempStr = img.title.replace("File:", "");
@@ -207,19 +217,14 @@ class MapMarker {
                         if ( tempStrSplit[0] == pages[page].title ) {
                             //console.log("FOUND: ", pages[page].title, tempStr, img.title);
                             //return tempStr;
+                            tipHTML(marker.options.name, tempStr, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
+                            return;
                         }
                         
                         //console.log(page, img.title);
                     }
 
-                    var tip = tipHTML(marker.options.name, img.title, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
-                    marker.bindTooltip(L.Util.template(tip, null), {
-                        opacity: 1.0,
-                        className: `${CSS.markerTooltip}`,
-                        direction: 'left',
-                        offset: L.point(0, 8)
-                    });
-
+                    tipHTML(marker.options.name, null, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
                 }
             })
             .catch(function(error){
