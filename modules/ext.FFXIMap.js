@@ -455,7 +455,7 @@ class FFXIMap {
         //console.log(url);
 
         var response = await fetch(url);
-		var mapMarkersFromJSObject = mapDataModel.getJSObjectEntities(_mapID);
+		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID);
         var data = await response.json();
         var mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
 		

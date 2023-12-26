@@ -87,7 +87,7 @@ class MapData {
         return mapList;
     }
 
-    getJSObjectEntities(_mapID){
+    async getJSObjectEntities(_mapID){
         if (_mapID == null || this.hasEntities(_mapID) == false) return ;
 
 		const entities = this.getEntities(_mapID);
@@ -125,7 +125,7 @@ class MapData {
 			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
             //console.log("JS:[page] ", page + `.png`);
 
-            var URL = this.fetchImageURL(entity['page']);
+            var URL = await this.fetchImageURL(entity['page']);
             console.log(entity['page'],  URL); 
 
 			entity['displayposition'] = displayposition;
@@ -259,7 +259,6 @@ class MapData {
                 }
             }
         } );
-        console.log('fire');
     }
 
 }
