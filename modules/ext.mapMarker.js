@@ -167,7 +167,7 @@ class MapMarker {
 
     }
 
-    createTooltip( marker, imageURL ){
+    createToolTip( marker, imageURL ){
         // e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], e['type']
         console.log(marker.options.name, imageURL);
         // var tooltiptemplate = `<div>`; 
