@@ -223,15 +223,14 @@ class MapData {
                 for (var page in pages) {
                     
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
-                    console.log("*:",typeof(pages[page].images));
                     
                     for (var img of pages[page].images) {
                         var tempStr = img.title.replace("File:", "");
                         var tempStrSplit = tempStr.split('.');
                         //console.log("img:", tempStr[0]);
-                        //console.log(pages[page].title, tempStr);   
+                        console.log("Searching: ", pages[page].title, tempStr);   
                         if ( tempStrSplit == pages[page].title ) {
-                            console.log(pages[page].title, tempStr);
+                            console.log("FOUND: ", pages[page].title, tempStr);
                             //return tempStr;
                         }
                         
