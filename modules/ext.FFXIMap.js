@@ -533,13 +533,13 @@ class FFXIMap {
 		}
 
 		this.abortController = new AbortController();
-		this.abortController.signal.addEventListener(
-			"abort",
-			() => {
-			  console.log(this.abortController.signal.reason);
-			  return;
-			}
-		  );
+		// this.abortController.signal.addEventListener(
+		// 	"abort",
+		// 	() => {
+		// 	  console.log(this.abortController.signal.reason);
+		// 	  return;
+		// 	}
+		//   );
 
 		// Establish new map
 		this.newMap(_mapID);
