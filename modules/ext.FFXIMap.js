@@ -527,7 +527,10 @@ class FFXIMap {
 	}
 
 	abortFetching() {
-		if ( this.abortController !== 'undefined' &&this.abortController !== null ) this.abortController.abort("FFXIMap: Changing maps");
+		console.log(this.abortController);
+		if ( this.abortController !== 'undefined' || this.abortController !== null ) {
+			this.abortController.abort("FFXIMap: Changing maps");
+		}
 		this.abortController = null;
     }
 
