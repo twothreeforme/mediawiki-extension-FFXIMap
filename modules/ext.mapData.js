@@ -219,12 +219,18 @@ class MapData {
                         var tempStr = img.title.replace("File:", "");
                         var tempStrSplit = tempStr.split('.');
                         //console.log("img:", tempStr[0]);   
-                        if ( tempStrSplit == pages[page].title ) return tempStr;
+                        if ( tempStrSplit == pages[page].title ) {
+                            console.log(pages[page].title, tempStr);
+                            return tempStr;
+                        }
+                        
                         //console.log(page, img.title);
                     }
                 }
             })
-            .catch(function(error){console.log(error);});
+            .catch(function(error){
+                console.log("FFXIMap:fetchImageURL() ", error);
+            });
 
     }
 
