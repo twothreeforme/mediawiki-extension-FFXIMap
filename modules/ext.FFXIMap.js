@@ -455,7 +455,7 @@ class FFXIMap {
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url);
         var data = await response.json();
-		
+
         var mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
@@ -580,7 +580,7 @@ class FFXIMap {
 		this.map.on('zoomend', (e) =>  {
 			//mapMarkers.currentZoom = e.target._zoom;
 			var postZoom = e.target._zoom;
-			if ( (preZoom < 2.5 && postZoom >= 2.5) || (preZoom >= 2.5 && postZoom < 2.5) ) adjustMarkersForZoom(this.map.getZoom());
+			if ( (preZoom < 2.25 && postZoom >= 2.25) || (preZoom >= 2.25 && postZoom < 2.25) ) adjustMarkersForZoom(this.map.getZoom());
 		});
 
 		this.map.on('overlayadd', (evt) => {
