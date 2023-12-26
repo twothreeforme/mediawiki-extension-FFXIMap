@@ -467,10 +467,10 @@ class FFXIMap {
 			}
 		  );
 
-		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, abort);
+		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-        var response = await fetch(url, { signal: abort });
+        var response = await fetch(url, { signal: abort.signal });
         var data = await response.json();
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data);
 		
