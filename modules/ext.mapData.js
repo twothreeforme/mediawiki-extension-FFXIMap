@@ -228,7 +228,7 @@ class MapData {
                         var tempStr = img.title.replace("File:", "");
                         var tempStrSplit = tempStr.split('.');
                         //console.log("img:", tempStr[0]);
-                        console.log("Searching: ", pages[page].title, tempStr);   
+                        console.log("Searching: ", pages[page].title, tempStrSplit);   
                         if ( tempStrSplit == pages[page].title ) {
                             console.log("FOUND: ", pages[page].title, tempStr);
                             //return tempStr;
