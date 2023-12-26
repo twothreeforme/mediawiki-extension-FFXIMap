@@ -151,7 +151,7 @@ class MapMarker {
     }
 
     async createToolTip(marker, abortController){
-        console.log('createToolTip');
+
         function tipHTML(page, imageurl, displayposition){
             var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${imageurl}&width=175`;
             var tooltiptemplate = `<div>`; 
@@ -186,7 +186,7 @@ class MapMarker {
             .then(function(response){ return response.json(); })
             .then(function(response) {
                 var pages = response.query.pages;
-                console.log('createToolTip for loop');
+
                 for (var page in pages) {
                     
                     //console.log(pages[page]);
