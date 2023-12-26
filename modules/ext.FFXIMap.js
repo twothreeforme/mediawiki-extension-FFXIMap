@@ -524,11 +524,11 @@ class FFXIMap {
 			this._createEntityMapObject(entityTypeNamesObject, _mapID);
 		}
 		
-		this.abortController = null;
 	}
 
 	abortFetching() {
 		if ( this.abortController !== 'undefined' &&this.abortController !== null ) this.abortController.abort("FFXIMap: Changing maps");
+		this.abortController = null;
     }
 
 	newMapWithControls(_mapID){
