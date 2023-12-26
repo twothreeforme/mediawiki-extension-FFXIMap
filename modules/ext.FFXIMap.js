@@ -158,6 +158,8 @@ class FFXIMap {
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
 		
+		this.abortController = new AbortController();
+
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
@@ -345,6 +347,8 @@ class FFXIMap {
 	}
 
 	destroyMap(){
+		this.abortFetching();
+
 		this.destroyControlLayer();
 
 		if (this.position !== undefined)   this.map.removeControl(this.position);
@@ -454,10 +458,10 @@ class FFXIMap {
 	}
 
 	async addMapMarkers(_mapID){
-		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID);
+		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController.signal);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-        var response = await fetch(url);
+        var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
 
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data);
@@ -507,6 +511,11 @@ class FFXIMap {
 			this._createEntityMapObject(entityTypeNamesObject, _mapID);
 		}
 	}
+
+	abortFetching() {
+        console.log('FFXIMap: Abort fetching');
+        controller.abort()
+    }
 
 	newMapWithControls(_mapID){
 		// Establish new map

@@ -170,20 +170,24 @@ class MapData {
         else return undefined;
     }
 
-    async fetchEntities(_mapID){
+    async fetchEntities(_mapID, abortController){
         let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
         //console.log(url);
 
-        const response = fetch(url);
+        const response = fetch(url, {
+            signal: abortController
+        });
         const data = await response.json();
         const parsedEntities = parseFetchedEntities(data);
         return parsedEntities;
     }
 
-    async fetchImage(url, entityName){
+    async fetchImage(url, entityName, abortController){
         //console.log(url);
         try {
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                signal: abortController
+            });
             if (!response.ok && response.status != 404) {  throw new Error(`FFXIMap: ${response.status} ${response.statusText}`); }
             else if (response.status == 404) console.log(`FFXIMap: [${entityName}] No image found`);
           } catch (error) {
@@ -192,7 +196,7 @@ class MapData {
 
     }
 
-    async fetchImageURL(entityName){
+    async fetchImageURL(entityName, abortController){
         var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
 
         var params = {
@@ -205,7 +209,9 @@ class MapData {
         url = url + "?origin=*";
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
         
-        fetch(url)
+        fetch(url, {
+            signal: abortController
+        })
             .then(function(response){return response.json();})
             .then(function(response) {
                 var pages = response.query.pages;
