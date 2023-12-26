@@ -195,7 +195,7 @@ class MapMarker {
         
         url = url + "?origin=*";
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-        
+        console.log(url);
         fetch(url, {
             signal: abortController.signal
         })
@@ -230,34 +230,6 @@ class MapMarker {
             .catch(function(error){
                 console.log("FFXIMap:createToolTip() ", error);
             });
-
-        // var params = {
-        // action: "query",
-        // prop: "images",
-        // titles: marker.options.name,
-        // format: "json"
-        // },
-
-        // api = new mw.Api();
-    
-        // api.get( params ).done( function ( data ) {
-        //     var pages = data.query.pages,
-        //         page;
-        //     for ( page in pages ) {
-        //         console.log(pages[page].title);
-        //         if ( typeof(pages[ page ].images) != 'undefined' ) {
-        //             pages[ page ].images.forEach( function ( img ) {
-        //                 var tempStr = img.title.replace("File:", "");
-        //                 var tempStrSplit = tempStr.split('.');
-        //                 if ( tempStrSplit == pages[page].title ) {
-        //                     console.log(pages[page].title, tempStr);
-        //                     //return tempStr;
-        //                 } 
-                        
-        //             } );
-        //         }
-        //     }
-        // } );
     }
 
 
