@@ -159,7 +159,7 @@ class FFXIMap {
 		this.mapHistory = new MapHistory();
 		
 		this.abortController = new AbortController();
-		this.abortController.addEventListener(
+		this.abortController.signal.addEventListener(
 			"abort",
 			() => {
 			  console.log("FFXIMap: addMapMarkers() aborted");
