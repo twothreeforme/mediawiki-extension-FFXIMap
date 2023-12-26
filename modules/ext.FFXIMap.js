@@ -468,12 +468,12 @@ class FFXIMap {
 			}
 		  );
 
-		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID);
+		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, abort);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url, { signal: abort.signal });
         var data = await response.json();
-        var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data);
+        var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, abort);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
 		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;

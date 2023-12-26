@@ -87,7 +87,7 @@ class MapData {
         return mapList;
     }
 
-    async getJSObjectEntities(_mapID){
+    async getJSObjectEntities(_mapID, abort){
         if (_mapID == null || this.hasEntities(_mapID) == false) return ;
 
 		const entities = this.getEntities(_mapID);
@@ -125,7 +125,7 @@ class MapData {
 			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
             //console.log("JS:[page] ", page + `.png`);
 
-            var URL = this.fetchImageURL(entity['page']);
+            var URL = this.fetchImageURL(entity['page'], abort);
             
 			entity['displayposition'] = displayposition;
 
@@ -135,7 +135,7 @@ class MapData {
 		return entityArray;
     }
 
-    parseFetchedEntities(data){
+    parseFetchedEntities(data, abort){
         if (data.cargoquery == null ) return;
         var entityArray = []; 
         data.cargoquery.forEach((d) => {
@@ -158,7 +158,7 @@ class MapData {
                 else if ( key == 'mapy') entity['mapy'] = value;
                 else if ( key == 'image' && value !== null) {
                     entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`;
-                    this.fetchImage(entity['imageurl'], value);
+                    this.fetchImage(entity['imageurl'], value, abort);
                 }
                 else if ( key == 'displayposition') entity['displayposition'] = value;
                
@@ -186,7 +186,7 @@ class MapData {
         //console.log(url);
         try {
             const response = await fetch(url, {
-                signal: abortController
+                signal: abortController.signal
             });
             if (!response.ok && response.status != 404) {  throw new Error(`FFXIMap: ${response.status} ${response.statusText}`); }
             else if (response.status == 404) console.log(`FFXIMap: [${entityName}] No image found`);
@@ -210,7 +210,7 @@ class MapData {
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
         
         fetch(url, {
-            signal: abortController
+            signal: abortController.signal
         })
             .then(function(response){return response.json();})
             .then(function(response) {
