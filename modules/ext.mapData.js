@@ -256,6 +256,7 @@ class MapData {
             var pages = data.query.pages,
                 page;
             for ( page in pages ) {
+                console.log(pages[page].title);
                 if ( typeof(pages[ page ].images) != 'undefined' ) {
                     pages[ page ].images.forEach( function ( img ) {
                         var tempStr = img.title.replace("File:", "");
