@@ -469,7 +469,7 @@ class FFXIMap {
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, this.abortController);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
-		console.log(mapMarkersFromJSObject, mapMarkersFromFetch);
+		//console.log(mapMarkersFromJSObject, mapMarkersFromFetch);
 		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
 		
 		// If there are JSObject markers and markers from the Cargo query, 
