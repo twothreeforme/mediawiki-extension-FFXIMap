@@ -158,7 +158,7 @@ class MapData {
                 else if ( key == 'mapy') entity['mapy'] = value;
                 else if ( key == 'image' && value !== null) {
                     entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`;
-                    this.fetchImage(entity['imageurl'], value, abortController);
+                    //this.fetchImage(entity['imageurl'], value, abortController);
                 }
                 else if ( key == 'displayposition') entity['displayposition'] = value;
                
