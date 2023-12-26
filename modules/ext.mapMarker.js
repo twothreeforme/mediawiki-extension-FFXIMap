@@ -167,15 +167,15 @@ class MapMarker {
 
     }
 
-    createTooltip( marker ){
+    createTooltip( marker, imageURL ){
         // e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], e['type']
+        console.log(marker.options.name, imageURL);
+        // var tooltiptemplate = `<div>`; 
+        // if (marker['imageurl'] !== undefined && marker['imageurl'] !== null && marker['imageurl'] != "") {
 
-        var tooltiptemplate = `<div>`; 
-        if (marker['imageurl'] !== undefined && marker['imageurl'] !== null && marker['imageurl'] != "") {
-
-            tooltiptemplate += `<img src="${marker['imageurl']}" alt=\"\" class="img-alt">`;
-        }
-        tooltiptemplate += `<b><i><center>${marker['page']}</i></b><br> ${marker['displayposition']}</center></div>`;
+        //     tooltiptemplate += `<img src="${marker['imageurl']}" alt=\"\" class="img-alt">`;
+        // }
+        // tooltiptemplate += `<b><i><center>${marker['page']}</i></b><br> ${marker['displayposition']}</center></div>`;
     }
 
 

@@ -196,11 +196,6 @@ class MapData {
     }
 
 
-    // Immediately after creating the control layer we start iterating 
-    async updateImageURL(){
-        this.createToolTip(e);
-    }
-
     async fetchImageURL(marker, abortController, callback){
         var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
 
@@ -232,6 +227,7 @@ class MapData {
                         if ( tempStrSplit[0] == pages[page].title ) {
                             console.log("FOUND: ", pages[page].title, tempStr);
                             //return tempStr;
+                            callback(marker, tempStr);
                         }
                         
                         //console.log(page, img.title);

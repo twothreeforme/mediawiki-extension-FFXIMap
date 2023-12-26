@@ -510,7 +510,7 @@ class FFXIMap {
 				entityTypeNamesObject[`${value}`].push(marker);
 			});
 
-			mapDataModel.fetchImageURL(marker, this.abortController, null); //mapMarkers.createToolTip());
+			mapDataModel.fetchImageURL(marker, this.abortController, mapMarkers.createToolTip());
 			// console.log(marker.options.name ,marker.getLatLng().lat, marker.getLatLng().lng);
 		});
 
