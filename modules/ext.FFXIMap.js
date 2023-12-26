@@ -469,6 +469,7 @@ class FFXIMap {
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, this.abortController);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
+		console.log(mapMarkersFromJSObject, mapMarkersFromFetch);
 		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
 		
 		// If there are JSObject markers and markers from the Cargo query, 
@@ -516,10 +517,10 @@ class FFXIMap {
 
 	}
 
-	abortFetching() {
-		console.log("FFXIMap: abortFetching()", this.abortController);
+	abortFetching(abortDescription) {
+		//console.log("FFXIMap: abortFetching()", this.abortController);
 		if (this.abortController !== null ) {
-			this.abortController.abort("FFXIMap: Changing maps");
+			this.abortController.abort(abortDescription);
 		}
 		this.abortController = null;
     }
@@ -527,7 +528,7 @@ class FFXIMap {
 	newMapWithControls(_mapID){
 
 		if ( this.abortController !== null ) {
-			this.abortFetching();
+			this.abortFetching("FFXIMap: Changing maps");
 		}
 
 		this.abortController = new AbortController();
