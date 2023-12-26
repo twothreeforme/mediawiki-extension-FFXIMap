@@ -514,16 +514,13 @@ class FFXIMap {
 
 	abortFetching() {
         console.log('FFXIMap: Abort fetching');
-        this.abortController.abort()
+        this.abortController.abort();
     }
 
 	newMapWithControls(_mapID){
 		// Establish new map
 		this.newMap(_mapID);
 	
-		// Setup any additional markers/layers for connecting the next zone
-		this.setupZoneConnections(_mapID);
-		
 		// Setup Map Markers
 		this.addMapMarkers(_mapID);
 		
@@ -541,6 +538,9 @@ class FFXIMap {
 		//Coordinate display
 		//mainly for debugging
 		if (showdetails == true) this.display_coordinates();
+
+		// Setup any additional markers/layers for connecting the next zone
+		this.setupZoneConnections(_mapID);
 
 		this.mapID = _mapID;	
 	}
