@@ -259,6 +259,7 @@ class MapData {
                 }
             }
         } );
+        console.log('fire');
     }
 
 }
