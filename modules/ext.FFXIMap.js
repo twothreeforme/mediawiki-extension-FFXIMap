@@ -478,8 +478,8 @@ class FFXIMap {
 						break;
 					}
 				}	
-	
-				if ( shouldAddToArray == true) mapMarkersFromJSObject.push(entityFetch);
+				
+				if ( entityFetch !== 'undefined' && shouldAddToArray == true) mapMarkersFromJSObject.push(entityFetch);
 			});
 		}
 
