@@ -248,12 +248,13 @@ class MapData {
             for ( page in pages ) {
                 if ( typeof(pages[ page ].images) != 'undefined' ) {
                     pages[ page ].images.forEach( function ( img ) {
-                        var tempStr = img.title.replace("File:", "");
-                        var tempStrSplit = tempStr.split('.');
-                        if ( tempStrSplit == pages[page].title ) {
-                            console.log(pages[page].title, tempStr);
-                            return tempStr;
-                        }
+                        console.log(img.title);
+                        // var tempStr = img.title.replace("File:", "");
+                        // var tempStrSplit = tempStr.split('.');
+                        // if ( tempStrSplit == pages[page].title ) {
+                        //     console.log(pages[page].title, tempStr);
+                        //     return tempStr;
+                        // }
                     } );
                 }
             }
