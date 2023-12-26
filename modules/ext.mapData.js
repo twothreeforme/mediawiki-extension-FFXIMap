@@ -212,7 +212,7 @@ class MapData {
                 var pages = response.query.pages;
                 for (var page in pages) {
                     //console.log(typeof(pages[page].images));
-                    if (pages[page].images.length <= 0) continue;
+                    if (typeof(pages[page].images) != 'undefined' && pages[page].images.length <= 0) continue;
                     //console.log("title:", pages[page].title);
                     
                     for (var img of pages[page].images) {
