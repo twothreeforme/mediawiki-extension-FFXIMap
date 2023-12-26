@@ -458,6 +458,7 @@ class FFXIMap {
 	}
 
 	async addMapMarkers(_mapID, abort){
+		console.log(abort);
 		if ( abort !== null ) {
 			this.abortFetching();
 		}
