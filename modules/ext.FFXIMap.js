@@ -479,7 +479,7 @@ class FFXIMap {
 			if (typeof(mapMarkersFromJSObject) == 'undefined') mapMarkersFromJSObject = [];
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var shouldAddToArray = true;
-
+				console.log(mapMarkersFromJSObject);
 				for ( var entityJS in mapMarkersFromJSObject) {
 					console.log(entityJS['page'], entityFetch['page']);
 					if ( entityJS['page'] == entityFetch['page']){
