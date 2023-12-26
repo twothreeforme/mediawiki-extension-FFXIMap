@@ -160,6 +160,7 @@ class FFXIMap {
 
 		this.abortController = null;
 
+
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
@@ -459,18 +460,6 @@ class FFXIMap {
 
 	async addMapMarkers(_mapID){
 		//console.log(abort);
-		if ( this.abortController !== null ) {
-			this.abortFetching();
-		}
-
-		this.abortController = new AbortController();
-		this.abortController.signal.addEventListener(
-			"abort",
-			() => {
-			  console.log("FFXIMap: addMapMarkers() aborted");
-			  return;
-			}
-		  );
 
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController);
 
@@ -524,10 +513,11 @@ class FFXIMap {
 			this._createEntityMapObject(entityTypeNamesObject, _mapID);
 		}
 		
+
 	}
 
 	abortFetching() {
-		console.log(this.abortController);
+		console.log("FFXIMap: abortFetching()", this.abortController);
 		if (this.abortController !== null ) {
 			this.abortController.abort("FFXIMap: Changing maps");
 		}
@@ -535,6 +525,20 @@ class FFXIMap {
     }
 
 	newMapWithControls(_mapID){
+
+		if ( this.abortController !== null ) {
+			this.abortFetching();
+		}
+
+		this.abortController = new AbortController();
+		this.abortController.signal.addEventListener(
+			"abort",
+			() => {
+			  console.log(this.abortController.signal.reason);
+			  return;
+			}
+		  );
+
 		// Establish new map
 		this.newMap(_mapID);
 	
