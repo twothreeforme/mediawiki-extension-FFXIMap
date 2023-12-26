@@ -214,7 +214,7 @@ class MapData {
         url = url + "?origin=*";
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
         
-        fetch(url, {
+        await fetch(url, {
             signal: abortController.signal
         })
             .then(function(response){return response.json();})
