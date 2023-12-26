@@ -528,7 +528,7 @@ class FFXIMap {
 
 	abortFetching() {
 		console.log(this.abortController);
-		if ( this.abortController !== 'undefined' || this.abortController !== null ) {
+		if (this.abortController !== null ) {
 			this.abortController.abort("FFXIMap: Changing maps");
 		}
 		this.abortController = null;
