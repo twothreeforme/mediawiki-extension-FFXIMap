@@ -212,8 +212,14 @@ class MapData {
             .then(function(response) {
                 var pages = response.query.pages;
                 for (var page in pages) {
+                    if (pages[page].images.length <= 0) continue;
+                    console.log(pages[page].title);
+                    
                     for (var img of pages[page].images) {
-                        console.log(page, img.title);
+                        var tempStr = img.title.replace("File:", "").split('.');
+                        console.log(tempStr[0]);   
+
+                        //console.log(page, img.title);
                     }
                 }
             })
