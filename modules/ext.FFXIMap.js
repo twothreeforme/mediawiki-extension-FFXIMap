@@ -157,14 +157,6 @@ class FFXIMap {
 
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
-		
-		this.abortController = new AbortController();
-		this.abortController.signal.addEventListener(
-			"abort",
-			() => {
-			  console.log("FFXIMap: addMapMarkers() aborted");
-			}
-		  );
 
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
@@ -464,6 +456,14 @@ class FFXIMap {
 	}
 
 	async addMapMarkers(_mapID, abortSignal){
+		this.abortController = null;
+		this.abortController = new AbortController();
+		this.abortController.signal.addEventListener(
+			"abort",
+			() => {
+			  console.log("FFXIMap: addMapMarkers() aborted");
+			}
+		  );
 
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, abortSignal);
 
@@ -516,10 +516,12 @@ class FFXIMap {
 		if (Object.keys(entityTypeNamesObject).length > 0) {
 			this._createEntityMapObject(entityTypeNamesObject, _mapID);
 		}
+		
+		this.abortController = null;
 	}
 
 	abortFetching() {
-        this.abortController.abort("FFXIMap: Changing maps");
+		if ( this.abortController !== 'undefined' ) this.abortController.abort("FFXIMap: Changing maps");
     }
 
 	newMapWithControls(_mapID){
