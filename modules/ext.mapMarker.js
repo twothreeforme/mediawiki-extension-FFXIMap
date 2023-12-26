@@ -178,7 +178,8 @@ class MapMarker {
         
         url = url + "?origin=*";
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-        console.log(url);
+            // console.log(url);
+            
         fetch(url, {
             signal: abortController.signal
         })
