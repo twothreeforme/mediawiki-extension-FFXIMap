@@ -126,7 +126,7 @@ class MapData {
             //console.log("JS:[page] ", page + `.png`);
 
             var URL = this.fetchImageURL(entity['page']);
-
+            
 			entity['displayposition'] = displayposition;
 
 			entityArray.push(entity);
@@ -205,12 +205,12 @@ class MapData {
         url = url + "?origin=*";
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
         
-        fetch(url)
+        await fetch(url)
             .then(function(response){return response.json();})
             .then(function(response) {
                 var pages = response.query.pages;
                 for (var page in pages) {
-                    //console.log(typeof(pages[page].images));
+                    console.log("*:",typeof(pages[page].images));
                     if (typeof(pages[page].images) != 'undefined' && pages[page].images.length <= 0) continue;
                     //console.log("title:", pages[page].title);
                     

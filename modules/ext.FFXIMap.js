@@ -558,9 +558,11 @@ class FFXIMap {
 		loadedMapMarkersArray = {};
 		loadedMapMarkersArray =  L.layerGroup([]).addTo(this.map);
 
-
 		if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
-		else this.controlLayer = L.control.layers(null, mapOverlays).addTo(this.map);
+		else {
+			this.controlLayer = null;
+			this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
+		}
 
 		function adjustMarkersForZoom(zoomLevel){
 			loadedMapMarkersArray.eachLayer(function (_marker) { 
