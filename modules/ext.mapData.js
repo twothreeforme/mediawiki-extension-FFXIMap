@@ -218,7 +218,7 @@ class MapData {
                 for (var page in pages) {
                     
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
-                    console.log("*:",typeof(pages[page].images));
+                    //console.log("*:",typeof(pages[page].images));
                     
                     for (var img of pages[page].images) {
                         var tempStr = img.title.replace("File:", "");

@@ -458,7 +458,10 @@ class FFXIMap {
 	}
 
 	async addMapMarkers(_mapID, abort){
-		
+		if ( abort !== null ) {
+			this.abortFetching();
+		}
+
 		abort = new AbortController();
 		abort.signal.addEventListener(
 			"abort",
