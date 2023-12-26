@@ -481,6 +481,7 @@ class FFXIMap {
 				var shouldAddToArray = true;
 
 				for ( var entityJS in mapMarkersFromJSObject) {
+					console.log(entityJS['page'], entityFetch['page']);
 					if ( entityJS['page'] == entityFetch['page']){
 						entityJS['mapx'] = entityFetch['mapx'];
 						entityJS['mapy'] = entityFetch['mapy'];
