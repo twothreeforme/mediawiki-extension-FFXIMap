@@ -210,9 +210,9 @@ class MapData {
             .then(function(response) {
                 var pages = response.query.pages;
                 for (var page in pages) {
+                    
+                    if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
                     console.log("*:",typeof(pages[page].images));
-                    if (typeof(pages[page].images) != 'undefined' && pages[page].images.length <= 0) continue;
-                    //console.log("title:", pages[page].title);
                     
                     for (var img of pages[page].images) {
                         var tempStr = img.title.replace("File:", "");
