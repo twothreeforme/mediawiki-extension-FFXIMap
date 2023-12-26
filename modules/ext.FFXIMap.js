@@ -492,7 +492,6 @@ class FFXIMap {
 				}	
 				
 				if ( entityFetch !== 'undefined' && shouldAddToArray == true){
-					console.log(mapMarkersFromJSObject);
 					mapMarkersFromJSObject.push(entityFetch);
 				} 
 			});
