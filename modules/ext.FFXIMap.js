@@ -464,6 +464,7 @@ class FFXIMap {
 			"abort",
 			() => {
 			  console.log("FFXIMap: addMapMarkers() aborted");
+			  return;
 			}
 		  );
 
@@ -496,7 +497,7 @@ class FFXIMap {
 				}	
 				
 				if ( entityFetch !== 'undefined' && shouldAddToArray == true){
-					console.log(entityFetch);
+					//console.log(entityFetch);
 					mapMarkersFromJSObject.push(entityFetch);
 				} 
 			});
