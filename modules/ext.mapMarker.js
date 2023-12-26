@@ -167,6 +167,19 @@ class MapMarker {
 
     }
 
+    createTooltip( marker ){
+        // e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], e['type']
+
+        var tooltiptemplate = `<div>`; 
+        if (marker['imageurl'] !== undefined && marker['imageurl'] !== null && marker['imageurl'] != "") {
+
+            tooltiptemplate += `<img src="${marker['imageurl']}" alt=\"\" class="img-alt">`;
+        }
+        tooltiptemplate += `<b><i><center>${marker['page']}</i></b><br> ${marker['displayposition']}</center></div>`;
+    }
+
+
+
 }
 
 

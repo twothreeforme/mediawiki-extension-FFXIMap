@@ -509,12 +509,15 @@ class FFXIMap {
 				//console.log(`${e['page']}: adding: value: ${value}, pushing ${marker} `);
 				entityTypeNamesObject[`${value}`].push(marker);
 			});
+
+			mapDataModel.fetchImageURL(marker, this.abortController, null); //mapMarkers.createToolTip());
+			// console.log(marker.options.name ,marker.getLatLng().lat, marker.getLatLng().lng);
 		});
 
+		// Hurry up and get what we have at this point on the map in a control layer
 		if (Object.keys(entityTypeNamesObject).length > 0) {
 			this._createEntityMapObject(entityTypeNamesObject, _mapID);
 		}
-		
 
 	}
 
@@ -607,7 +610,7 @@ class FFXIMap {
 			loadedMapMarkersArray.eachLayer(function (_marker) { 
 				if (_marker instanceof L.Marker){
 					//console.log(_marker.options.name);
-					if ( zoomLevel < 2 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
+					if ( zoomLevel < 2.25 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
 					else _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, _marker.options.name));
 				}});
 		}
