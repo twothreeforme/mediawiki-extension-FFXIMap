@@ -175,7 +175,7 @@ class MapMarker {
             if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${url}" alt=\"\" class="img-alt">`; }
             tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
             
-            marker.bindTooltip(L.Util.template(tip, null), {
+            marker.bindTooltip(L.Util.template(tooltiptemplate, null), {
                 opacity: 1.0,
                 className: `${CSS.markerTooltip}`,
                 direction: 'left',
