@@ -457,13 +457,12 @@ class FFXIMap {
 
 	}
 
-	async addMapMarkers(_mapID){
+	async addMapMarkers(_mapID){	
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController.signal);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
-
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
@@ -513,8 +512,9 @@ class FFXIMap {
 	}
 
 	abortFetching() {
-        console.log('FFXIMap: Abort fetching');
         this.abortController.abort();
+		console.log('FFXIMap: Abort fetching: ',this.abortController.signal.reason );
+
     }
 
 	newMapWithControls(_mapID){
