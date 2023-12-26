@@ -470,13 +470,13 @@ class FFXIMap {
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
 		//console.log(mapMarkersFromJSObject, mapMarkersFromFetch);
-		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
+		if ( typeof(mapMarkersFromJSObject) === 'undefined' && typeof(mapMarkersFromFetch) === 'undefined' ) return;
 		
 		// If there are JSObject markers and markers from the Cargo query, 
 		// then cycle through them and adjust the JSObject markers to match the
 		// cargo query ones
 		if ( typeof(mapMarkersFromFetch) != 'undefined') {
-			if (mapMarkersFromJSObject == 'undefined') mapMarkersFromJSObject = {};
+			if (mapMarkersFromJSObject === 'undefined') mapMarkersFromJSObject = {};
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var shouldAddToArray = true;
 
