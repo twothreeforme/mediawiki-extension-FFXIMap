@@ -523,7 +523,7 @@ class FFXIMap {
 	}
 
 	abortFetching() {
-		if ( this.abortController !== 'undefined' &&this.abortController !== 'null' ) this.abortController.abort("FFXIMap: Changing maps");
+		if ( this.abortController !== 'undefined' &&this.abortController !== null ) this.abortController.abort("FFXIMap: Changing maps");
     }
 
 	newMapWithControls(_mapID){
