@@ -137,29 +137,29 @@ class MapMarker {
 
     new(page, mapx, mapy, imageurl, displayposition, type){
         //move to MapMarker class once this is functioning correctly
-        var tooltiptemplate = `<div>`; 
-        if (imageurl !== undefined && imageurl !== null && imageurl != "") {
+        // var tooltiptemplate = `<div>`; 
+        // if (imageurl !== undefined && imageurl !== null && imageurl != "") {
 
-            tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`;
-        }
-        tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
+        //     tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`;
+        // }
+        // tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
         //////
         
         //var label = this.generateIconHTML(page);
 
-        var tempLabel = ( this.currentZoom >= 2.5) ? tempLabel = page : tempLabel = '';
+        var tempLabel = ( this.currentZoom >= 2.25) ? tempLabel = page : tempLabel = '';
         
         return L.marker([mapx, mapy], {
                 icon: this.scaledIcon(type, tempLabel),
                 name: page,
                 type: type
             })
-            .bindTooltip(L.Util.template(tooltiptemplate, null), {
-                opacity: 1.0,
-                className: `${CSS.markerTooltip}`,
-                direction: 'left',
-                offset: L.point(0, 8)
-            })
+            // .bindTooltip(L.Util.template(tooltiptemplate, null), {
+            //     opacity: 1.0,
+            //     className: `${CSS.markerTooltip}`,
+            //     direction: 'left',
+            //     offset: L.point(0, 8)
+            // })
             .on('click', (e) => {
                     window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
                     //console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
@@ -167,17 +167,90 @@ class MapMarker {
 
     }
 
-    createToolTip( marker, imageURL ){
-        // e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], e['type']
-        console.log(marker.options.name, imageURL);
-        // var tooltiptemplate = `<div>`; 
-        // if (marker['imageurl'] !== undefined && marker['imageurl'] !== null && marker['imageurl'] != "") {
+    async createToolTip(marker, abortController){
 
-        //     tooltiptemplate += `<img src="${marker['imageurl']}" alt=\"\" class="img-alt">`;
-        // }
-        // tooltiptemplate += `<b><i><center>${marker['page']}</i></b><br> ${marker['displayposition']}</center></div>`;
+        function tipHTML(page, imageurl, displayposition){
+            var tooltiptemplate = `<div>`; 
+            if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`; }
+            tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
+            return tooltiptemplate;
+        }
+
+        var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
+
+        var params = {
+            action: "query",
+            prop: "images",
+            titles: marker.options.name,
+            format: "json"
+        };
+        
+        url = url + "?origin=*";
+        Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+        
+        await fetch(url, {
+            signal: abortController.signal
+        })
+            .then(function(response){return response.json();})
+            .then(function(response) {
+                var pages = response.query.pages;
+                for (var page in pages) {
+                    
+                    if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
+                    
+                    for (var img of pages[page].images) {
+                        var tempStr = img.title.replace("File:", "");
+                        var tempStrSplit = tempStr.split('.');
+                        //console.log("img:", tempStr[0]);
+                        console.log("Searching: ", pages[page].title, tempStrSplit);   
+                        if ( tempStrSplit[0] == pages[page].title ) {
+                            console.log("FOUND: ", pages[page].title, tempStr);
+                            //return tempStr;
+                            var tip = tipHTML(marker.options.name, img.title);
+                            marker.bindTooltip(L.Util.template(tip, null), {
+                                opacity: 1.0,
+                                className: `${CSS.markerTooltip}`,
+                                direction: 'left',
+                                offset: L.point(0, 8)
+                            });
+                        }
+                        
+                        //console.log(page, img.title);
+                    }
+                }
+            })
+            .catch(function(error){
+                console.log("FFXIMap:createToolTip() ", error);
+            });
+
+        // var params = {
+        // action: "query",
+        // prop: "images",
+        // titles: marker.options.name,
+        // format: "json"
+        // },
+
+        // api = new mw.Api();
+    
+        // api.get( params ).done( function ( data ) {
+        //     var pages = data.query.pages,
+        //         page;
+        //     for ( page in pages ) {
+        //         console.log(pages[page].title);
+        //         if ( typeof(pages[ page ].images) != 'undefined' ) {
+        //             pages[ page ].images.forEach( function ( img ) {
+        //                 var tempStr = img.title.replace("File:", "");
+        //                 var tempStrSplit = tempStr.split('.');
+        //                 if ( tempStrSplit == pages[page].title ) {
+        //                     console.log(pages[page].title, tempStr);
+        //                     //return tempStr;
+        //                 } 
+                        
+        //             } );
+        //         }
+        //     }
+        // } );
     }
-
 
 
 }

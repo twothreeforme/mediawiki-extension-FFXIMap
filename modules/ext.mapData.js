@@ -196,76 +196,7 @@ class MapData {
     }
 
 
-    async fetchImageURL(marker, abortController, callback){
-        var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
-
-        var params = {
-            action: "query",
-            prop: "images",
-            titles: marker.options.name,
-            format: "json"
-        };
-        
-        url = url + "?origin=*";
-        Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-        
-        await fetch(url, {
-            signal: abortController.signal
-        })
-            .then(function(response){return response.json();})
-            .then(function(response) {
-                var pages = response.query.pages;
-                for (var page in pages) {
-                    
-                    if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
-                    
-                    for (var img of pages[page].images) {
-                        var tempStr = img.title.replace("File:", "");
-                        var tempStrSplit = tempStr.split('.');
-                        //console.log("img:", tempStr[0]);
-                        console.log("Searching: ", pages[page].title, tempStrSplit);   
-                        if ( tempStrSplit[0] == pages[page].title ) {
-                            console.log("FOUND: ", pages[page].title, tempStr);
-                            //return tempStr;
-                            callback(marker, tempStr);
-                        }
-                        
-                        //console.log(page, img.title);
-                    }
-                }
-            })
-            .catch(function(error){
-                console.log("FFXIMap:fetchImageURL() ", error);
-            });
-
-        // var params = {
-        // action: "query",
-        // prop: "images",
-        // titles: marker.options.name,
-        // format: "json"
-        // },
-
-        // api = new mw.Api();
     
-        // api.get( params ).done( function ( data ) {
-        //     var pages = data.query.pages,
-        //         page;
-        //     for ( page in pages ) {
-        //         console.log(pages[page].title);
-        //         if ( typeof(pages[ page ].images) != 'undefined' ) {
-        //             pages[ page ].images.forEach( function ( img ) {
-        //                 var tempStr = img.title.replace("File:", "");
-        //                 var tempStrSplit = tempStr.split('.');
-        //                 if ( tempStrSplit == pages[page].title ) {
-        //                     console.log(pages[page].title, tempStr);
-        //                     //return tempStr;
-        //                 } 
-                        
-        //             } );
-        //         }
-        //     }
-        // } );
-    }
 
 }
 
