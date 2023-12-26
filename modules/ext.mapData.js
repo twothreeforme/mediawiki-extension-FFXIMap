@@ -125,7 +125,7 @@ class MapData {
 			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
             //console.log("JS:[page] ", page + `.png`);
 
-            this.fetchImageURL(entity['page']);
+            console.log(this.fetchImageURL(entity['page']));
 
 			entity['displayposition'] = displayposition;
 
@@ -212,13 +212,15 @@ class MapData {
             .then(function(response) {
                 var pages = response.query.pages;
                 for (var page in pages) {
+                    console.log(pages[page].images);
                     if (pages[page].images.length <= 0) continue;
-                    console.log("title:", pages[page].title);
+                    //console.log("title:", pages[page].title);
                     
                     for (var img of pages[page].images) {
-                        var tempStr = img.title.replace("File:", "").split('.');
-                        console.log("img:", tempStr[0]);   
-
+                        var tempStr = img.title.replace("File:", "");
+                        var tempStrSplit = tempStr.split('.');
+                        //console.log("img:", tempStr[0]);   
+                        if ( tempStrSplit == pages[page].title ) return tempStr;
                         //console.log(page, img.title);
                     }
                 }
