@@ -196,14 +196,14 @@ class MapMarker {
         url = url + "?origin=*";
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
         
-        await fetch(url, {
+        fetch(url, {
             signal: abortController.signal
         })
-            .then(function(response){return response.json();})
+            .then(function(response){ return response.json(); })
             .then(function(response) {
                 var pages = response.query.pages;
                 for (var page in pages) {
-                    console.log(pages[page]);
+                    //console.log(pages[page]);
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) {
                         tipHTML(marker.options.name, null, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
                         continue;
