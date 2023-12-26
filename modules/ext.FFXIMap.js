@@ -456,7 +456,7 @@ class FFXIMap {
         var response = await fetch(url);
         var data = await response.json();
 
-        var mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
+        var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
 		if ( typeof(mapMarkersFromJSObject) == 'undefined' && typeof(mapMarkersFromFetch) == 'undefined' ) return;
