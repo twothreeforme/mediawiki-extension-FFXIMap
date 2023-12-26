@@ -476,7 +476,7 @@ class FFXIMap {
 		// then cycle through them and adjust the JSObject markers to match the
 		// cargo query ones
 		if ( typeof(mapMarkersFromFetch) != 'undefined') {
-			if (typeof(mapMarkersFromJSObject) == 'undefined') mapMarkersFromJSObject = {};
+			if (typeof(mapMarkersFromJSObject) == 'undefined') mapMarkersFromJSObject = [];
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var shouldAddToArray = true;
 
