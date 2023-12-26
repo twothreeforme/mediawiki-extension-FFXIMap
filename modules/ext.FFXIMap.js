@@ -566,7 +566,7 @@ class FFXIMap {
 			loadedMapMarkersArray.eachLayer(function (_marker) { 
 				if (_marker instanceof L.Marker){
 					//console.log(_marker.options.name);
-					if ( zoomLevel < 2.5 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
+					if ( zoomLevel < 2 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
 					else _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, _marker.options.name));
 				}});
 		}
