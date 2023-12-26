@@ -196,7 +196,7 @@ class MapMarker {
             .then(function(response) {
                 var pages = response.query.pages;
                 for (var page in pages) {
-                    
+                    console.log(pages[page]);
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) continue;
                     
                     for (var img of pages[page].images) {
@@ -205,19 +205,21 @@ class MapMarker {
                         //console.log("img:", tempStr[0]);
                         //console.log("Searching: ", pages[page].title, tempStrSplit);   
                         if ( tempStrSplit[0] == pages[page].title ) {
-                            console.log("FOUND: ", pages[page].title, tempStr, img.title);
+                            //console.log("FOUND: ", pages[page].title, tempStr, img.title);
                             //return tempStr;
-                            var tip = tipHTML(marker.options.name, img.title, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
-                            marker.bindTooltip(L.Util.template(tip, null), {
-                                opacity: 1.0,
-                                className: `${CSS.markerTooltip}`,
-                                direction: 'left',
-                                offset: L.point(0, 8)
-                            });
                         }
                         
                         //console.log(page, img.title);
                     }
+
+                    var tip = tipHTML(marker.options.name, img.title, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
+                    marker.bindTooltip(L.Util.template(tip, null), {
+                        opacity: 1.0,
+                        className: `${CSS.markerTooltip}`,
+                        direction: 'left',
+                        offset: L.point(0, 8)
+                    });
+
                 }
             })
             .catch(function(error){
