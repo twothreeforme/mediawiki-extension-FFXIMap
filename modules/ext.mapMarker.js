@@ -50,8 +50,8 @@ class MapMarker {
     }
 
     #getIconData(type){
-        var iconTypeClass = CSS.markerNPC;
-        var iconSVG = ``;   
+        var iconTypeClass = CSS.markerDEFAULT;
+        var iconSVG = this.icon.circle;   
 
         switch (type[0]) {
             case 'NPC':
@@ -271,6 +271,7 @@ class CSS {
     
     static markerBLINKING = 'ffximap-marker-blinking';
 
+    static markerDEFAULT = 'ffximap-marker-default';
     static markerNPC = 'ffximap-marker-npc';
     static markerHOMEPOINT = 'ffximap-marker-homepoint';
     static markerTREASURECHEST = "ffximap-marker-treasure-chest";

@@ -37,6 +37,19 @@
 }
 
 
+.ffximap-marker-default, .ffximap-marker-default-2X {
+  fill: #f5f5f5;
+  fill-opacity: 0.84357542;
+  stroke: #000000;
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 255, 255));
+}
+
 .ffximap-marker-npc, .ffximap-marker-npc-2X {
   fill: #4dff4d;
   fill-opacity: 0.84357542;
@@ -189,7 +202,7 @@
 .ffximap-marker-treasure-coffer-2X, .ffximap-marker-questionmark-2X, .ffximap-marker-standardmerchant-2X,
 .ffximap-marker-loggingpoint-2X, .ffximap-marker-miningpoint-2X, .ffximap-marker-harvestingpoint-2X,
 .ffximap-marker-clammingpoint-2X, .ffximap-marker-chocobo-2X, .ffximap-marker-moogle-2X,
-.ffximap-marker-streetlamp-2X {
+.ffximap-marker-streetlamp-2X, .ffximap-marker-default-2X {
   transform: scale(1.75);
 }
 
