@@ -136,17 +136,6 @@ class MapMarker {
     }
 
     new(page, mapx, mapy, imageurl, displayposition, type){
-        //move to MapMarker class once this is functioning correctly
-        // var tooltiptemplate = `<div>`; 
-        // if (imageurl !== undefined && imageurl !== null && imageurl != "") {
-
-        //     tooltiptemplate += `<img src="${imageurl}" alt=\"\" class="img-alt">`;
-        // }
-        // tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
-        //////
-        
-        //var label = this.generateIconHTML(page);
-
         var tempLabel = ( this.currentZoom >= 2.25) ? tempLabel = page : tempLabel = '';
         
         return L.marker([mapx, mapy], {
@@ -154,12 +143,6 @@ class MapMarker {
                 name: page,
                 type: type
             })
-            // .bindTooltip(L.Util.template(tooltiptemplate, null), {
-            //     opacity: 1.0,
-            //     className: `${CSS.markerTooltip}`,
-            //     direction: 'left',
-            //     offset: L.point(0, 8)
-            // })
             .on('click', (e) => {
                     window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
                     //console.log(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
