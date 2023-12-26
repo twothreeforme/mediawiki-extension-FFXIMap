@@ -125,8 +125,7 @@ class MapData {
 			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
             //console.log("JS:[page] ", page + `.png`);
 
-            var URL = await this.fetchImageURL(entity['page']);
-            console.log(entity['page'],  URL); 
+            var URL = this.fetchImageURL(entity['page']);
 
 			entity['displayposition'] = displayposition;
 
@@ -194,71 +193,71 @@ class MapData {
     }
 
     async fetchImageURL(entityName){
-        // var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
+        var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
+
+        var params = {
+            action: "query",
+            prop: "images",
+            titles: entityName,
+            format: "json"
+        };
+        
+        url = url + "?origin=*";
+        Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+        
+        fetch(url)
+            .then(function(response){return response.json();})
+            .then(function(response) {
+                var pages = response.query.pages;
+                for (var page in pages) {
+                    //console.log(typeof(pages[page].images));
+                    if (typeof(pages[page].images) != 'undefined' && pages[page].images.length <= 0) continue;
+                    //console.log("title:", pages[page].title);
+                    
+                    for (var img of pages[page].images) {
+                        var tempStr = img.title.replace("File:", "");
+                        var tempStrSplit = tempStr.split('.');
+                        //console.log("img:", tempStr[0]);
+                        //console.log(pages[page].title, tempStr);   
+                        if ( tempStrSplit == pages[page].title ) {
+                            console.log(pages[page].title, tempStr);
+                            return tempStr;
+                        }
+                        
+                        //console.log(page, img.title);
+                    }
+                }
+            })
+            .catch(function(error){
+                console.log("FFXIMap:fetchImageURL() ", error);
+            });
 
         // var params = {
-        //     action: "query",
-        //     prop: "images",
-        //     titles: entityName,
-        //     format: "json"
-        // };
-        
-        // url = url + "?origin=*";
-        // Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
-        
-        // fetch(url)
-        //     .then(function(response){return response.json();})
-        //     .then(function(response) {
-        //         var pages = response.query.pages;
-        //         for (var page in pages) {
-        //             //console.log(typeof(pages[page].images));
-        //             if (typeof(pages[page].images) != 'undefined' && pages[page].images.length <= 0) continue;
-        //             //console.log("title:", pages[page].title);
-                    
-        //             for (var img of pages[page].images) {
+        // action: "query",
+        // prop: "images",
+        // titles: entityName,
+        // format: "json"
+        // },
+
+        // api = new mw.Api();
+    
+        // api.get( params ).done( function ( data ) {
+        //     var pages = data.query.pages,
+        //         page;
+        //     for ( page in pages ) {
+        //         if ( typeof(pages[ page ].images) != 'undefined' ) {
+        //             pages[ page ].images.forEach( function ( img ) {
         //                 var tempStr = img.title.replace("File:", "");
         //                 var tempStrSplit = tempStr.split('.');
-        //                 //console.log("img:", tempStr[0]);
-        //                 //console.log(pages[page].title, tempStr);   
         //                 if ( tempStrSplit == pages[page].title ) {
         //                     console.log(pages[page].title, tempStr);
         //                     return tempStr;
-        //                 }
+        //                 } 
                         
-        //                 //console.log(page, img.title);
-        //             }
+        //             } );
         //         }
-        //     })
-        //     .catch(function(error){
-        //         console.log("FFXIMap:fetchImageURL() ", error);
-        //     });
-
-        var params = {
-        action: "query",
-        prop: "images",
-        titles: entityName,
-        format: "json"
-        },
-
-        api = new mw.Api();
-    
-        api.get( params ).done( function ( data ) {
-            var pages = data.query.pages,
-                page;
-            for ( page in pages ) {
-                if ( typeof(pages[ page ].images) != 'undefined' ) {
-                    pages[ page ].images.forEach( function ( img ) {
-                        console.log(img.title);
-                        // var tempStr = img.title.replace("File:", "");
-                        // var tempStrSplit = tempStr.split('.');
-                        // if ( tempStrSplit == pages[page].title ) {
-                        //     console.log(pages[page].title, tempStr);
-                        //     return tempStr;
-                        // }
-                    } );
-                }
-            }
-        } );
+        //     }
+        // } );
     }
 
 }
