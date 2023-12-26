@@ -514,7 +514,7 @@ class FFXIMap {
 
 	abortFetching() {
         console.log('FFXIMap: Abort fetching');
-        controller.abort()
+        this.abortController.abort()
     }
 
 	newMapWithControls(_mapID){
