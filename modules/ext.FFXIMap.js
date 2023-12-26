@@ -158,6 +158,14 @@ class FFXIMap {
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
 		
+		this.abortController = new AbortController();
+		this.abortController.addEventListener(
+			"abort",
+			() => {
+			  console.log("FFXIMap: addMapMarkers() aborted");
+			}
+		  );
+
 		//one last check for mobile vs desktop 
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
@@ -455,21 +463,12 @@ class FFXIMap {
 
 	}
 
-	async addMapMarkers(_mapID){
-		const abortController = new AbortController();
-		const { signal } = abortController;
-		
-		signal.addEventListener(
-			"abort",
-			() => {
-			  console.log("FFXIMap: addMapMarkers() aborted");
-			}
-		  );
+	async addMapMarkers(_mapID, abortSignal){
 
-		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, signal);
+		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, abortSignal);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-        var response = await fetch(url, { signal: signal });
+        var response = await fetch(url, { signal: abortSignal });
         var data = await response.json();
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data);
 		
@@ -528,7 +527,7 @@ class FFXIMap {
 		this.newMap(_mapID);
 	
 		// Setup Map Markers
-		this.addMapMarkers(_mapID);
+		this.addMapMarkers(_mapID, this.abortController.signal);
 		
 		// Setup new control layer for the search bar
 		this.addSearchBar(_mapID);
