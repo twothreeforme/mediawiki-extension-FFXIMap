@@ -337,12 +337,16 @@ class FFXIMap {
 
 	}
 
-	destroyMap(){
+	destroyControlLayer(){
 		if (this.controlLayer !== null && this.controlLayer !== undefined) {
-			//console.log(this.controlLayer + " : " + this.map);
 			this.controlLayer.remove(this.map);
 			this.controlLayer = null;
 		}
+	}
+
+	destroyMap(){
+		this.destroyControlLayer();
+
 		if (this.position !== undefined)   this.map.removeControl(this.position);
 		
 		loadedMapMarkersArray = null;
@@ -560,7 +564,7 @@ class FFXIMap {
 
 		if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
 		else {
-			this.controlLayer = null;
+			this.destroyControlLayer();
 			this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
 		}
 
