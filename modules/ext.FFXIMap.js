@@ -512,7 +512,7 @@ class FFXIMap {
 			mapMarkers.createToolTip(marker, this.abortController);
 			// console.log(marker.options.name ,marker.getLatLng().lat, marker.getLatLng().lng);
 		});
-
+		console.log('moving on...')
 		// Hurry up and get what we have at this point on the map in a control layer
 		if (Object.keys(entityTypeNamesObject).length > 0) {
 			this._createEntityMapObject(entityTypeNamesObject, _mapID);
