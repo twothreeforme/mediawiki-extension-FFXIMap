@@ -170,8 +170,9 @@ class MapMarker {
     async createToolTip(marker, abortController){
 
         function tipHTML(page, imageurl, displayposition){
+            var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${imageurl}&width=175`;
             var tooltiptemplate = `<div>`; 
-            if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="[[File:${imageurl}]]" alt=\"\" class="img-alt">`; }
+            if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${url}" alt=\"\" class="img-alt">`; }
             tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
             return tooltiptemplate;
         }
