@@ -450,13 +450,12 @@ class FFXIMap {
 	}
 
 	async addMapMarkers(_mapID){
-		
-		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
-        //console.log(url);
-
-        var response = await fetch(url);
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID);
+
+		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+        var response = await fetch(url);
         var data = await response.json();
+		
         var mapMarkersFromFetch = mapDataModel.parseFetchedEntities(data);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
