@@ -193,7 +193,7 @@ class MapData {
 
     }
 
-    async fetchImageURL(entityName){
+    fetchImageURL(entityName){
         var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php`; 
 
         var params = {
