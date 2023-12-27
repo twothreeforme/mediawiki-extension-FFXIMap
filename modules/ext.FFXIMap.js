@@ -489,6 +489,7 @@ class FFXIMap {
 						mapMarkersFromJSObject[i]['mapx'] = entityFetch['mapx'];
 						mapMarkersFromJSObject[i]['mapy'] = entityFetch['mapy'];
 						mapMarkersFromJSObject[i]['imageurl'] = entityFetch['imageurl'];
+						mapMarkersFromJSObject[i]['type'] = entityFetch['type'];
 						shouldAddToArray = false;
 						break;
 					}
