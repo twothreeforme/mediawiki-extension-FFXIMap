@@ -192,7 +192,7 @@ class MapMarker {
                     
                     //console.log(pages[page]);
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) {
-                        tipHTML(marker.options.name, null, `( ${m.lat},${m.lng} )`);
+                        tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
                         continue;
                     }
                     
@@ -204,14 +204,14 @@ class MapMarker {
                         if ( tempStrSplit[0] == pages[page].title ) {
                             //console.log("FOUND: ", pages[page].title, tempStr, img.title);
                             //return tempStr;
-                            tipHTML(marker.options.name, tempStr, `( ${m.lat},${m.lng} )`);
+                            tipHTML(marker.options.name, tempStr, `( ${m.lng},${m.lat} )`);
                             return;
                         }
                         
                         //console.log(page, img.title);
                     }
                     
-                    tipHTML(marker.options.name, null, `( ${m.lat},${m.lng} )`);
+                    tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
                 }
             })
             .catch(function(error){
