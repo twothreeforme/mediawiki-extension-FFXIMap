@@ -482,18 +482,7 @@ class FFXIMap {
 				
 				console.log(mapMarkersFromJSObject);
 				for ( let i = 0; i < mapMarkersFromJSObject.length; i++){
-				//for ( var entityJS in mapMarkersFromJSObject) {
-					// console.log(entityJS['page'], entityFetch['page']);
-					// if ( entityJS['page'] == entityFetch['page']){
-					// 	entityJS['mapx'] = entityFetch['mapx'];
-					// 	entityJS['mapy'] = entityFetch['mapy'];
-					// 	entityJS['imageurl'] = entityFetch['imageurl'];
-					// 	entityJS['displayposition'] = entityFetch['displayposition'];
-					// 	shouldAddToArray = false;
-					// 	break;
-					// }
-
-					console.log(mapMarkersFromJSObject[i]['page'], entityFetch['page']);
+					//console.log(mapMarkersFromJSObject[i]['page'], entityFetch['page']);
 					if ( mapMarkersFromJSObject[i]['page'] == entityFetch['page']){
 						mapMarkersFromJSObject[i]['mapx'] = entityFetch['mapx'];
 						mapMarkersFromJSObject[i]['mapy'] = entityFetch['mapy'];
