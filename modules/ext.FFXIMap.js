@@ -463,7 +463,7 @@ class FFXIMap {
 
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController);
 
-		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, this.abortController);
@@ -487,7 +487,6 @@ class FFXIMap {
 						mapMarkersFromJSObject[i]['mapx'] = entityFetch['mapx'];
 						mapMarkersFromJSObject[i]['mapy'] = entityFetch['mapy'];
 						mapMarkersFromJSObject[i]['imageurl'] = entityFetch['imageurl'];
-						mapMarkersFromJSObject[i]['displayposition'] = entityFetch['displayposition'];
 						shouldAddToArray = false;
 						break;
 					}
@@ -502,7 +501,7 @@ class FFXIMap {
 		var entityTypeNamesObject = { };
 		
 		mapMarkersFromJSObject.forEach((e) => {
-			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['displayposition'], e['type']);
+			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type']);
 			
 			e['type'].forEach(value => {
 
@@ -574,7 +573,7 @@ class FFXIMap {
 
 	// async addNPCControlLayersFromFetch(_mapID){
 	// 	if (_mapID == null) return ;
-	// 	//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+	// 	//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;
 	// 	return mapDataModel.fetchEntities(_mapID);
 	// }
 

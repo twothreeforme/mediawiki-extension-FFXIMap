@@ -135,7 +135,7 @@ class MapMarker {
         return htmlOutput;
     }
 
-    new(page, mapx, mapy, imageurl, displayposition, type){
+    new(page, mapx, mapy, imageurl, type){
         var tempLabel = ( this.currentZoom >= 2.25) ? tempLabel = page : tempLabel = '';
         
         return L.marker([mapx, mapy], {
@@ -187,11 +187,12 @@ class MapMarker {
             .then(function(response) {
                 var pages = response.query.pages;
 
+                var m = marker.getLatLng();
                 for (var page in pages) {
                     
                     //console.log(pages[page]);
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) {
-                        tipHTML(marker.options.name, null, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
+                        tipHTML(marker.options.name, null, `( ${m.lat},${m.lng} )`);
                         continue;
                     }
                     
@@ -203,14 +204,14 @@ class MapMarker {
                         if ( tempStrSplit[0] == pages[page].title ) {
                             //console.log("FOUND: ", pages[page].title, tempStr, img.title);
                             //return tempStr;
-                            tipHTML(marker.options.name, tempStr, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
+                            tipHTML(marker.options.name, tempStr, `( ${m.lat},${m.lng} )`);
                             return;
                         }
                         
                         //console.log(page, img.title);
                     }
-
-                    tipHTML(marker.options.name, null, ` ( ${marker.getLatLng().lat},${marker.getLatLng().lng} )`);
+                    
+                    tipHTML(marker.options.name, null, `( ${m.lat},${m.lng} )`);
                 }
             })
             .catch(function(error){
