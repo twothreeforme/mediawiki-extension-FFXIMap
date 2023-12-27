@@ -402,8 +402,8 @@ class FFXIMap {
 				var m = "Map ID: " + mapid + "<br>";
 				var latlng = "Zoom:  " + currentZoom + "<br>";
 				latlng += lat + ", " + lng;
-				if ( mapDataModel.hasBounds(mapid) == true ) latlng += "<br>(in-game coords)";
-				else latlng += "<br>(default coords)";
+				if ( mapDataModel.hasBounds(mapid) == true ) latlng += "<br>(IN-GAME coords)";
+				else latlng += "<br>(BASIC coords)";
 				
 				//this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
 				this._latlng.innerHTML = m + latlng;
@@ -477,9 +477,13 @@ class FFXIMap {
 		// cargo query ones
 		if ( typeof(mapMarkersFromFetch) != 'undefined') {
 			if (typeof(mapMarkersFromJSObject) == 'undefined') mapMarkersFromJSObject = [];
+			
+			var shouldSwapCoords = mapDataModel.hasBounds(_mapID);
+			
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var shouldAddToArray = true;
-				
+				if ( shouldSwapCoords == true) [entityFetch['mapx'], entityFetch['mapy']] = [ entityFetch['mapy'],  entityFetch['mapx']];
+
 				//console.log(mapMarkersFromJSObject);
 				for ( let i = 0; i < mapMarkersFromJSObject.length; i++){
 					//console.log(mapMarkersFromJSObject[i]['page'], entityFetch['page']);
