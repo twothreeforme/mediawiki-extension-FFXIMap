@@ -180,6 +180,7 @@ class MapMarker {
         Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
             // console.log(url);
 
+        var m = marker.getLatLng();
         fetch(url, {
             signal: abortController.signal
         })
@@ -187,10 +188,7 @@ class MapMarker {
             .then(function(response) {
                 var pages = response.query.pages;
 
-                var m = marker.getLatLng();
                 for (var page in pages) {
-                    
-                    //console.log(pages[page]);
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) {
                         tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
                         continue;
@@ -215,7 +213,11 @@ class MapMarker {
                 }
             })
             .catch(function(error){
-                console.log("FFXIMap:createToolTip() ", error);
+                if ( error.name == 'SyntaxError' ){
+                    tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
+                }
+                else console.log("FFXIMap:createToolTip():  ", marker.options.name, error);
+                
             });
     }
 
