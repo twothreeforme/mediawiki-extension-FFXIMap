@@ -216,7 +216,7 @@ class MapMarker {
                 if ( error.name == 'SyntaxError' ){
                     tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
                 }
-                else console.log("FFXIMap:createToolTip():  ", marker.options.name, error);
+                else console.log("FFXIMap:createToolTip():"+ marker.options.name +", Error:" + error);
                 
             });
     }
