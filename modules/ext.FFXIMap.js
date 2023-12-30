@@ -146,9 +146,9 @@ class FFXIMap {
 		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
 
-		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : 1;
+		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : -1.5;
 		this.maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 6;
-		this.zoom = typeof zoom !== 'undefined' ? zoom : 1;
+		this.zoom = typeof zoom !== 'undefined' ? zoom : 0;
 		this.zoomSnap = 0.25;
 
 		this.attrib = '©Remapster |©Square Enix| ©FFXI-Atlas';
@@ -318,15 +318,11 @@ class FFXIMap {
 			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), bounds, 
 				{
 					opacity: 1.0,
-					attribution: this.attrib 
-				});
-			this.currentMapImageOverlay.addTo(this.map);
+					attribution: this.attrib,
+				}).addTo(this.map);
 			this.map.fitBounds(bounds);
 			this.map.setMaxBounds(bounds);
 
-			
-
-			
 		}
 		mapMarkers.currentZoom = this.map.getZoom();
 		//this.map.setZoom(this.zoom);

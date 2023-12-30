@@ -50,9 +50,9 @@ class MapData {
         else return [[0,0], [256,256]];
     }
 
-	isWithinBounds(x, y, mapID){
+	isWithinBounds(y, x, mapID){
 		var mapBounds = this.getMapBounds(mapID);
-		if ( x < mapBounds[1][1] || x > mapBounds[0][1] || y < mapBounds[1][0] || y > mapBounds[0][0]) return true; 
+     	if ( x < mapBounds[1][1] || x > mapBounds[0][1] || y < mapBounds[1][0] || y > mapBounds[0][0]) return true; 
 		return false;
 	}
 
