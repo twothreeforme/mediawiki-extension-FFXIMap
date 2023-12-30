@@ -92,7 +92,7 @@ class MapData {
 
 		const entities = this.getEntities(_mapID);
 	
-		var entityArray = []; 
+		var entityArray = [];   
 
 		for ( var i=0; i < entities.length ; i++ ){
 			var page,
@@ -107,7 +107,7 @@ class MapData {
 			mapy = entities[i][2];
 
 			if ( this.isWithinBounds(mapx, mapy, _mapID) == true ) {
-				console.log(`FFXIMap: addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map bounds !`);
+				console.log(`FFXIMap: addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map [${_mapID}] bounds !`);
 				continue;
 			}
 
