@@ -78,7 +78,7 @@ class FFXIMap {
 		$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
 		//$html = $html . "</div>";
 		$html = $html . $showdetailsDiv . $script . $tagAttributesJsonCode ;
-		
+		$logfile = "test";
 		return 	$html;
 	}
 
