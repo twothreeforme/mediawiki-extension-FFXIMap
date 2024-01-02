@@ -6487,21 +6487,30 @@
                 [["Mining Point"],"Mining Point",  312.119,  -24.797,   212.536  ],
                 [["Mining Point"],"Mining Point",  330.931,  -24.900,   239.451  ],
                 [["Mining Point"],"Mining Point",  363.273,  -24.758,   164.485  ],
-                [["NPC"],"Ramblix",-271.115, -0.009, -76.551],
-                [["Home Point"],"Home Point #1",434.000, -40.299, 171.000]
+                [["Treasure Chest"],"Treasure Chest",  143.385,   -12.362,   132.887 ],
+                [["Treasure Chest"],"Treasure Chest",  363.764,   -24.250,   167.509 ],
+                [["Treasure Chest"],"Treasure Chest",  216.953,   -12.468,    49.284 ],
+                [["Treasure Chest"],"Treasure Chest",   63.413,    -0.081,    11.611 ],
+                [["Treasure Chest"],"Treasure Chest",   12.770,    -0.383,    36.825 ],
+                [["Treasure Chest"],"Treasure Chest",  -12.144,    -0.206,   -63.396 ],
+                [["Treasure Chest"],"Treasure Chest", -151.230,    -0.359,   -21.489 ]
                 ]
         },
         "210": {
             "name": "Yughott Grotto: Map 2",
             "filename": "yughott_grotto_2.png",
-            "upperBoundX" : "",
-            "upperBoundY" : "",
+            "bounds" : [ [ 40, -221 ], [ 680, 419 ] ],
             "connections" : {
                 "110" : {
-                    "hover" : [[157.74219, 43.25], [157.24219, 70.5], [153.49219, 73], [152.99219, 93.75], [143.24219, 94], [141.74219, 74.5], [136.24219, 67], [135.24219, 42.25]],
-                    "pulse" : [[148.18652, 86.53125]]
+                    "hover" : [
+                        [173.355,148.125],[172.105,216.250],[162.730,222.500],[161.480,274.375],[137.105,275.000],[133.355,226.250],[119.605,207.500],[117.105,145.625]
+                    ],
+                    "pulse" : [[149.466,256.328]]
                 }
-            }
+            },
+            "entities": [
+                [["Home Point"],"Home Point #1",434.000, -40.299, 171.000]
+                ]
         },
         "211": {
             "name": "Yuhtunga Jungle",
