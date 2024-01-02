@@ -25,6 +25,12 @@ class FFXIMap {
 		//foreach ($params as $x => $val) { MWDebug::log('$params: '.$x.' = '. $val);	}
 		//MWDebug::log('$params: '.$params['mapid']);
 		////////////////////
+		
+		global $wgDebugToolbar;
+		$logger = LoggerFactory::getInstance( 'userdebug');
+		$logger->info( 'wgDebugToolbar: ' . $wgDebugToolbar );
+		wfDebugLog( 'userdebug', "Something is not right. Fired: " . $wgDebugToolbar );
+
 
 		$parser->getOutput()->updateCacheExpiry(0);
 		$parser->getOutput()->addModules(['ext.leafletMain']);
