@@ -14,7 +14,8 @@ class MapMarker {
             className: 'dummy-class',
             //html: labelHTML,
             html: `<svg class="${iconData[0]} ${CSS.markerBLINKING}" width="15" height="15" viewBox="0 -5 25 25" >` + iconData[1] + labelHTML,
-            iconSize: [0,0]
+            iconSize: [0,0],
+            iconAnchor: [8, 8]
         });
 
         // return L.divIcon({
@@ -34,7 +35,8 @@ class MapMarker {
             className: 'dummy-class',
             //html: labelHTML,
             html: `<svg class="${iconData[0]}-2X ${CSS.markerBLINKING}" width="15" height="15" viewBox="0 -5 25 25" >` + iconData[1] + labelHTML,
-            iconSize: [0,0]
+            iconSize: [0,0],
+            iconAnchor: [8, 8]
         });
 
         // return L.divIcon({
