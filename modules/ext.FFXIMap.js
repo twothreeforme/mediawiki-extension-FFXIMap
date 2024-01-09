@@ -734,8 +734,8 @@ class FFXIMap {
 				//expandAll: 'Expand all',
 				collapsed: true,
 				selectorBack: true,
-				openedSymbol: '\u{2296}',
-				closedSymbol: '\u{2A01}'
+				openedSymbol: '\u{229F}',
+				closedSymbol: '\u{229E}'
 			});
 		
 		this.controlLayer.addTo(this.map).collapseTree().expandSelected();
