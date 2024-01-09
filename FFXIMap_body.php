@@ -29,6 +29,7 @@ class FFXIMap {
 		$parser->getOutput()->updateCacheExpiry(0);
 		$parser->getOutput()->addModules(['ext.leafletMain']);
 		$parser->getOutput()->addModules(['ext.leafletSearch']);
+		$parser->getOutput()->addModules(['ext.leafletControlLayerTree']);
 		$parser->getOutput()->addModules(['ext.FFXIMap']);
 
 		// $tileSource : location of tiles (or the tile server)

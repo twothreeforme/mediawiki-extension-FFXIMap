@@ -35,6 +35,16 @@
 				"leaflet-search.css"
 			]
 		},
+		"ext.leafletControlLayerTree" : {
+			"localBasePath": "modules",
+			"remoteExtPath": "FFXIMap/modules",
+			"packageFiles": [
+				"L.Control.Layers.Tree.js"
+			],
+			"styles": [
+				"L.Control.Layers.Tree.css"
+			]
+		},
 		"ext.FFXIMap": {
 			"localBasePath": "modules",
 			"remoteExtPath": "FFXIMap/modules",

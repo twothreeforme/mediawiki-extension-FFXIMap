@@ -12,8 +12,18 @@ class MapData {
     getEntities(mapID){
         if (mapID == null) return ;
         mapID = typeof mapID == 'string' ? mapID : `${mapID}`;
-        //console.log(mapID + ": " + this.json[mapID].connections);
         return this.json[mapID].entities;
+    }
+
+    hasMobSpawns(mapid){
+        if ( this.json[mapid].hasOwnProperty("mobSpawns")  ) return true;
+        else return false;
+    }
+
+    getMobSpawns(mapID){
+        if (mapID == null) return ;
+        mapID = typeof mapID == 'string' ? mapID : `${mapID}`;
+        return this.json[mapID].mobSpawns;
     }
 
     getConnections(mapID){
@@ -87,54 +97,77 @@ class MapData {
         return mapList;
     }
 
-    async getJSObjectEntities(_mapID, abortController){
-        if (_mapID == null || this.hasEntities(_mapID) == false) return ;
+    generateArray(entityInput, _mapID){
+        try{
+            if ( entityInput.length > 0 ) {
+                var returnArray = [];
 
-		const entities = this.getEntities(_mapID);
-	
-		var entityArray = [];   
+                for ( var i=0; i < entityInput.length ; i++ ){
+                    var page,
+                        mapx = "",
+                        mapy = "",
+                        displayposition = "",
+                        entitytypeArray = [],
+                        entity = {};
 
-		for ( var i=0; i < entities.length ; i++ ){
-			var page,
-				mapx = "",
-				mapy = "",
-				displayposition = "",
-				entitytypeArray = [],
-				entity = {};
+                    page = entityInput[i][1];
+                    mapx = entityInput[i][4];
+                    mapy = entityInput[i][2];
 
-			page = entities[i][1];
-			mapx = entities[i][4];
-			mapy = entities[i][2];
+                    if ( this.isWithinBounds(mapx, mapy, _mapID) == true ) {
+                        console.log(`FFXIMap: addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map [${_mapID}] bounds !`);
+                        continue;
+                    }
 
-			if ( this.isWithinBounds(mapx, mapy, _mapID) == true ) {
-				console.log(`FFXIMap: addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map [${_mapID}] bounds !`);
-				continue;
-			}
+                    var tempArray = entityInput[i][0];
+                    for (let x = 0; x < tempArray.length; x++) { tempArray[x] = tempArray[x].trim(); }
+                    entitytypeArray = entitytypeArray.concat(tempArray);
 
-			var tempArray = entities[i][0];
-			for (let x = 0; x < tempArray.length; x++) { tempArray[x] = tempArray[x].trim(); }
-			entitytypeArray = entitytypeArray.concat(tempArray);
+                    //mapid = _mapID;
+                    displayposition = `(${mapx},${mapy})`;
 
-			//mapid = _mapID;
-			displayposition = `(${mapx},${mapy})`;
+                    entity['page'] = page;
+                    entity['mapx'] = mapx;
+                    entity['mapy'] = mapy;
+                    entity['type'] = entitytypeArray;
+                    entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
+                    //console.log("JS:[page] ", page + `.png`);
 
-			entity['page'] = page;
-			entity['mapx'] = mapx;
-			entity['mapy'] = mapy;
-			entity['type'] = entitytypeArray;
-			entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
-            //console.log("JS:[page] ", page + `.png`);
+                    //var URL = this.fetchImageURL(entity['page'], abortController);
+                    
+                    entity['displayposition'] = displayposition;
 
-            //var URL = this.fetchImageURL(entity['page'], abortController);
-            
-			entity['displayposition'] = displayposition;
-
-			entityArray.push(entity);
-		}
-
-		return entityArray;
+                    returnArray.push(entity);
+                }
+                return returnArray;
+            }
+        }
+        catch (error){
+            console.log(`Map: ${_mapID} - Error: ${error}`);
+            return null;
+        }
     }
 
+    
+    
+    async getJSObjectEntities(_mapID, abortController){
+        if (_mapID == null || this.hasEntities(_mapID) == false) return ;
+        var entityArray, mobSpawnsArray;
+
+        const entities = this.getEntities(_mapID);
+        if (typeof(entities) !== `undefined`) entityArray = this.generateArray(entities, _mapID); 
+        
+        const mobspawns = this.getMobSpawns(_mapID);
+        if (typeof(mobspawns) !== `undefined`) mobSpawnsArray = this.generateArray(mobspawns, _mapID);
+    
+        let returnArray = [];
+        if ( typeof(entityArray)  !== `undefined`) { returnArray = returnArray.concat(entityArray); }
+        if ( typeof(mobSpawnsArray)  !== `undefined`) { returnArray = returnArray.concat(mobSpawnsArray); }
+       
+        return returnArray;
+    }
+        
+		
     parseFetchedEntities(data, abortController){
         if (data.cargoquery == null ) return;
         var entityArray = []; 

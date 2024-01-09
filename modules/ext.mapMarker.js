@@ -50,11 +50,11 @@ class MapMarker {
     #createDivIcon(type, label){
         return this.#divIcon_marker(this.#getIconData(type), label);
     }
-
+    
     #getIconData(type){
         var iconTypeClass = CSS.markerDEFAULT;
         var iconSVG = this.icon.circle;   
-
+        //console.log(type);
         switch (type[0]) {
             case 'NPC':
                 iconTypeClass = CSS.markerNPC;
@@ -109,6 +109,10 @@ class MapMarker {
                 iconSVG = this.icon.moogle;
                 break;
             case 'Streetlamp':
+                iconTypeClass = CSS.markerSTREETLAMP;
+                iconSVG = this.icon.circle;
+                break;
+            case 'Enemies':
                 iconTypeClass = CSS.markerSTREETLAMP;
                 iconSVG = this.icon.circle;
                 break;
