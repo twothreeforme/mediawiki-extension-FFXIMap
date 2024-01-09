@@ -50,7 +50,7 @@ class MapMarker {
     #createDivIcon(type, label){
         return this.#divIcon_marker(this.#getIconData(type), label);
     }
-    
+
     #getIconData(type){
         var iconTypeClass = CSS.markerDEFAULT;
         var iconSVG = this.icon.circle;   
@@ -113,7 +113,7 @@ class MapMarker {
                 iconSVG = this.icon.circle;
                 break;
             case 'Enemies':
-                iconTypeClass = CSS.markerSTREETLAMP;
+                iconTypeClass = CSS.markerENEMY;
                 iconSVG = this.icon.circle;
                 break;
           }
@@ -252,6 +252,7 @@ class CSS {
     static markerCHOCOBO = "ffximap-marker-chocobo";
     static markerMOOGLE = "ffximap-marker-moogle";
     static markerSTREETLAMP = "ffximap-marker-streetlamp";
+    static markerENEMY = "ffximap-marker-enemy";
 
 
     static markerLabel = 'ffximap-marker-label';

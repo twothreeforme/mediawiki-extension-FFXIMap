@@ -135,13 +135,6 @@ function setupMapData() {
 	//console.log(mapDataModel.listMaps());
 }
 
-class MapLayerLabels {
-	static NPC = "NPC";
-	static ENEMIES = "Enemies";
-	static QUESTS = "Quests";
-}
-
-
 class FFXIMap {
 	connectionLayerHover;
 	
@@ -296,6 +289,48 @@ class FFXIMap {
 
 	}
 	
+	newMapWithControls(_mapID){
+
+		if ( this.abortController !== null ) {
+			this.abortFetching("FFXIMap: Changing maps");
+		}
+
+		this.abortController = new AbortController();
+		// this.abortController.signal.addEventListener(
+		// 	"abort",
+		// 	() => {
+		// 	  console.log(this.abortController.signal.reason);
+		// 	  return;
+		// 	}
+		//   );
+
+		// Establish new map
+		this.newMap(_mapID);
+	
+		// Setup Map Markers
+		this.addMapMarkers(_mapID, this.abortController);
+		
+		// Setup new control layer for the search bar
+		this.addSearchBar(_mapID);
+
+		// Setup Back button - for loading previously viewed maps
+		//console.log("newMapWithControls: " + this.mapHistory.getLength() +" " + this.mapHistory.getIndex(0));
+		if (this.mapHistory.getLength() >= 1 && this.mapHistory.getIndex(0) != _mapID) this.addBackButton();
+		else if (this.mapHistory.getLength() == 0 && this.backButton ) {
+			this.map.removeControl(this.backButton);
+			this.backButton = null;
+		}
+
+		//Coordinate display
+		//mainly for debugging
+		if (showdetails == true) this.display_coordinates();
+
+		// Setup any additional markers/layers for connecting the next zone
+		this.setupZoneConnections(_mapID);
+
+		this.mapID = _mapID;	
+	}
+
 	newMap(_mapID){
 
 		if (_mapID == undefined) _mapID = this.mapID;
@@ -460,6 +495,14 @@ class FFXIMap {
 
 	}
 
+	abortFetching(abortDescription) {
+		//console.log("FFXIMap: abortFetching()", this.abortController);
+		if (this.abortController !== null ) {
+			this.abortController.abort(abortDescription);
+		}
+		this.abortController = null;
+    }
+
 	async addMapMarkers(_mapID){
 		//console.log(abort);
 
@@ -504,158 +547,109 @@ class FFXIMap {
 			});
 		}
 
-		//REVERT
-		//var entityTypeNamesObject = {}, entityEnemiesObject = {};
-		var entityTypeNamesObject = 
-			{ 
-				label: MapLayerLabels.NPC,
-				selectAllCheckbox: true,
-				children: [
-						//{label: 'Enemy 1', layer: L.layerGroup([ L.marker([50.823000, 6.187000]), L.marker([50.982000, 12.506000]),L.marker([51.483000, 7.899000])  ]) },
-						]
-			}, 
-			entityEnemiesObject = 
-			{ 
-				label: MapLayerLabels.ENEMIES,
-				selectAllCheckbox: true,
-				children: [
-						//{label: 'Enemy 1', layer: L.layerGroup([ L.marker([50.823000, 6.187000]), L.marker([50.982000, 12.506000]),L.marker([51.483000, 7.899000])  ]) },
-						]
-			};
+		var finalEntityArray = [];
 
 		mapMarkersFromJSObject.forEach((e) => {
 			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type']);
 
-			// var layerGroup = {
-			// 	label: 'Enemies',
-			// 	selectAllCheckbox: true,
-			// 	children: [
-			// 			{label: 'Enemy 1', layer: L.layerGroup([ L.marker([50.823000, 6.187000]), L.marker([50.982000, 12.506000]),L.marker([51.483000, 7.899000])  ]) },
-			// 			{label: 'Enemy 2', layer: L.layerGroup([ L.marker([50.823000, 6.187000]), L.marker([50.982000, 12.506000]),L.marker([51.483000, 7.899000])  ]) }
-			// 			]
-			// };
-
 			e['type'].forEach(value => {
 				var added = false;
-				if ( value == MapLayerLabels.ENEMIES) {
-					//REVERT
-					//if (!(e['page'] in entityEnemiesObject)) entityEnemiesObject[`${e['page']}`] = [];
-					//entityEnemiesObject[`${e['page']}`].push(marker); 
+				for(var i = 0; i < finalEntityArray.length; i++ ){
+					if ( value == finalEntityArray[i].label && finalEntityArray[i].hasOwnProperty('children')){
+						//console.log(finalEntityArray[i]);
+						//Now we are inside a grouped layer
 
-					//console.log(entityEnemiesObject.children);
+						//console.log(finalEntityArray[i].children);
+						for(var j = 0; j < finalEntityArray[i].children.length; j++ ){
+							//console.log(finalEntityArray[i].children[j].label);
+							if ( e['page'] == finalEntityArray[i].children[j].label ) {
+								//console.log(finalEntityArray[i].children);
+								finalEntityArray[i].children[j].layer.addLayer(marker);
+								added = true;
+								break;
+							}
+						}
+						if ( added == false ){
+							//console.log('adding' + e['page']);
+							finalEntityArray[i].children.push({
+								label: e['page'],
+								layer: L.layerGroup([ marker ])
+							})
+
+							added = true;
+							break;
+						}
+					}
+					else if (value == finalEntityArray[i].label && finalEntityArray[i].hasOwnProperty('layer')){
+						//Now we are inside a layer that is not grouped
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
+				}
+				if ( added == false ){
+					var newEntity = {};
+
+					if (  Object.values(MapLayerGroup).indexOf(value) >= 0 ){
+						newEntity = {
+							label: value,
+							selectAllCheckbox: true,
+							children: [
+									{label: e['page'], layer: L.layerGroup([ marker ]) },
+									]
+						};
+					}
+					else {
+						newEntity = {
+							label: value,
+							layer: L.layerGroup([ marker ])
+						};
+					}
+
+					finalEntityArray = finalEntityArray.concat([ newEntity ]);
 					
-					for (var i = 0; i < entityEnemiesObject.children.length; i++ ){
-						if ( entityEnemiesObject.children[i].label == e['page'] ){
-							entityEnemiesObject.children[i].layer.addLayer(marker);
-							added = true;
-							break;
-						}
-					}
-					if ( added == false ) entityEnemiesObject.children.push( { label: `${e['page']}`, layer: L.layerGroup([marker]) } );
 				}
-				else {
-					//REVERT
-					//if (!(value in entityTypeNamesObject)) entityTypeNamesObject[`${value}`] = [];
-					//entityTypeNamesObject[`${value}`].push(marker);
 
-					for (var i = 0; i < entityTypeNamesObject.children.length; i++ ){
-						if ( entityTypeNamesObject.children[i].label == e['page'] ){
-							entityTypeNamesObject.children[i].layer.addLayer(marker);
-							added = true;
-							break;
-						}
-					}
-					if ( added == false )entityTypeNamesObject.children.push( { label: `${e['page']}`, layer: L.layerGroup([marker]) } );
-				}
 			});
 
 			mapMarkers.createToolTip(marker, this.abortController);
 			// console.log(marker.options.name ,marker.getLatLng().lat, marker.getLatLng().lng);
 		});
-
+		
+		//console.log(finalEntityArray);
 
 		// Hurry up and get what we have at this point on the map in a control layer
-		if (Object.keys(entityTypeNamesObject).length > 0 || Object.keys(entityEnemiesObject).length > 0) {
-			this._createEntityMapControlLayers(entityTypeNamesObject, entityEnemiesObject, _mapID);
+		if (Object.keys(finalEntityArray).length > 0 ) {
+			this._createEntityMapControlLayers(finalEntityArray, _mapID);
 		}
 
 	}
 
-	abortFetching(abortDescription) {
-		//console.log("FFXIMap: abortFetching()", this.abortController);
-		if (this.abortController !== null ) {
-			this.abortController.abort(abortDescription);
-		}
-		this.abortController = null;
-    }
-
-	newMapWithControls(_mapID){
-
-		if ( this.abortController !== null ) {
-			this.abortFetching("FFXIMap: Changing maps");
-		}
-
-		this.abortController = new AbortController();
-		// this.abortController.signal.addEventListener(
-		// 	"abort",
-		// 	() => {
-		// 	  console.log(this.abortController.signal.reason);
-		// 	  return;
-		// 	}
-		//   );
-
-		// Establish new map
-		this.newMap(_mapID);
-	
-		// Setup Map Markers
-		this.addMapMarkers(_mapID, this.abortController);
-		
-		// Setup new control layer for the search bar
-		this.addSearchBar(_mapID);
-
-		// Setup Back button - for loading previously viewed maps
-		//console.log("newMapWithControls: " + this.mapHistory.getLength() +" " + this.mapHistory.getIndex(0));
-		if (this.mapHistory.getLength() >= 1 && this.mapHistory.getIndex(0) != _mapID) this.addBackButton();
-		else if (this.mapHistory.getLength() == 0 && this.backButton ) {
-			this.map.removeControl(this.backButton);
-			this.backButton = null;
-		}
-
-		//Coordinate display
-		//mainly for debugging
-		if (showdetails == true) this.display_coordinates();
-
-		// Setup any additional markers/layers for connecting the next zone
-		this.setupZoneConnections(_mapID);
-
-		this.mapID = _mapID;	
-	}
-
-	// async addNPCControlLayersFromFetch(_mapID){
-	// 	if (_mapID == null) return ;
-	// 	//let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;
-	// 	return mapDataModel.fetchEntities(_mapID);
-	// }
-
-	_createEntityMapControlLayers(entityTypeNamesObject, entityEnemiesObject, _mapID){
+	_createEntityMapControlLayers(finalEntityArray, _mapID){
 		var count = 0, dummyLayers = [], markerOverlays = [], mapOverlays = {};
-		//console.log(entityTypeNamesObject, entityEnemiesObject);
 		
-		const finalEntityArray = [entityTypeNamesObject, entityEnemiesObject];
-
 		for (var a = 0; a < finalEntityArray.length; a++ ){
-			for (var i = 0; i < finalEntityArray[a].children.length; i++ ){
-				//console.log(key, entityTypeNamesObject[key]);
-				dummyLayers[count] = L.polyline([[0, 0], [0, 0]], { 
-					id : count, 
-					stroke: false, 
-					interactive: false
-				}); 
-				//REVERT
-				//mapOverlays[key] = dummyLayers[count];
+			if ( finalEntityArray[a].hasOwnProperty('children') ) {
+			  
+				for (var i = 0; i < finalEntityArray[a].children.length; i++ ){
+					//console.log(key, entityTypeNamesObject[key]);
+					dummyLayers[count] = L.polyline([[0, 0], [0, 0]], { 
+						id : count, 
+						stroke: false, 
+						interactive: false
+					}); 
+					//REVERT
+					//mapOverlays[key] = dummyLayers[count];
 
-				markerOverlays[count] = finalEntityArray[a].children[i].layer._layers;
-				mapOverlays[count] = { label: finalEntityArray[a].children[i].label, layer: dummyLayers[count] };
+					markerOverlays[count] = finalEntityArray[a].children[i].layer._layers;
+					mapOverlays[count] = { label: finalEntityArray[a].children[i].label, layer: dummyLayers[count] };
+					//console.log(finalEntityArray[a].children[i].label);
+					count++;
+				}
+			}
+			else {
+				markerOverlays[count] = finalEntityArray[a].layer._layers;
+				mapOverlays[count] = { label: finalEntityArray[a].label, layer: dummyLayers[count] };
 				//console.log(finalEntityArray[a].children[i].label);
 				count++;
 			}
@@ -736,9 +730,12 @@ class FFXIMap {
 		this.controlLayer = L.control.layers.tree(null, null,
 			{
 				namedToggle: false,
-				collapseAll: 'Collapse all',
+				//collapseAll: 'Collapse all',
 				//expandAll: 'Expand all',
 				collapsed: true,
+				selectorBack: true,
+				openedSymbol: '\u{2296}',
+				closedSymbol: '\u{2A01}'
 			});
 		
 		this.controlLayer.addTo(this.map).collapseTree().expandSelected();
@@ -776,14 +773,14 @@ class FFXIMap {
 			//console.log(Object.keys(markerOverlays[i]));
 			
 			for ( var key in markerOverlays[i]){
-				//console.log(key);
+				//console.log(markerOverlays[i]);
 				if (loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {				
 					markerOverlays[i][key].myCount += 1;
-					}
-				  else {  
+				}
+				else {  
 					markerOverlays[i][key].myCount = 1;
 					markerOverlays[i][key].addTo(loadedMapMarkersArray);
-				  }
+				}
 			}
 			
 			// for (var j = 0; j < Object.keys(markerOverlays[i]).length; j++) {
@@ -953,3 +950,13 @@ class MapHistory{
 
 
 }
+
+const MapLayerGroup = Object.freeze({
+	NPC: 'NPC',
+	ENEMIES: 'Enemies',
+	QUESTS: 'Quests',
+	HELM: 'HELM'
+  })
+
+const HELMExpandableLayers = ['Mining Point', 'Excavation Point', 'Harvesting Point', 'Logging Point', 'Clamming Point']
+

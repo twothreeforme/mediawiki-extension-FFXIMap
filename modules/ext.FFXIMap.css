@@ -186,6 +186,18 @@
   filter: drop-shadow(0px 0px 3px rgb(255, 243, 135));
 }
 
+.ffximap-marker-enemy, .ffximap-marker-enemy-2X {
+  fill: #ff8080;
+  fill-opacity: 1;
+  stroke: #000000;
+  stroke-width:0.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:none;
+  stroke-opacity:1;
+  paint-order:markers fill stroke;
+  filter: drop-shadow(0px 0px 3px rgb(255, 204, 184));
+}
 
 .ffximap-marker-label {
   display: inline-block;
@@ -202,7 +214,7 @@
 .ffximap-marker-treasure-coffer-2X, .ffximap-marker-questionmark-2X, .ffximap-marker-standardmerchant-2X,
 .ffximap-marker-loggingpoint-2X, .ffximap-marker-miningpoint-2X, .ffximap-marker-harvestingpoint-2X,
 .ffximap-marker-clammingpoint-2X, .ffximap-marker-chocobo-2X, .ffximap-marker-moogle-2X,
-.ffximap-marker-streetlamp-2X, .ffximap-marker-default-2X {
+.ffximap-marker-streetlamp-2X, .ffximap-marker-default-2X, .ffximap-marker-enemy-2X  {
   transform: scale(1.75);
 }
 
