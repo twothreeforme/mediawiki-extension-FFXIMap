@@ -549,6 +549,22 @@ class FFXIMap {
 
 		var finalEntityArray = [];
 
+		function sortedArray(array){
+			return array.sort((a, b) => {
+				const nameA = a.label.toUpperCase(); // ignore upper and lowercase
+				const nameB = b.label.toUpperCase(); // ignore upper and lowercase
+				if (nameA < nameB) {
+				  return -1;
+				}
+				if (nameA > nameB) {
+				  return 1;
+				}
+			  
+				// names must be equal
+				return 0;
+			});
+		}
+
 		mapMarkersFromJSObject.forEach((e) => {
 			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type']);
 
@@ -646,6 +662,15 @@ class FFXIMap {
 		});
 		
 		//console.log(finalEntityArray);
+
+		//Alphabetically sort the arrays
+		for(var i = 0; i < finalEntityArray.length; i++ ){
+			if ( finalEntityArray[i].hasOwnProperty('children') ){
+				finalEntityArray[i].children = sortedArray(finalEntityArray[i].children);
+			}
+		}
+		finalEntityArray = sortedArray(finalEntityArray);
+
 
 		// Hurry up and get what we have at this point on the map in a control layer
 		if (Object.keys(finalEntityArray).length > 0 ) {
