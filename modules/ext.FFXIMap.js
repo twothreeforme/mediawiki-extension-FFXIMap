@@ -555,11 +555,10 @@ class FFXIMap {
 			e['type'].forEach(value => {
 				var added = false;
 				for(var i = 0; i < finalEntityArray.length; i++ ){
-					if ( value == finalEntityArray[i].label && finalEntityArray[i].hasOwnProperty('children')){
-						//console.log(finalEntityArray[i]);
-						//Now we are inside a grouped layer
 
-						//console.log(finalEntityArray[i].children);
+					if ( ( value == finalEntityArray[i].label || ( HELMExpandableLayers.findIndex((element) => element == value) >= 0 && finalEntityArray[i].label == 'HELM' ))
+							 && finalEntityArray[i].hasOwnProperty('children')){
+
 						for(var j = 0; j < finalEntityArray[i].children.length; j++ ){
 							//console.log(finalEntityArray[i].children[j].label);
 							if ( e['page'] == finalEntityArray[i].children[j].label ) {
@@ -586,11 +585,35 @@ class FFXIMap {
 						added = true;
 						break;
 					}
+					else if ( HELMExpandableLayers.findIndex((element) => element == value) >= 0 &&
+							HELMExpandableLayers.findIndex((element) => element == finalEntityArray[i].label) >= 0){
+						//both items evaluated are HELM layers, but dont match
+						//save the array found
+						var existingArray = finalEntityArray[i];
+
+						//remove the indexed array
+						finalEntityArray.splice(i, 1);
+
+						//add a HELM group
+						finalEntityArray = finalEntityArray.concat([ {
+							label: 'HELM',
+							selectAllCheckbox: true,
+							children: [
+									{label: e['page'], layer: L.layerGroup([ marker ]) },
+									existingArray
+									]
+						} ]);
+
+						added = true;
+						break;
+					}
+					
+
 				}
 				if ( added == false ){
 					var newEntity = {};
 
-					if (  Object.values(MapLayerGroup).indexOf(value) >= 0 ){
+					if (  Object.values(MapLayerGroup).indexOf(value) >= 0 ){ // Is it a category found in the MapLayerGroup object? 
 						newEntity = {
 							label: value,
 							selectAllCheckbox: true,
@@ -599,7 +622,15 @@ class FFXIMap {
 									]
 						};
 					}
+					// Is it a category found in HELMExpandableLayers array? const HELMExpandableLayers = ['Mining Point', 'Excavation Point', 'Harvesting Point', 'Logging Point', 'Clamming Point']
+					// else {
+					// 	newEntity = {
+					// 		label: value,
+					// 		layer: L.layerGroup([ marker ])
+					// 	};
+					// }
 					else {
+						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value));
 						newEntity = {
 							label: value,
 							layer: L.layerGroup([ marker ])
@@ -607,9 +638,7 @@ class FFXIMap {
 					}
 
 					finalEntityArray = finalEntityArray.concat([ newEntity ]);
-					
 				}
-
 			});
 
 			mapMarkers.createToolTip(marker, this.abortController);

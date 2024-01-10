@@ -47,9 +47,9 @@ class MapMarker {
         // });
     }
 
-    #createDivIcon(type, label){
-        return this.#divIcon_marker(this.#getIconData(type), label);
-    }
+    // #createDivIcon(type, label){
+    //     return this.#divIcon_marker(this.#getIconData(type), label);
+    // }
 
     #getIconData(type){
         var iconTypeClass = CSS.markerDEFAULT;
