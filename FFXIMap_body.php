@@ -3,7 +3,7 @@
 # added debug logging
 # use:
 # MWDebug::log('text to log here');
-MWdebug::init();
+# MWdebug::init();
 
 if ( !defined('MEDIAWIKI') )
 {
