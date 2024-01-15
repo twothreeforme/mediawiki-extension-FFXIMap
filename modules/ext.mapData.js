@@ -107,12 +107,17 @@ class MapData {
                         mapx = "",
                         mapy = "",
                         displayposition = "",
+                        displaylevels = "",
+                        minL,
+                        maxL,
                         entitytypeArray = [],
                         entity = {};
 
                     page = entityInput[i][1];
                     mapx = entityInput[i][4];
                     mapy = entityInput[i][2];
+                    minL = entityInput[i][5];
+                    maxL = entityInput[i][6];
 
                     if ( this.isWithinBounds(mapx, mapy, _mapID) == true ) {
                         console.log(`FFXIMap: addNPCControlLayersFromJSObject: ${page} (${mapx}, ${mapy}) outside map [${_mapID}] bounds !`);
@@ -123,19 +128,17 @@ class MapData {
                     for (let x = 0; x < tempArray.length; x++) { tempArray[x] = tempArray[x].trim(); }
                     entitytypeArray = entitytypeArray.concat(tempArray);
 
-                    //mapid = _mapID;
-                    displayposition = `(${mapx},${mapy})`;
-
                     entity['page'] = page;
                     entity['mapx'] = mapx;
                     entity['mapy'] = mapy;
                     entity['type'] = entitytypeArray;
                     entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${page}.png&width=175`;
-                    //console.log("JS:[page] ", page + `.png`);
-
-                    //var URL = this.fetchImageURL(entity['page'], abortController);
                     
+                    displayposition = `(${mapx},${mapy})`;
                     entity['displayposition'] = displayposition;
+
+                    if ( minL != null && maxL != null) displaylevels = ` (${minL}-${maxL})`;
+                    entity['displaylevels'] = displaylevels;
 
                     returnArray.push(entity);
                 }
@@ -193,7 +196,7 @@ class MapData {
                     entity['imageurl'] = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${value}&width=175`;
                     //this.fetchImage(entity['imageurl'], value, abortController);
                 }
-                else if ( key == 'displayposition') entity['displayposition'] = value;
+                else if ( key == 'displaylevels') entity['displaylevels'] = value;
                
                 });
             entityArray.push(entity);
@@ -204,7 +207,7 @@ class MapData {
     }
 
     async fetchEntities(_mapID, abortController){
-        let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displayposition&where=mapid=${_mapID}&format=json`;
+        let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displaylevels&where=mapid=${_mapID}&format=json`;
         //console.log(url);
 
         const response = fetch(url, {

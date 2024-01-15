@@ -141,13 +141,15 @@ class MapMarker {
         return htmlOutput;
     }
 
-    new(page, mapx, mapy, imageurl, type){
-        var tempLabel = ( this.currentZoom >= 2.25) ? tempLabel = page : tempLabel = '';
-        
+    new(page, mapx, mapy, imageurl, type, displaylevels){
+        var displaylabel = page + displaylevels;
+        var tempLabel = ( this.currentZoom >= 2.25) ? tempLabel = displaylabel : tempLabel = '';
+
         return L.marker([mapx, mapy], {
                 icon: this.scaledIcon(type, tempLabel),
                 name: page,
-                type: type
+                type: type,
+                displaylabel: displaylabel
             })
             .on('click', (e) => {
                     window.open(mw.config.get('wgServer') + mw.config.get('wgScript') + `?title=${page}`);
@@ -158,11 +160,11 @@ class MapMarker {
 
     async createToolTip(marker, abortController){
 
-        function tipHTML(page, imageurl, displayposition){
+        function tipHTML(marker, imageurl, displayposition){
             var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/index.php?title=Special:Redirect/file/${imageurl}&width=175`;
             var tooltiptemplate = `<div>`; 
             if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${url}" alt=\"\" class="img-alt">`; }
-            tooltiptemplate += `<b><i><center>${page}</i></b><br> ${displayposition}</center></div>`;
+            tooltiptemplate += `<b><i><center>&nbsp  ${marker.options.displaylabel}  &nbsp</i></b><br>${displayposition}</center></div>`;
             
             marker.bindTooltip(L.Util.template(tooltiptemplate, null), {
                 opacity: 1.0,
@@ -196,7 +198,7 @@ class MapMarker {
 
                 for (var page in pages) {
                     if (typeof(pages[page].images) == 'undefined' || pages[page].images.length <= 0) {
-                        tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
+                        tipHTML(marker, null, `( ${m.lng},${m.lat} )`);
                         continue;
                     }
                     
@@ -208,19 +210,19 @@ class MapMarker {
                         if ( tempStrSplit[0] == pages[page].title ) {
                             //console.log("FOUND: ", pages[page].title, tempStr, img.title);
                             //return tempStr;
-                            tipHTML(marker.options.name, tempStr, `( ${m.lng},${m.lat} )`);
+                            tipHTML(marker, tempStr, `( ${m.lng},${m.lat} )`);
                             return;
                         }
                         
                         //console.log(page, img.title);
                     }
                     
-                    tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
+                    tipHTML(marker, null, `( ${m.lng},${m.lat} )`);
                 }
             })
             .catch(function(error){
                 if ( error.name == 'SyntaxError' ){
-                    tipHTML(marker.options.name, null, `( ${m.lng},${m.lat} )`);
+                    tipHTML(marker, null, `( ${m.lng},${m.lat} )`);
                 }
                 else console.log("FFXIMap:createToolTip():"+ marker.options.name +", Error:" + error);
                 

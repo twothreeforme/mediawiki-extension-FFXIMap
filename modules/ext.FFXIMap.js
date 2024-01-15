@@ -536,6 +536,10 @@ class FFXIMap {
 						mapMarkersFromJSObject[i]['mapy'] = entityFetch['mapy'];
 						mapMarkersFromJSObject[i]['imageurl'] = entityFetch['imageurl'];
 						mapMarkersFromJSObject[i]['type'] = entityFetch['type'];
+						
+						mapMarkersFromJSObject[i]['displaylevels'] = entityFetch['displaylevels'];
+						mapMarkersFromJSObject[i]['minL'] = entityFetch['minL'];  // REMOVE
+						mapMarkersFromJSObject[i]['maxL'] = entityFetch['maxL'];  // REMOVE
 						shouldAddToArray = false;
 						break;
 					}
@@ -566,7 +570,10 @@ class FFXIMap {
 		}
 
 		mapMarkersFromJSObject.forEach((e) => {
-			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type']);
+			
+			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type'], e['displaylevels']);
+
+			var entityTitle = e['page'] + e['displaylevels'];
 
 			e['type'].forEach(value => {
 				var added = false;
@@ -577,7 +584,7 @@ class FFXIMap {
 
 						for(var j = 0; j < finalEntityArray[i].children.length; j++ ){
 							//console.log(finalEntityArray[i].children[j].label);
-							if ( e['page'] == finalEntityArray[i].children[j].label ) {
+							if ( entityTitle == finalEntityArray[i].children[j].label ) {
 								//console.log(finalEntityArray[i].children);
 								finalEntityArray[i].children[j].layer.addLayer(marker);
 								added = true;
@@ -587,7 +594,7 @@ class FFXIMap {
 						if ( added == false ){
 							//console.log('adding' + e['page']);
 							finalEntityArray[i].children.push({
-								label: e['page'],
+								label: entityTitle,
 								layer: L.layerGroup([ marker ])
 							})
 
@@ -615,7 +622,7 @@ class FFXIMap {
 							label: 'HELM',
 							selectAllCheckbox: true,
 							children: [
-									{label: e['page'], layer: L.layerGroup([ marker ]) },
+									{label: entityTitle, layer: L.layerGroup([ marker ]) },
 									existingArray
 									]
 						} ]);
@@ -634,7 +641,7 @@ class FFXIMap {
 							label: value,
 							selectAllCheckbox: true,
 							children: [
-									{label: e['page'], layer: L.layerGroup([ marker ]) },
+									{label: entityTitle, layer: L.layerGroup([ marker ]) },
 									]
 						};
 					}
@@ -648,7 +655,7 @@ class FFXIMap {
 					else {
 						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value));
 						newEntity = {
-							label: value,
+							label: entityTitle,
 							layer: L.layerGroup([ marker ])
 						};
 					}
@@ -804,7 +811,7 @@ class FFXIMap {
 				if (_marker instanceof L.Marker){
 					//console.log(_marker.options.type);
 					if ( zoomLevel < 2.25 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
-					else _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, _marker.options.name));
+					else _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, _marker.options.displaylabel));
 				}});
 		}
 
