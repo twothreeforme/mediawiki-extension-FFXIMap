@@ -228,9 +228,8 @@ class MapData {
           }
     }
 
-
     
-
 }
+
 
 module.exports = MapData;
