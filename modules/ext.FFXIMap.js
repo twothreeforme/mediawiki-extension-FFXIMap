@@ -573,13 +573,17 @@ class FFXIMap {
 			
 			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type'], e['displaylevels']);
 
-			var entityTitle = e['page'] + e['displaylevels'];
-
 			e['type'].forEach(value => {
+				var entityTitle;
+				if ( value == 'Enemies') entityTitle = e['page'] + e['displaylevels'];
+				else if ( value.includes('Home Point') ) entityTitle = 'Home Point';
+				else entityTitle = e['page'];
+
 				var added = false;
 				for(var i = 0; i < finalEntityArray.length; i++ ){
 
-					if ( ( value == finalEntityArray[i].label || ( HELMExpandableLayers.findIndex((element) => element == value) >= 0 && finalEntityArray[i].label == 'HELM' ))
+					if ( ( value == finalEntityArray[i].label || 
+						( HELMExpandableLayers.findIndex((element) => element == value) >= 0 && finalEntityArray[i].label == 'HELM' ))
 							 && finalEntityArray[i].hasOwnProperty('children')){
 
 						for(var j = 0; j < finalEntityArray[i].children.length; j++ ){
@@ -602,7 +606,7 @@ class FFXIMap {
 							break;
 						}
 					}
-					else if (value == finalEntityArray[i].label && finalEntityArray[i].hasOwnProperty('layer')){
+					else if ( (value == finalEntityArray[i].label && finalEntityArray[i].hasOwnProperty('layer'))) {
 						//Now we are inside a layer that is not grouped
 						finalEntityArray[i].layer.addLayer(marker);
 						added = true;
@@ -630,8 +634,12 @@ class FFXIMap {
 						added = true;
 						break;
 					}
+					else if ( value == "Home Point" && finalEntityArray[i].label.includes("Home Point") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
 					
-
 				}
 				if ( added == false ){
 					var newEntity = {};
@@ -653,7 +661,7 @@ class FFXIMap {
 					// 	};
 					// }
 					else {
-						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value));
+						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value)); 
 						newEntity = {
 							label: entityTitle,
 							layer: L.layerGroup([ marker ])
@@ -1016,7 +1024,8 @@ const MapLayerGroup = Object.freeze({
 	NPC: 'NPC',
 	ENEMIES: 'Enemies',
 	QUESTS: 'Quests',
-	HELM: 'HELM'
+	HELM: 'HELM',
+	//HOMEPOINT: 'Home Point'
   })
 
 const HELMExpandableLayers = ['Mining Point', 'Excavation Point', 'Harvesting Point', 'Logging Point', 'Clamming Point']
