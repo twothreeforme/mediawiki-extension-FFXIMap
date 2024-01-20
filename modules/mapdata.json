@@ -658,46 +658,7 @@
 				[["Enemies"],"Seeker Bats",392.887, 0.05, 78.653, 25, 27], 
 				[["Enemies"],"Ancient Bat",396.144, 0.054, 79.351, 27, 29], 
 				[["Enemies"],"Disaster Idol",460.076, 0.001, 139.504, 75, 75], 
-				[["Enemies"],"Illusory Pot",552.494, 0.070, -32.615, 45, 50], 
-
-
-                
-
-
-
-
-                [["Enemies"],"Gigas Hallwatcher",577, 16, 47, 34, 35], 
-				[["Enemies"],"Gigas Punisher",557, 16, 2, 34, 35], 
-				[["Enemies"],"Gigas Butcher",545.445, 15.480, 23.878, 34, 35], 
-				[["Enemies"],"Gigas Sculptor",548.553, 15.591, 34.062, 34, 35], 
-				[["Enemies"],"Gigas Hallwatcher",570.005, 15.892, 15.095, 34, 35], 
-				[["Enemies"],"Gigas Punisher",568.180, 16.075, 29.209, 34, 35], 
-				[["Enemies"],"Gigas Butcher",557.133, 16.072, 39.655, 34, 35], 
-				[["Enemies"],"Gigas Sculptor",591, 16, 38, 34, 35], 
-				[["Enemies"],"Thunder Elemental",569.675, 15.721, 0.335, 35, 36], 
-				[["Enemies"],"Light Elemental",563.268, 15.634, -10.249, 35, 36], 
-				[["Enemies"],"Bogy",581.437, 18.992, 77.478, 30, 32], 
-				[["Enemies"],"Magic Urn",413.463, 15.899, -19.150, 34, 35], 
-				[["Enemies"],"Magic Urn",420.07, 15.9, -20.234, 34, 35], 
-				[["Enemies"],"Thunder Elemental",426.108, 15.9, -16.844, 35, 36], 
-				[["Enemies"],"Light Elemental",417.762, 15.898, -12.995, 35, 36],
-
-
-
-                
-				
-				[["Enemies"],"Bogy",569.253, 23.499, 101.293, 30, 32], 
-				[["Enemies"],"Bogy",582.097, 20.273, 84.635, 30, 32], 
-				[["Enemies"],"Magic Urn",643.175, 23.558, 110.105, 34, 35], 
-				[["Enemies"],"Magic Urn",639.762, 23.968, 116.359, 34, 35], 
-				[["Enemies"],"Magic Urn",639.467, 24.022, 120.416, 34, 35], 
-				[["Enemies"],"Bogy",508, 24, -60, 30, 32], 
-				[["Enemies"],"Bogy",484.670, 23.5, -58.457, 30, 32],
-                [["Enemies"],"Orna",507.288, 23.707, 97.632, 40, 40], 
-				[["Enemies"],"Fomorian Spear",505.836, 23.744, 96.677, 32, 32], 
-				[["Enemies"],"Fomorian Spear",505.175, 23.878, 95.147, 32, 32]
-
-        
+				[["Enemies"],"Illusory Pot",552.494, 0.070, -32.615, 45, 50]
 			],
 
 			"entities": [
@@ -888,14 +849,48 @@
         "11": {
             "name": "Lower Delkfutt's Tower: Map 4",
             "filename": "lower_delkfutts_tower_4.png",
-            "upperBoundX" : "",
-            "upperBoundY" : "",
-            "connections" : { 
-                "8" : { 
-                    "hover" : [[130.99219, 80.5], [130.74219, 92.25], [122.49219, 92.5], [122.99219, 80.25]],
-                    "pulse" : [[127.62402, 86.3125]]
+            "bounds" : [ [ 141.410, -301.49 ], [ 781.410, 338.51 ] ],
+            "connections" : {
+                "8" : {
+                    "hover" : [
+                        [25.990,342.660],[25.365,372.035],[4.740,372.660],[5.990,342.035]
+                    ],
+                    "pulse" : [[17.570,357.191]]
                 }
-            }
+            },
+            "mobSpawns" : [
+                [["Enemies"],"Gigas Hallwatcher",577, 16, 47, 34, 35], 
+				[["Enemies"],"Gigas Punisher",557, 16, 2, 34, 35], 
+				[["Enemies"],"Gigas Butcher",545.445, 15.480, 23.878, 34, 35], 
+				[["Enemies"],"Gigas Sculptor",548.553, 15.591, 34.062, 34, 35], 
+				[["Enemies"],"Gigas Hallwatcher",570.005, 15.892, 15.095, 34, 35], 
+				[["Enemies"],"Gigas Punisher",568.180, 16.075, 29.209, 34, 35], 
+				[["Enemies"],"Gigas Butcher",557.133, 16.072, 39.655, 34, 35], 
+				[["Enemies"],"Gigas Sculptor",591, 16, 38, 34, 35], 
+				[["Enemies"],"Thunder Elemental",569.675, 15.721, 0.335, 35, 36], 
+				[["Enemies"],"Light Elemental",563.268, 15.634, -10.249, 35, 36], 
+				[["Enemies"],"Bogy",581.437, 18.992, 77.478, 30, 32], 
+				[["Enemies"],"Magic Urn",413.463, 15.899, -19.150, 34, 35], 
+				[["Enemies"],"Magic Urn",420.07, 15.9, -20.234, 34, 35], 
+				[["Enemies"],"Thunder Elemental",426.108, 15.9, -16.844, 35, 36], 
+				[["Enemies"],"Light Elemental",417.762, 15.898, -12.995, 35, 36],
+				[["Enemies"],"Bogy",569.253, 23.499, 101.293, 30, 32], 
+				[["Enemies"],"Bogy",582.097, 20.273, 84.635, 30, 32], 
+				[["Enemies"],"Magic Urn",643.175, 23.558, 110.105, 34, 35], 
+				[["Enemies"],"Magic Urn",639.762, 23.968, 116.359, 34, 35], 
+				[["Enemies"],"Magic Urn",639.467, 24.022, 120.416, 34, 35], 
+				[["Enemies"],"Bogy",508, 24, -60, 30, 32], 
+				[["Enemies"],"Bogy",484.670, 23.5, -58.457, 30, 32],
+                [["Enemies"],"Orna",507.288, 23.707, 97.632, 40, 40], 
+				[["Enemies"],"Fomorian Spear",505.836, 23.744, 96.677, 32, 32], 
+				[["Enemies"],"Fomorian Spear",505.175, 23.878, 95.147, 32, 32]
+            ],
+            "entities": [
+                [["Cermet Door"],"Cermet Door", 600.48,  13.337, -20.04 ],
+                [["Cermet Door"],"Cermet Door", 640.48,  13.337, 19.96 ],
+                [["Cermet Door"],"Cermet Door", 640.48,  13.337, 59.96 ],
+                [["Cermet Door"],"Cermet Door", 500.87,  19.34, 91.98 ]
+            ]
         },
         "12": {
             "name": "Lower Jeuno",
