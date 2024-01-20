@@ -577,6 +577,7 @@ class FFXIMap {
 				var entityTitle;
 				if ( value == 'Enemies') entityTitle = e['page'] + e['displaylevels'];
 				else if ( value.includes('Home Point') ) entityTitle = 'Home Point';
+				else if ( value.includes('Chocobo') ) entityTitle = 'Chocobo';
 				else entityTitle = e['page'];
 
 				var added = false;
@@ -635,6 +636,11 @@ class FFXIMap {
 						break;
 					}
 					else if ( value == "Home Point" && finalEntityArray[i].label.includes("Home Point") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
+					else if ( value == "Chocobo" && finalEntityArray[i].label.includes("Chocobo") ){
 						finalEntityArray[i].layer.addLayer(marker);
 						added = true;
 						break;
