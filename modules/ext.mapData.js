@@ -154,7 +154,7 @@ class MapData {
     
     
     async getJSObjectEntities(_mapID, abortController){
-        if (_mapID == null || this.hasEntities(_mapID) == false) return ;
+        if (_mapID == null || ( this.hasEntities(_mapID) == false && this.hasMobSpawns(_mapID) == false ) ) return ;
         var entityArray, mobSpawnsArray;
 
         const entities = this.getEntities(_mapID);
@@ -162,11 +162,11 @@ class MapData {
         
         const mobspawns = this.getMobSpawns(_mapID);
         if (typeof(mobspawns) !== `undefined`) mobSpawnsArray = this.generateArray(mobspawns, _mapID);
-    
+        
         let returnArray = [];
         if ( typeof(entityArray)  !== `undefined`) { returnArray = returnArray.concat(entityArray); }
         if ( typeof(mobSpawnsArray)  !== `undefined`) { returnArray = returnArray.concat(mobSpawnsArray); }
-       
+
         return returnArray;
     }
         
@@ -209,7 +209,6 @@ class MapData {
     async fetchEntities(_mapID, abortController){
         let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displaylevels&where=mapid=${_mapID}&format=json`;
         //console.log(url);
-
         const response = fetch(url, {
             signal: abortController
         });
@@ -220,6 +219,7 @@ class MapData {
 
     async fetchImage(url, entityName, abortController){
         //console.log(url);
+        var lkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlksh = "aklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankraje";
         try {
             const response = await fetch(url, {
                 signal: abortController.signal

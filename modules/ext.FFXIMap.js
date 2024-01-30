@@ -505,17 +505,15 @@ class FFXIMap {
 
 	async addMapMarkers(_mapID){
 		//console.log(abort);
-
+		
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController);
 
-		//console.log(mapMarkersFromJSObject);
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, this.abortController);
 		
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
-		//console.log(mapMarkersFromJSObject, mapMarkersFromFetch);
 		if ( typeof(mapMarkersFromJSObject) === 'undefined' && typeof(mapMarkersFromFetch) === 'undefined' ) return;
 		
 		// If there are JSObject markers and markers from the Cargo query, 
@@ -578,6 +576,8 @@ class FFXIMap {
 				if ( value == 'Enemies') entityTitle = e['page'] + e['displaylevels'];
 				else if ( value.includes('Home Point') ) entityTitle = 'Home Point';
 				else if ( value.includes('Chocobo') ) entityTitle = 'Chocobo';
+				else if ( value.includes('Moogle') ) entityTitle = 'Moogle';
+
 				else entityTitle = e['page'];
 
 				var added = false;

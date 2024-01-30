@@ -27,6 +27,8 @@ class MapMarker {
         
     }
 
+
+
     #divIcon_marker_2x(iconData, label) {
         var labelHTML = ``;
         if ( typeof(label) == 'string' && label != '' ) labelHTML = `</svg><span class=\"${CSS.markerLabel}\">${label}</span>`;
