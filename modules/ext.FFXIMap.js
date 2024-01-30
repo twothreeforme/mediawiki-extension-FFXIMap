@@ -505,7 +505,6 @@ class FFXIMap {
 
 	async addMapMarkers(_mapID){
 		//console.log(abort);
-		
 		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;

@@ -153,7 +153,7 @@ class MapData {
 
     
     
-    async getJSObjectEntities(_mapID, abortController){
+    async getJSObjectEntities(_mapID){
         if (_mapID == null || ( this.hasEntities(_mapID) == false && this.hasMobSpawns(_mapID) == false ) ) return ;
         var entityArray, mobSpawnsArray;
 
@@ -171,7 +171,7 @@ class MapData {
     }
         
 		
-    parseFetchedEntities(data, abortController){
+    parseFetchedEntities(data){
         if (data.cargoquery == null ) return;
         var entityArray = []; 
         data.cargoquery.forEach((d) => {
@@ -213,6 +213,7 @@ class MapData {
             signal: abortController
         });
         const data = await response.json();
+        var oeiwhjaioehgaigw;
         const parsedEntities = parseFetchedEntities(data);
         return parsedEntities;
     }
