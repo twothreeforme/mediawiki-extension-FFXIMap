@@ -576,7 +576,6 @@ class FFXIMap {
 				else if ( value.includes('Home Point') ) entityTitle = 'Home Point';
 				else if ( value.includes('Chocobo') ) entityTitle = 'Chocobo';
 				else if ( value.includes('Moogle') ) entityTitle = 'Moogle';
-
 				else entityTitle = e['page'];
 
 				var added = false;
@@ -644,7 +643,21 @@ class FFXIMap {
 						added = true;
 						break;
 					}
-					
+					else if ( value == "Dilapidated Gate" && finalEntityArray[i].label.includes("Dilapidated Gate") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
+					else if ( value == "Swirling Vortex" && finalEntityArray[i].label.includes("Swirling Vortex") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
+					else if ( value == "Spatial Displacement" && finalEntityArray[i].label.includes("Spatial Displacement") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
 				}
 				if ( added == false ){
 					var newEntity = {};
