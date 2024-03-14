@@ -145,7 +145,7 @@ class FFXIMap {
 		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
 
-		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : -1.5;
+		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : -1.75;
 		this.maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 6;
 		this.zoom = typeof zoom !== 'undefined' ? zoom : 0;
 		this.zoomSnap = 0.25;
