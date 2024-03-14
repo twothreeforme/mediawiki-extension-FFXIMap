@@ -366,7 +366,7 @@ class FFXIMap {
 
 		}
 		mapMarkers.currentZoom = this.map.getZoom();
-		this.map.setZoom(this.zoom);
+		//this.map.setZoom(this.zoom);
 		this.map.on('zoomstart', (e) =>  {
 			mapMarkers.currentZoom = e.target._zoom;
 		});
