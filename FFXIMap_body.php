@@ -59,7 +59,7 @@ class FFXIMap {
 			$showdetails = true;
 		}
 		
-		$showconnections = ($params['showconnections'] === "true") ? true : false;
+		$showconnections = isset($params['showconnections']) ? $params['showconnections'] : false;
 
 		$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
 		$divID = "mapid_" . $mapID;

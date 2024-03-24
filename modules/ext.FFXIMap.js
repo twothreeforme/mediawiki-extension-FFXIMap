@@ -107,7 +107,7 @@ function setPageAttributes() {
 		maxZoom = dataTagAttributes.maxzoom;
 		zoom = dataTagAttributes.zoom;
 		showdetails = (dataTagAttributes.showdetails === "1");
-		showconnections = (dataTagAttributes.showconnections === "1");
+		showconnections = (dataTagAttributes.showconnections === "true");
 
 		baseDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/';
 		baseMapDir = baseDir + 'maps/';
@@ -654,6 +654,21 @@ class FFXIMap {
 						break;
 					}
 					else if ( value == "Spatial Displacement" && finalEntityArray[i].label.includes("Spatial Displacement") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					} 
+					else if ( value == "Auroral Updraft" && finalEntityArray[i].label.includes("Auroral Updraft") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
+					else if ( value == "Afflictor" && finalEntityArray[i].label.includes("Afflictor") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
+					else if ( value == "Mute" && finalEntityArray[i].label.includes("Mute") ){
 						finalEntityArray[i].layer.addLayer(marker);
 						added = true;
 						break;
