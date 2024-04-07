@@ -73,7 +73,7 @@ class FFXIMap {
 		else $width = '512px';
 		$height = $width;
 
-		//print_r($width);
+		print_r($width);
 		//$height = isset($params['height']) ? intval($params['height']) : '512px';
 		//$width = isset($params['width']) ? intval($params['width']) : '512px';
 
