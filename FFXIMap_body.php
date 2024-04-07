@@ -71,14 +71,26 @@ class FFXIMap {
 			else $width = $params['width'];
 		}
 		else $width = '512px';
-		$height = $width;
+		
+		if ( isset($params['height']) ) {
+			if (str_contains($params['height'], '%')) { $height = $params['height']; }
+			elseif ( !str_contains($params['height'], 'px') ) { $height = $params['height']."px"; }
+			else $height = $params['height'];
+		}
+		elseif (str_contains($params['width'], 'px')) { $height = $width;}
 
-		print_r($width);
+		
 		//$height = isset($params['height']) ? intval($params['height']) : '512px';
 		//$width = isset($params['width']) ? intval($params['width']) : '512px';
 
 		$style = "";
-		$style = $style . "height: " . $height . "; width: " . $width . "; margin: 10px auto 0;";
+		if ( isset($height) ) {
+			$style = $style . "height: " . $height . "; width: " . $width . "; margin: 10px auto 0;";
+		}
+		else {
+			//print_r("no height");
+			$style = $style . "width: " . $width . "; margin: 10px auto 0; aspect-ratio: 1 / 1;";
+		}
 		// $style = $style . "z-index: -1; ";
 
 		$script = "";
