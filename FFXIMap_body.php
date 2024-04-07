@@ -63,12 +63,22 @@ class FFXIMap {
 
 		$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
 		$divID = "mapid_" . $mapID;
+		
+		$height; $width;
+		if ( isset($params['width']) ) {
+			if (str_contains($params['width'], '%')) { $width = $params['width']; }
+			elseif ( !str_contains($params['width'], 'px') ) { $width = $params['width']."px"; }
+			else $width = $params['width'];
+		}
+		else $width = '512px';
+		$height = $width;
 
-		$height = isset($params['height']) ? intval($params['height']) : 512;
-		$width = isset($params['width']) ? intval($params['width']) : 512;
+		//print_r($width);
+		//$height = isset($params['height']) ? intval($params['height']) : '512px';
+		//$width = isset($params['width']) ? intval($params['width']) : '512px';
 
 		$style = "";
-		$style = $style . "height: " . $height . "px; width: " . $width . "px; margin: 10px auto 0;";
+		$style = $style . "height: " . $height . "; width: " . $width . "; margin: 10px auto 0;";
 		// $style = $style . "z-index: -1; ";
 
 		$script = "";
