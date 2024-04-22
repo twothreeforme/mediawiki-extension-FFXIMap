@@ -478,8 +478,9 @@ class FFXIMap {
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
         	if (fieldNameElement) { 
-				if ( mapDataModel.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], '; 
-				else fieldNameElement.innerHTML += '[' + x + ", " + y + '], '; 
+				// if ( mapDataModel.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], ';
+				// else fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
+				fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
 			}	
 			
 		});
@@ -658,6 +659,11 @@ class FFXIMap {
 						added = true;
 						break;
 					} 
+					else if ( value == "Unstable Displacement" && finalEntityArray[i].label.includes("Unstable Displacement") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
 					else if ( value == "Auroral Updraft" && finalEntityArray[i].label.includes("Auroral Updraft") ){
 						finalEntityArray[i].layer.addLayer(marker);
 						added = true;
