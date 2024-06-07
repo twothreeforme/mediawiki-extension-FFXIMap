@@ -61,7 +61,11 @@ class FFXIMap {
 		
 		$showconnections = isset($params['showconnections']) ? $params['showconnections'] : false;
 
+		// Determine if mapid parameter was in the tag. If not, then look for the pagename. If no pagename, then 0 for default.
+		// default mapID = 0
 		$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
+		$pagename = ( isset($params['usepagename']) && $params['usepagename'] == "true") ? $parser->getTitle() : 0;
+
 		$divID = "mapid_" . $mapID;
 		
 		$height; $width;
@@ -95,7 +99,7 @@ class FFXIMap {
 
 		$script = "";
 
-		$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\" data-showconnections=\"" . $showconnections . "\"></span>";
+		$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-pagename=\"" . $pagename . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\" data-showconnections=\"" . $showconnections . "\"></span>";
 		
 		$html = "";
 		$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";

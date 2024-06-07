@@ -4,6 +4,13 @@ class MapData {
         this.json = json.mapData;
     }
     
+    getMapID(mapName){
+        for (const [key, value] of Object.entries(this.json)){
+            if ( this.json[key].name == mapName )return key;
+        }
+        return null;
+    }
+
     hasEntities(mapid){
         if ( this.json[mapid].hasOwnProperty("entities")  ) return true;
         else return false;

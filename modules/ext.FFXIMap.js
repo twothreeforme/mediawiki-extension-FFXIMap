@@ -41,6 +41,7 @@ let m = null;
  * @return {number} Map # for display. 
  */
 let mapID = null;
+let pageName = null;
 
 /**
  * id of the <div> class from the extension PHP 
@@ -102,6 +103,8 @@ function setPageAttributes() {
 		
 		divID = dataTagAttributes.divid;
 		mapID = dataTagAttributes.mapid;
+		pageName = dataTagAttributes.pagename;
+
 		//tileSource = dataTagAttributes.tilesource;
 		minZoom = dataTagAttributes.minzoom;
 		maxZoom = dataTagAttributes.maxzoom;
@@ -115,6 +118,7 @@ function setPageAttributes() {
 		baseMapZonesDir = baseDir + 'maps/zones/';
 		baseMapMarkersDir = baseDir + 'maps/markers/';
 		
+		console.log ("pagename:" , pageName);
 }
 
 
@@ -143,6 +147,13 @@ class FFXIMap {
 
 		this.divID = typeof divID !== 'undefined' ? divID : "mapid_0";
 		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
+
+		this.pageName = ( (typeof pageName !== 'undefined') || pageName !== "0" ) ? pageName : 0;
+		if ( this.pageName != 0 ) {
+			var temp = mapDataModel.getMapID(this.pageName);
+			if ( typeof temp !== 'undefined') this.mapID = temp;
+		}
+
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
 
 		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : -1.75;
