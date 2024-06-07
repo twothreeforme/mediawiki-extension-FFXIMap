@@ -152,6 +152,7 @@ class FFXIMap {
 		if ( this.pageName != 0 ) {
 			var temp = mapDataModel.getMapID(this.pageName);
 			if ( typeof temp !== 'undefined') this.mapID = temp;
+			console.log(temp);
 		}
 
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
