@@ -8,7 +8,7 @@ class MapData {
         for (const [key, value] of Object.entries(this.json)){
             if ( this.json[key].name == mapName )return key;
         }
-        return null;
+        return ;
     }
 
     hasEntities(mapid){

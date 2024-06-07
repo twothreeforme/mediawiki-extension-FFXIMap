@@ -151,7 +151,7 @@ class FFXIMap {
 		if ( this.pageName != 0 ) {
 			var temp = mapDataModel.getMapID(this.pageName);
 			console.log("typeof temp:", typeof temp);
-			if ( typeof temp !== 'undefined') this.mapID = temp;
+			if ( temp !== null) this.mapID = temp;
 
 		}
 
