@@ -117,8 +117,6 @@ function setPageAttributes() {
 		baseMapTilesDir = baseDir + 'maps/tiles/';
 		baseMapZonesDir = baseDir + 'maps/zones/';
 		baseMapMarkersDir = baseDir + 'maps/markers/';
-		
-		console.log ("pagename:" , pageName);
 }
 
 
@@ -152,7 +150,7 @@ class FFXIMap {
 		if ( this.pageName != 0 ) {
 			var temp = mapDataModel.getMapID(this.pageName);
 			if ( typeof temp !== 'undefined') this.mapID = temp;
-			console.log(temp);
+			console.log("temp:", temp);
 		}
 
 		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
