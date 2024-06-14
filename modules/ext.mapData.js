@@ -6,12 +6,10 @@ class MapData {
     
     getMapID(mapName){
         for (const [key, value] of Object.entries(this.json)){
-            let keyName = this.json[key].name;
+            let keyName = this.json[key].name.split('\'').join('');
+            //mystring = mystring.split('/r').join('/')
             if ( keyName == mapName || keyName == (mapName + ": Map 1"))  return key;
 
-            // let mapNameDerivation = keyName + ": Map 1";
-            // if ( mapNameDerivation == mapName ) return key;
-            // console.log(mapNameDerivation);
         }
         return ;
     }
