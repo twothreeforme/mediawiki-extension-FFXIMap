@@ -7,11 +7,11 @@ class MapData {
     getMapID(mapName){
         for (const [key, value] of Object.entries(this.json)){
             let keyName = this.json[key].name;
-            if ( keyName == mapName ) return key;
+            if ( keyName == mapName || keyName == (mapName + ": Map 1"))  return key;
 
-            let mapNameDerivation = keyName + ": Map 1";
-            if ( mapNameDerivation == mapName ) return key;
-            console.log(mapNameDerivation);
+            // let mapNameDerivation = keyName + ": Map 1";
+            // if ( mapNameDerivation == mapName ) return key;
+            // console.log(mapNameDerivation);
         }
         return ;
     }
