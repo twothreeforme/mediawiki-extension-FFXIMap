@@ -11,7 +11,7 @@ class MapData {
 
             let mapNameDerivation = keyName + ": Map 1";
             if ( mapNameDerivation == mapName ) return key;
-
+            console.log(mapNameDerivation);
         }
         return ;
     }
