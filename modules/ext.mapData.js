@@ -9,7 +9,8 @@ class MapData {
             let keyName = this.json[key].name;
             if ( keyName == mapName ) return key;
 
-            let mapNameDerivation = keyName.concat(": Map 1");
+            let mapNameDerivation = keyName + ": Map 1";
+            if ( mapNameDerivation == mapName ) return key;
 
         }
         return ;
