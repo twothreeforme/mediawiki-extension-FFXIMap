@@ -6,9 +6,10 @@ class MapData {
     
     getMapID(mapName){
         for (const [key, value] of Object.entries(this.json)){
+            let keyName = this.json[key].name;
+            if ( keyName == mapName ) return key;
 
-            if ( this.json[key].name == mapName ) return key;
-            let mapNameDerivation = this.json[key].name.concat(": Map 1");
+            let mapNameDerivation = keyName.concat(": Map 1");
 
         }
         return ;
