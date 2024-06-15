@@ -8,12 +8,10 @@ class MapData {
         for (const [key, value] of Object.entries(this.json)){
             let keyName = this.json[key].name;
             if ( typeof(keyName) == 'undefined') continue;
-            console.log(key, keyName, typeof(keyName));
             keyName = keyName.replace('\'', '');
-            //mystring = mystring.split('/r').join('/')
 
             if ( keyName == mapName || keyName == (mapName + ": Map 1"))  return key;
-
+            console.log(key, keyName, mapName);
         }
         return ;
     }
