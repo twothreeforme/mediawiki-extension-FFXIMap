@@ -9,9 +9,9 @@ class MapData {
             let keyName = this.json[key].name;
             if ( typeof(keyName) == 'undefined') continue;
             keyName = keyName.replace('\'', '');
-
+            mapName = mapName.replace('\'', '');
             if ( keyName == mapName || keyName == (mapName + ": Map 1"))  return key;
-            console.log(key, keyName, mapName);
+            //console.log(key, keyName, mapName);
         }
         return ;
     }
