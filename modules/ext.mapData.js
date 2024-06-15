@@ -9,6 +9,7 @@ class MapData {
             let keyName = this.json[key].name;
             keyName = keyName.replace('\'', '');
             //mystring = mystring.split('/r').join('/')
+            console.log(keyName);
             if ( keyName == mapName || keyName == (mapName + ": Map 1"))  return key;
 
         }
