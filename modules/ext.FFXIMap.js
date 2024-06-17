@@ -550,7 +550,7 @@ class FFXIMap {
 						mapMarkersFromJSObject[i]['type'] = entityFetch['type'];
 						
 						//entityFetch['displaylevels'] !==
-						console.log( entityFetch['displaylevels'] );
+						console.log( "fetch: ", entityFetch['displaylevels'] );
 
 						mapMarkersFromJSObject[i]['displaylevels'] = entityFetch['displaylevels'] ;
 						mapMarkersFromJSObject[i]['minL'] = entityFetch['minL'];  // REMOVE
