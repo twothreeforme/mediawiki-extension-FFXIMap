@@ -549,7 +549,10 @@ class FFXIMap {
 						mapMarkersFromJSObject[i]['imageurl'] = entityFetch['imageurl'];
 						mapMarkersFromJSObject[i]['type'] = entityFetch['type'];
 						
-						mapMarkersFromJSObject[i]['displaylevels'] = entityFetch['displaylevels'];
+						//entityFetch['displaylevels'] !==
+						console.log( entityFetch['displaylevels'] );
+
+						mapMarkersFromJSObject[i]['displaylevels'] = entityFetch['displaylevels'] ;
 						mapMarkersFromJSObject[i]['minL'] = entityFetch['minL'];  // REMOVE
 						mapMarkersFromJSObject[i]['maxL'] = entityFetch['maxL'];  // REMOVE
 						shouldAddToArray = false;
@@ -592,7 +595,7 @@ class FFXIMap {
 				else if ( value.includes('Chocobo') ) entityTitle = 'Chocobo';
 				else if ( value.includes('Moogle') ) entityTitle = 'Moogle';
 				else entityTitle = e['page'];
-				console.log(entityTitle);
+				//console.log(entityTitle);
 
 				var added = false;
 				for(var i = 0; i < finalEntityArray.length; i++ ){
