@@ -693,6 +693,11 @@ class FFXIMap {
 						added = true;
 						break;
 					}
+					else if ( value == "HENM" && finalEntityArray[i].label.includes("HENM") ){
+						finalEntityArray[i].layer.addLayer(marker);
+						added = true;
+						break;
+					}
 				}
 				if ( added == false ){
 					var newEntity = {};
@@ -1078,6 +1083,7 @@ const MapLayerGroup = Object.freeze({
 	ENEMIES: 'Enemies',
 	QUESTS: 'Quests',
 	HELM: 'HELM',
+	HENM: 'HENM'
 	//HOMEPOINT: 'Home Point'
   })
 
