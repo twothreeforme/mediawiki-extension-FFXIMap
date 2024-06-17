@@ -592,6 +592,7 @@ class FFXIMap {
 				else if ( value.includes('Chocobo') ) entityTitle = 'Chocobo';
 				else if ( value.includes('Moogle') ) entityTitle = 'Moogle';
 				else entityTitle = e['page'];
+				console.log(entityTitle);
 
 				var added = false;
 				for(var i = 0; i < finalEntityArray.length; i++ ){
