@@ -169,11 +169,8 @@ class MapMarker {
             var tooltiptemplate = `<div>`; 
             if (imageurl !== undefined && imageurl !== null && imageurl != "") { tooltiptemplate += `<img src="${url}" alt=\"\" class="img-alt">`; }
             tooltiptemplate += `<b><i><center>&nbsp  ${marker.options.displaylabel}  &nbsp</i></b><br>${displayposition}</center></div>`;
-            
-            console.log(marker.options.name, marker.options.displaylabel);
-            console.log("tooltip: ", tooltiptemplate);
-
-
+            //console.log(marker.options.name, marker.options.displaylabel);
+            //console.log("tooltip: ", tooltiptemplate);
             marker.bindTooltip(L.Util.template(tooltiptemplate, null), {
                 opacity: 1.0,
                 className: `${CSS.markerTooltip}`,
