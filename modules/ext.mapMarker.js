@@ -144,7 +144,9 @@ class MapMarker {
     }
 
     new(page, mapx, mapy, imageurl, type, displaylevels){
-        var displaylabel = page + displaylevels;
+        var displaylabel;
+        displaylevels ? displaylabel = page + displaylevels : displaylabel = page;
+
         var tempLabel = ( this.currentZoom >= 2.25) ? tempLabel = displaylabel : tempLabel = '';
 
         return L.marker([mapx, mapy], {
