@@ -537,14 +537,17 @@ class FFXIMap {
 			if (typeof(mapMarkersFromJSObject) == 'undefined') mapMarkersFromJSObject = [];
 			
 			mapMarkersFromFetch.forEach((entityFetch) => {
+				var  multipleSameNamedEntriesFromSamePage = false;
 				var shouldAddToArray = true;
 				if ( mapDataModel.hasBounds(_mapID) == true) [entityFetch['mapx'], entityFetch['mapy']] = [ entityFetch['mapy'],  entityFetch['mapx']];
 
 				//console.log(mapMarkersFromJSObject);
+				// This portion gives wiki users the ability to adjust markers they see on a given map
+				// Issue: only matches by page name... so no way of matching multiple entries
 				for ( let i = 0; i < mapMarkersFromJSObject.length; i++){
 					//console.log(mapMarkersFromJSObject[i]['page'], entityFetch['page']);
 					if ( mapMarkersFromJSObject[i]['page'] == entityFetch['page']){
-						console.log("fire");
+						//console.log("fire");
 						mapMarkersFromJSObject[i]['mapx'] = entityFetch['mapx'];
 						mapMarkersFromJSObject[i]['mapy'] = entityFetch['mapy'];
 						mapMarkersFromJSObject[i]['imageurl'] = entityFetch['imageurl'];

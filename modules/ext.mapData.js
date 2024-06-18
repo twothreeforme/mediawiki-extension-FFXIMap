@@ -150,6 +150,7 @@ class MapData {
                     entity['displayposition'] = displayposition;
 
                     if ( minL != null && maxL != null) displaylevels = ` (${minL}-${maxL})`;
+                    if ( minL == 0 && maxL == 0 ) displaylevels = ``;
                     entity['displaylevels'] = displaylevels;
 
                     returnArray.push(entity);
