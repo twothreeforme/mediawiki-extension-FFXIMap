@@ -5201,7 +5201,10 @@
 				[["Enemies"],"Yatagarasu",-360, 7.5, 279, 94, 95], 
 				[["Enemies"],"Yatagarasu",-435.000, -8.406, 15.000, 94, 95], 
 				[["Enemies"],"Yatagarasu",-630.000, -24.266, -270.000, 94, 95], 
-				[["Enemies"],"Strix",-481.160, -8.500, 117.660, 0, 0] 
+				[["Enemies"],"Strix",-481.160, -8.500, 117.660, 0, 0],
+				[["Enemies"],"Ruinous Rocs",128.29, -8.500, 161.49, 0, 0],
+				[["Enemies"],"Ruinous Rocs",102.32, -8.500, 74.26, 0, 0],
+				[["Enemies"],"Ruinous Rocs",96.01, -8.500, 96.02, 0, 0]
 			],
             "entities": [
                 [["Stone Monument"],"Stone Monument",362.479, -34.894, -398.994],
