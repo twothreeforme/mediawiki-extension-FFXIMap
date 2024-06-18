@@ -5335,9 +5335,9 @@
                 }
             },
 			"mobSpawns": [
-                [["HENM"],"Sacred Scorpoions",-333.579, 15.514, 512.795, 7, 11],
-                [["HENM"],"Sacred Scorpoions", -5.629, 28.881, 85.62, 7, 11],
-                [["HENM"],"Sacred Scorpoions",497.227, 7.078, -233.921, 7, 11]
+                [["HENM"],"Sacred Scorpoions",-333.579, 15.514, 512.795, 0, 0],
+                [["HENM"],"Sacred Scorpoions", -5.629, 28.881, 85.62, 0, 0],
+                [["HENM"],"Sacred Scorpoions",497.227, 7.078, -233.921, 0, 0]
 			],
             "entities": [
                 [["???"],"???",203.939, 0.000, -238.811],
