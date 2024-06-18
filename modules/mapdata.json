@@ -13186,7 +13186,10 @@
 				[["Enemies"],"Rainbringer Yjatvot",44.909, -8.318, 33.272, 40, 41], 
 				[["Enemies"],"Baumesel",-210.012, -16.628, 288.522, 50, 51], 
 				[["Enemies"],"Kurrea",-246.05, -17.04, 41.06, 84, 84], 
-				[["Enemies"],"Amaltheia",355.651, -8.149, 260.868, 83, 87]
+				[["Enemies"],"Amaltheia",355.651, -8.149, 260.868, 83, 87],
+				[["HENM"],"Ultimega",938.055, -8.149, 265.931, 0, 0],
+				[["HENM"],"Ultimega",161.15, -8.149, 289.96, 0, 0],
+				[["HENM"],"Ultimega",181.148, -8.149, -169.45, 0, 0]
 			],
             "entities": [
                 [["Excavation Point"],"Excavation Point", -218.855,  -16.142,  286.809  ],
