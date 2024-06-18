@@ -12701,7 +12701,11 @@
 				[["Enemies"],"Belphoebe",263.84, -0.447, 539.103, 88, 90], 
 				[["Enemies"],"Belphoebe",-333.937, -1.242, -118.985, 88, 90], 
 				[["Enemies"],"Emperor Arthro",84.790, -0.188, -201.369, 0, 0], 
-				[["Enemies"],"Emperor Arthro",79.291, 0.048, 361.784, 0, 0]
+				[["Enemies"],"Emperor Arthro",79.291, 0.048, 361.784, 0, 0],
+				[["HENM"],"Despotic Decapod",-71, 0.048, -151, 0, 0],
+				[["HENM"],"Despotic Decapod",129, 0.048, 448, 0, 0],
+				[["HENM"],"Despotic Decapod",-341, 0.048, 14, 0, 0]
+
 			],
 
 			"entities": [
