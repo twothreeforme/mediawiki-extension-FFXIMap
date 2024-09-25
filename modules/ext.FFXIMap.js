@@ -3,23 +3,23 @@
  *	Leaflet Control Search - Copyright Stefano Cudini - Leaflet addon for search box - https://github.com/stefanocudini/leaflet-search
  *	Accessing CSS custom properties through javascript - https://stackoverflow.com/questions/36088655/accessing-a-css-custom-property-aka-css-variable-through-javascript
  *  Markers in multiple layer groups - https://stackoverflow.com/questions/71644888/having-leaflet-markers-visible-in-more-than-one-layer
- *  Javascript function links inside leaflet popup - https://stackoverflow.com/questions/13698975/click-link-inside-leaflet-popup-and-do-javascript 
+ *  Javascript function links inside leaflet popup - https://stackoverflow.com/questions/13698975/click-link-inside-leaflet-popup-and-do-javascript
  */
 
 
  /**
  * _hookNewMap created to support a proper hook function using mw.hook .
- * Original design was not loading entire ext.FFXIMap.js file after an 
+ * Original design was not loading entire ext.FFXIMap.js file after an
  * edit was made on the wiki page, so following any edit (and saving)
  * the map would not immediately load due to the FFXIMap class not loading
- * yet. Unsure really why the ex.FFXIMap.js was firing the mw.hook and the 
+ * yet. Unsure really why the ex.FFXIMap.js was firing the mw.hook and the
  * FFXIMap class was not loaded, but setting up ext.FFXIMap-hook.js forces
  * the entire ext.FFXIMap.js to load prior to beginning this _hookNewMap
  * sequence, and thus solves the problem.
- * 
+ *
  * Function meant to set up the map from scratch, called from ext.FFXIMap-hook.js
- * using mw.hook after the full wikipage content has loaded.  
- */	
+ * using mw.hook after the full wikipage content has loaded.
+ */
 function _hookNewMap(){
 	setPageAttributes();
 	setupMarkers();
@@ -30,27 +30,27 @@ exports._hookNewMap = _hookNewMap;
 
 
 /**
- * The map object used by leaflet  
+ * The map object used by leaflet
  */
 let m = null;
 
 //
 /**
- * ID# of the map to be displayed. 
- * This is parsed from the tag in the WikiText 
- * @return {number} Map # for display. 
+ * ID# of the map to be displayed.
+ * This is parsed from the tag in the WikiText
+ * @return {number} Map # for display.
  */
 let mapID = null;
 let pageName = null;
 
 /**
- * id of the <div> class from the extension PHP 
+ * id of the <div> class from the extension PHP
  * references the div container where the map view is placed
- * @return {string} divID = "mapid_" + mapID 
+ * @return {string} divID = "mapid_" + mapID
  */
 let divID = null;
 
-let tileset, 
+let tileset,
 	minZoom,
 	maxZoom,
 	zoom,
@@ -64,8 +64,8 @@ let tileset,
 
 /**
  * imported from ext.mapMarker.js
- * contains module.exports {} 
- *  */	
+ * contains module.exports {}
+ *  */
 const MapMarkersDataImport = require("./ext.mapMarker.js");
 let mapMarkers = null;
 
@@ -74,7 +74,7 @@ let mapMarkers = null;
  * class MapData defined in ext.mapData.js
  * Object managing javascript markup data
  * @return {MapData} MapData object
- */	
+ */
 const MapData = require("./ext.mapData.js");
 let mapDataModel = null;
 
@@ -94,13 +94,13 @@ function setupNewMap(_mapID) {
 /**
  * Takes all custom <span> tag attributes and assigns those values to our global variables
  * This is parsed from the document, after it the content is loaded
- * @return {nil} no return value 
+ * @return {nil} no return value
  */
 function setPageAttributes() {
 	var tagAttributesQuery = document.querySelector('#tagAttributes');
 	if (tagAttributesQuery === null) return null;
 		dataTagAttributes = tagAttributesQuery.dataset;
-		
+
 		divID = dataTagAttributes.divid;
 		mapID = dataTagAttributes.mapid;
 		pageName = dataTagAttributes.pagename;
@@ -120,7 +120,7 @@ function setPageAttributes() {
 }
 
 
-function setupMarkers() { 
+function setupMarkers() {
 	mapMarkers = new MapMarkersDataImport.MapMarker();
 }
 
@@ -128,7 +128,7 @@ function setupMarkers() {
 /**
  * Takes all custom <span> tag attributes and assigns those values to our global variables
  * This is parsed from the , after it the content is loaded
- * @return {nil} no return value 
+ * @return {nil} no return value
  */
 function setupMapData() {
 	//console.log(baseDir + 'modules/mapdata.json');
@@ -139,7 +139,7 @@ function setupMapData() {
 
 class FFXIMap {
 	connectionLayerHover;
-	
+
 	constructor(divID, mapID, tileset, minzoom, maxzoom, zoom) {
 		//console.log('FFXIMap constructor began');
 
@@ -168,19 +168,20 @@ class FFXIMap {
 
 		this.bounds = mapDataModel.getMapBounds(this.mapID);
 
+
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
 
 		this.abortController = null;
 
 
-		//one last check for mobile vs desktop 
+		//one last check for mobile vs desktop
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
 		const parentDivWidth = document.getElementById(this.divID).parentElement.clientWidth;
 		//console.log(parentDivWidth + " " + mapDivWidth);
 		if (parentDivWidth < mapDivWidth ) {
 			//console.log("adjusting screen size to account for mobile");
-			if (parentDivWidth < 375)  document.getElementById(this.divID).style.width = `375px`; 
+			if (parentDivWidth < 375)  document.getElementById(this.divID).style.width = `375px`;
 			else document.getElementById(this.divID).style.width = `${parentDivWidth}px`;
 			document.getElementById(this.divID).style.height = document.getElementById(this.divID).style.width;
 		}
@@ -201,14 +202,14 @@ class FFXIMap {
 		}).setView([0,0], this.zoom);
 
 		var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
-		
+
 		// Assigns new map imageoverlay/tiles
 		// Sets up all associated layers/layerGroups
 		this.newMapWithControls(this.mapID);
 		//this.searchBar = new SearchBar();
 		this.addWaterMark();
 	}
-	
+
 
 	/******************************************************** */
 	/******* Polygons   w/ connections layergroup   ********* */
@@ -219,7 +220,7 @@ class FFXIMap {
 
 		// Must use a Pane to change the z-index of ONLY the polygons
 		// We set the pane zIndex for the polygons higher, so the mouseover doesnt interfere with the pulsing markers
-		// We also set this manually below the default marker zIndex of 600, so all connection related 
+		// We also set this manually below the default marker zIndex of 600, so all connection related
 		// stuffs are below any entity markers we draw to the map later
 		this.map.createPane('connectionsPane_hover');
 		this.map.getPane('connectionsPane_hover').style.zIndex = 499;
@@ -237,7 +238,7 @@ class FFXIMap {
 			var _color = '#ff000000';
 			if (showconnections == true) { _color = '#ff4f4f'; }
 			var polygonOptions = {color: _color, weight: 0, stroke: false, pane: 'connectionsPane_hover'};
-			
+
 			var poly = L.polygon(_connections[key].hover, polygonOptions);
 				poly.addTo(this.map);
 				//poly.bringToFront();
@@ -255,7 +256,7 @@ class FFXIMap {
 					this.map.removeLayer(this.connectionLayerHover);
 					this.connectionLayerHover = null;
 					});
-				
+
 
 				if ( key == "multiple" ) {
 
@@ -263,8 +264,8 @@ class FFXIMap {
 
 					var div = document.createElement("div");
 					div.innerHTML = ``;
-					
-					_connections[key].links.forEach((l) => {					
+
+					_connections[key].links.forEach((l) => {
 						const maplink = document.createElement("a");
 						maplink.innerHTML = mapDataModel.getMapName(l);
 						maplink.style.color = "#644119";
@@ -273,7 +274,7 @@ class FFXIMap {
 						}
 						div.appendChild(document.createElement("br"));
 						div.appendChild(maplink);
-					
+
 					});
 
 					//poly.bindPopup(mapDataModel.multipleConnectionsPopupHTML(_connections[key].links));
@@ -290,7 +291,7 @@ class FFXIMap {
 						});
 
 					//preload images into memory, so load times for any connections are reduced
-					
+
 					let preloadedImage = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(key), mapDataModel.getMapBounds(key))
 						preloadedImage._initImage();
 						// preloadedImage.once('load', () => {
@@ -302,7 +303,7 @@ class FFXIMap {
 		}
 
 	}
-	
+
 	newMapWithControls(_mapID){
 
 		if ( this.abortController !== null ) {
@@ -320,10 +321,10 @@ class FFXIMap {
 
 		// Establish new map
 		this.newMap(_mapID);
-	
+
 		// Setup Map Markers
 		this.addMapMarkers(_mapID, this.abortController);
-		
+
 		// Setup new control layer for the search bar
 		this.addSearchBar(_mapID);
 
@@ -335,6 +336,8 @@ class FFXIMap {
 			this.backButton = null;
 		}
 
+		this.addCoordsOverlayButton();
+
 		//Coordinate display
 		//mainly for debugging
 		if (showdetails == true) this.display_coordinates();
@@ -342,13 +345,14 @@ class FFXIMap {
 		// Setup any additional markers/layers for connecting the next zone
 		this.setupZoneConnections(_mapID);
 
-		this.mapID = _mapID;	
+		this.mapID = _mapID;
+
 	}
 
 	newMap(_mapID){
 
 		if (_mapID == undefined) _mapID = this.mapID;
-		
+
 		if ( _mapID == 0 ) {
 
 			//********* World Map
@@ -362,21 +366,27 @@ class FFXIMap {
 		else {
 			var bounds = mapDataModel.getMapBounds(_mapID);
 			//console.log(baseMapMarkersDir + "matte_black.png");
-			var blackBackground = L.imageOverlay(baseMapMarkersDir + "matte_black.png", bounds, 
-			{
-				opacity: 1.0,
-				zIndex: 0
-				//attribution: this.attrib 
-			});
-			blackBackground.addTo(this.map);
+			// var blackBackground = L.imageOverlay(baseMapMarkersDir + "matte_black.png", bounds,
+			// {
+			// 	opacity: 1.0,
+			// 	zIndex: 0
+			// 	//attribution: this.attrib
+			// });
+			// blackBackground.addTo(this.map);
 
-			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), bounds, 
+			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), bounds,
 				{
 					opacity: 1.0,
 					attribution: this.attrib,
 				}).addTo(this.map);
 			this.map.fitBounds(bounds);
 			this.map.setMaxBounds(bounds);
+
+			this.coordsOverlay = L.imageOverlay(baseMapZonesDir + "grid_overlay.png", bounds,
+			{
+				opacity: 0.0,
+				//attribution: this.attrib,
+			}).addTo(this.map);
 
 		}
 		mapMarkers.currentZoom = this.map.getZoom();
@@ -404,7 +414,8 @@ class FFXIMap {
 		this.destroyControlLayer();
 
 		if (this.position !== undefined)   this.map.removeControl(this.position);
-		
+		//if (this.coordsOverlayButton !== undefined) this.map.removeControl(this.coordsOverlayButton);
+
 		loadedMapMarkersArray = null;
 
 		this.map.eachLayer((layer) => {
@@ -419,7 +430,7 @@ class FFXIMap {
 
 		this._resetMapTo(_mapID);
 	}
-	
+
 	_resetMapTo(_mapID){
 		// Breakdown everything
 		this.destroyMap();
@@ -436,45 +447,57 @@ class FFXIMap {
 	}
 
 	display_coordinates(){
-		let Position = L.Control.extend({ 
+		let Position = L.Control.extend({
 			_container: null,
 			options: {
 			  position: 'bottomleft'
 			},
-		
+
 			onAdd: function (map) {
 			  var latlng = L.DomUtil.create('div', 'mouseposition');
 			  latlng.setAttribute("style","width: 135px; font-size: 12px; text-align: center; border: 1.75px ridge #69696985; cursor:pointer; background-color: #F8F8F8;b order-radius: 3px;");
 			  this._latlng = latlng;
 			  return latlng;
 			},
-		
+
 			updateHTML: function(lat, lng, currentZoom, mapid) {
 				var m = "Map ID: " + mapid + "<br>";
 				var latlng = "Zoom:  " + currentZoom + "<br>";
 				latlng += lat + ", " + lng;
 				if ( mapDataModel.hasBounds(mapid) == true ) latlng += "<br>(IN-GAME coords [Lat,Lng])";
 				else latlng += "<br>(BASIC coords [X,Y](0-256))";
-				
+
 				//this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
 				this._latlng.innerHTML = m + latlng;
 			}
 		});
-		
+
 
 		/*
 		*	Displays mouse position on bottom left of map
 		*/
 		this.position = new Position();
+
 		this.map.addControl(this.position);
 		this.map.addEventListener('mousemove', (e) => {
+
 			var currentZoom = this.map.getZoom();
-			
+
 			var x = Math.round(e.latlng.lat * 1000) / 1000,	 // Math.round helps us get the number down to 3 decimal places
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
+			const bounds = mapDataModel.getMapBounds(this.mapID);
+			//All blocks are 40x40
+			//bounds[0] = NE corner (Y,X)
+			//bounds[1] = SW corner (Y,X)
+			//var totalX = Math.abs(bounds[0][1]) + Math.abs(bounds[1][1]);
+			//var totalY = Math.abs(bounds[0][0]) + Math.abs(bounds[1][0]);
+
+
+			//console.log(totalX, totalY);
+
 			// if ( mapDataModel.hasBounds(this.mapID) == true ) this.position.updateHTML(y, x, currentZoom, this.mapID);
-			// else this.position.updateHTML(x, y, currentZoom, this.mapID);	
+			// else this.position.updateHTML(x, y, currentZoom, this.mapID);
 			this.position.updateHTML(x, y, currentZoom, this.mapID);
 		});
 
@@ -491,23 +514,21 @@ class FFXIMap {
 			var x = Math.round(e.latlng.lat * 1000) / 1000,	// Math.round helps us get the number down to 3 decimal places
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
-        	if (fieldNameElement) { 
+        	if (fieldNameElement) {
 				// if ( mapDataModel.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], ';
 				// else fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
 				fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
-			}	
-			
+			}
+
 		});
 	}
 
 	removeMapEvents(){
-		
 		this.map.off('click');
 		this.map.off('zoomstart');
 		this.map.off('zoomend');
 		this.map.off('overlayadd');
 		this.map.off('overlayremove');
-
 	}
 
 	abortFetching(abortDescription) {
@@ -526,16 +547,16 @@ class FFXIMap {
         var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
         var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, this.abortController);
-		
+
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
 		if ( typeof(mapMarkersFromJSObject) === 'undefined' && typeof(mapMarkersFromFetch) === 'undefined' ) return;
-		
-		// If there are JSObject markers and markers from the Cargo query, 
+
+		// If there are JSObject markers and markers from the Cargo query,
 		// then cycle through them and adjust the JSObject markers to match the
 		// cargo query ones
 		if ( typeof(mapMarkersFromFetch) != 'undefined') {
 			if (typeof(mapMarkersFromJSObject) == 'undefined') mapMarkersFromJSObject = [];
-			
+
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var  multipleSameNamedEntriesFromSamePage = false;
 				var shouldAddToArray = true;
@@ -558,11 +579,11 @@ class FFXIMap {
 						shouldAddToArray = false;
 						break;
 					}
-				}	
-				
+				}
+
 				if ( entityFetch !== 'undefined' && shouldAddToArray == true){
 					mapMarkersFromJSObject.push(entityFetch);
-				} 
+				}
 			});
 		}
 
@@ -578,14 +599,14 @@ class FFXIMap {
 				if (nameA > nameB) {
 				  return 1;
 				}
-			  
+
 				// names must be equal
 				return 0;
 			});
 		}
 
 		mapMarkersFromJSObject.forEach((e) => {
-			
+
 			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type'], e['displaylevels']);
 
 			e['type'].forEach(value => {
@@ -600,7 +621,7 @@ class FFXIMap {
 				var added = false;
 				for(var i = 0; i < finalEntityArray.length; i++ ){
 
-					if ( ( value == finalEntityArray[i].label || 
+					if ( ( value == finalEntityArray[i].label ||
 						( HELMExpandableLayers.findIndex((element) => element == value) >= 0 && finalEntityArray[i].label == 'HELM' ))
 							 && finalEntityArray[i].hasOwnProperty('children')){
 
@@ -676,7 +697,7 @@ class FFXIMap {
 						finalEntityArray[i].layer.addLayer(marker);
 						added = true;
 						break;
-					} 
+					}
 					else if ( value == "Unstable Displacement" && finalEntityArray[i].label.includes("Unstable Displacement") ){
 						finalEntityArray[i].layer.addLayer(marker);
 						added = true;
@@ -706,7 +727,7 @@ class FFXIMap {
 				if ( added == false ){
 					var newEntity = {};
 
-					if (  Object.values(MapLayerGroup).indexOf(value) >= 0 ){ // Is it a category found in the MapLayerGroup object? 
+					if (  Object.values(MapLayerGroup).indexOf(value) >= 0 ){ // Is it a category found in the MapLayerGroup object?
 						newEntity = {
 							label: value,
 							selectAllCheckbox: true,
@@ -723,7 +744,7 @@ class FFXIMap {
 					// 	};
 					// }
 					else {
-						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value)); 
+						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value));
 						newEntity = {
 							label: entityTitle,
 							layer: L.layerGroup([ marker ])
@@ -737,7 +758,7 @@ class FFXIMap {
 			mapMarkers.createToolTip(marker, this.abortController);
 			// console.log(marker.options.name ,marker.getLatLng().lat, marker.getLatLng().lng);
 		});
-		
+
 		//console.log(finalEntityArray);
 
 		//Alphabetically sort the arrays
@@ -758,17 +779,17 @@ class FFXIMap {
 
 	_createEntityMapControlLayers(finalEntityArray, _mapID){
 		var count = 0, dummyLayers = [], markerOverlays = [], mapOverlays = {};
-		
+
 		for (var a = 0; a < finalEntityArray.length; a++ ){
 			if ( finalEntityArray[a].hasOwnProperty('children') ) {
-			  
+
 				for (var i = 0; i < finalEntityArray[a].children.length; i++ ){
 					//console.log(key, entityTypeNamesObject[key]);
-					dummyLayers[count] = L.polyline([[0, 0], [0, 0]], { 
-						id : count, 
-						stroke: false, 
+					dummyLayers[count] = L.polyline([[0, 0], [0, 0]], {
+						id : count,
+						stroke: false,
 						interactive: false
-					}); 
+					});
 					//REVERT
 					//mapOverlays[key] = dummyLayers[count];
 
@@ -790,11 +811,11 @@ class FFXIMap {
 
 		// for (var i = 0; i < entityTypeNamesObject.children.length; i++ ){
 		// 	//console.log(key, entityTypeNamesObject[key]);
-		// 	dummyLayers[count] = L.polyline([[0, 0], [0, 0]], { 
-		// 		id : count, 
-		// 		stroke: false, 
+		// 	dummyLayers[count] = L.polyline([[0, 0], [0, 0]], {
+		// 		id : count,
+		// 		stroke: false,
 		// 		interactive: false
-		// 	}); 
+		// 	});
 		// 	//REVERT
 		// 	//mapOverlays[key] = dummyLayers[count];
 
@@ -808,21 +829,21 @@ class FFXIMap {
 		// // TEST
 		// var enemiesArray = [], enemiesOverlays = [];
 		// if ( typeof(entityEnemiesObject) != 'undefined'){
-			
+
 		// 	for (var i = 0; i < entityEnemiesObject.children.length; i++ ){
 		// 		//console.log(key, entityTypeNamesObject[key]);
 
 		// 		// TEST - PUT BACK IN IF REVERTING
 		// 		//markerOverlays[count] = entityEnemiesObject[key];
 
-		// 		dummyLayers[count] = L.polyline([[0, 0], [0, 0]], { 
-		// 			id : count, 
-		// 			stroke: false, 
+		// 		dummyLayers[count] = L.polyline([[0, 0], [0, 0]], {
+		// 			id : count,
+		// 			stroke: false,
 		// 			interactive: false
 		// 		});
 		// 		//REVERT
 		// 		//mapOverlays[key] = dummyLayers[count];
-				
+
 		// 		markerOverlays[count] = entityEnemiesObject.children[i];
 		// 		mapOverlays[count] = { label: entityEnemiesObject.children[i].label, layer: dummyLayers[count] };
 
@@ -857,7 +878,7 @@ class FFXIMap {
 		// }
 
 		if ( this.controlLayer !== undefined && this.controlLayer !== null) { this.destroyControlLayer(); }
-		
+
 		this.controlLayer = L.control.layers.tree(null, null,
 			{
 				namedToggle: false,
@@ -868,16 +889,16 @@ class FFXIMap {
 				openedSymbol: '\u{229F}',
 				closedSymbol: '\u{229E}'
 			});
-		
+
 		this.controlLayer.addTo(this.map).collapseTree().expandSelected();
 		this.controlLayer.setOverlayTree(finalEntityArray).collapseTree(true).expandSelected(false);
-		
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// ADDING NEW CONTROL LAYER - TESTING
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		function adjustMarkersForZoom(zoomLevel){
-			loadedMapMarkersArray.eachLayer(function (_marker) { 
+			loadedMapMarkersArray.eachLayer(function (_marker) {
 				if (_marker instanceof L.Marker){
 					//console.log(_marker.options.type);
 					if ( zoomLevel < 2.25 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
@@ -902,24 +923,24 @@ class FFXIMap {
 			//var i = mapOverlays[evt.name].layer.options.id;
 			var i = evt.name;
 			//console.log(Object.keys(markerOverlays[i]));
-			
+
 			for ( var key in markerOverlays[i]){
 				//console.log(markerOverlays[i]);
-				if (loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {				
+				if (loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {
 					markerOverlays[i][key].myCount += 1;
 				}
-				else {  
+				else {
 					markerOverlays[i][key].myCount = 1;
 					markerOverlays[i][key].addTo(loadedMapMarkersArray);
 				}
 			}
-			
+
 			// for (var j = 0; j < Object.keys(markerOverlays[i]).length; j++) {
-				
-			//   if (loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {				
+
+			//   if (loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
 			// 	markerOverlays[i][j].myCount += 1;
 			// 	}
-			//   else {  
+			//   else {
 			// 	markerOverlays[i][j].myCount = 1;
 			// 	markerOverlays[i][j].addTo(loadedMapMarkersArray);
 			//   }
@@ -935,7 +956,7 @@ class FFXIMap {
 
 			adjustMarkersForZoom(this.map.getZoom());
 		  });
-		  
+
 		this.map.on('overlayremove', (evt) => {
 			//var i = mapOverlays[evt.name].layer.options.id;
 			var i = evt.name;
@@ -988,7 +1009,7 @@ class FFXIMap {
 					// 	});
 					// 	console.log(result);
 					// }
-				}	
+				}
 			}).on('search:locationfound', (e) => {
 				//console.log(e.mapid);
 				this.resetMapTo(e.mapid);
@@ -1001,14 +1022,14 @@ class FFXIMap {
 		// from https://web.archive.org/web/20191218192541/http://www.coffeegnome.net/control-button-leaflet/
 		let BackButton = L.Control.extend({
 			options: {
-			  position: 'topleft' 
+			  position: 'topleft'
 			},
 			onAdd: (e) => {
-				var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-worldmap');
+				var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-backbutton');
 				//graphics managed in leaflet.css
 				container.onclick = (e) => {
 				  this.backButtonClicked();
-				}					
+				}
 				return container;
 			},
 		  });
@@ -1017,34 +1038,58 @@ class FFXIMap {
 		  this.map.addControl(this.backButton);
 	}
 
+	addCoordsOverlayButton() {
+		if( this.coordsOverlayButton ) return;
+
+		let CoordsOverlayButton = L.Control.extend({
+			options: {
+			  position: 'topleft'
+			},
+			onAdd: (e) => {
+				var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-coordsgridoverlay');
+				//graphics managed in leaflet.css
+				container.onclick = (e) => {
+					//console.log(this.coordsOverlay.options.opacity);
+					if (this.coordsOverlay.options.opacity == 1.0) this.coordsOverlay.setOpacity(0.0);
+					else this.coordsOverlay.setOpacity(1.0);
+				}
+				return container;
+			},
+		  });
+
+		  //this.coordsOverlay.setOpacity(1.0);
+		  this.coordsOverlayButton = new CoordsOverlayButton();
+		  this.map.addControl(this.coordsOverlayButton);
+	}
+
 	backButtonClicked(){
 		var changeMapto = this.mapHistory.getLast();
 		this.mapHistory.clearMap();
 		//console.log("back to: " + changeMapto);
 		this.resetMapfromBackButton(changeMapto);
-		
+
 	}
-	
+
 	addWaterMark(){
 		L.Control.Watermark = L.Control.extend({
 			onAdd: function(map) {
 				var img = L.DomUtil.create('img');
-		
+
 				img.src = baseDir + '/modules/images/wiki_logo.png';
 				img.style.width = '50px';
 				img.style.opacity = '0.25';
 				return img;
 			},
-		
+
 			onRemove: function(map) {
 				// Nothing to do here
 			}
 		});
-		
+
 		L.control.watermark = function(opts) {
 			return new L.Control.Watermark(opts);
 		}
-		
+
 		L.control.watermark({ position: 'bottomleft' }).addTo(this.map);
 	}
 

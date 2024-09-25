@@ -652,7 +652,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	}
 
 
-.leaflet-control-worldmap {
+.leaflet-control-backbutton {
 	width:30px;
 	height:30px;
 	background-color: #fff;
@@ -662,9 +662,25 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	background-position: center center; 
 }
 
-.leaflet-control-worldmap:hover {
+.leaflet-control-backbutton:hover {
 	background-color: #f4f4f4;
 	background-image: url(images/back_dim.png);
+	cursor: pointer;
+}
+
+.leaflet-control-coordsgridoverlay {
+	width:30px;
+	height:30px;
+	background-color: #fff;
+	background-image: url(images/globe_icon.png);
+	background-repeat: no-repeat;
+	background-size: 18px 18px;
+	background-position: center center;
+}
+
+.leaflet-control-coordsgridoverlay:hover {
+	background-color: #f4f4f4;
+	background-image: url(images/globe_icon_dim.png);
 	cursor: pointer;
 }
 
