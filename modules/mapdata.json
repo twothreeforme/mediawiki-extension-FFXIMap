@@ -236,7 +236,7 @@
                 ]
         },
         "3": {
-            "name": "Batalia Downs",
+            "name": "Batallia Downs",
             "filename": "batallia_downs.png",
             "bounds" : [ [ -1357.65, -1362.83 ], [ 1202.35, 1197.17 ] ],
             "connections" : {
