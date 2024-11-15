@@ -27388,6 +27388,54 @@
                     "pulse" : []
                 }
             }
+        },
+		"423": {
+            "name": "Heaven's Tower: Map 1",
+            "filename": "HeavensTower1.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+		"424": {
+            "name": "Heaven's Tower: Map 2",
+            "filename": "HeavensTower2.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+		"425": {
+            "name": "Heaven's Tower: Map 3",
+            "filename": "HeavensTower3.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
+        },
+		"426": {
+            "name": "Heaven's Tower: Map 4",
+            "filename": "HeavensTower4.png",
+            "upperBoundX" : "",
+            "upperBoundY" : "",
+            "connections" : {
+                "xxxx" : {
+                    "hover" : [],
+                    "pulse" : []
+                }
+            }
         }
     }
 }
