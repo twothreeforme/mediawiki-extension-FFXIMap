@@ -1,0 +1,12 @@
+{
+    "name": "Halvung: Map 1",
+    "filename": "halvung_1.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

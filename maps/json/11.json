@@ -1,0 +1,34 @@
+{
+    "name": "Lower Delkfutt's Tower: Map 4",
+    "filename": "lower_delkfutts_tower_4.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "8": {
+            "hover": [
+                [
+                    130.99219,
+                    80.5
+                ],
+                [
+                    130.74219,
+                    92.25
+                ],
+                [
+                    122.49219,
+                    92.5
+                ],
+                [
+                    122.99219,
+                    80.25
+                ]
+            ],
+            "pulse": [
+                [
+                    127.62402,
+                    86.3125
+                ]
+            ]
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "Labyrinth of Onzozo",
+    "filename": "onzozo-labyrinth.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "87": {
+            "hover": [
+                [
+                    73.99219,
+                    69.5
+                ],
+                [
+                    72.99219,
+                    120.5
+                ],
+                [
+                    55.74219,
+                    122
+                ],
+                [
+                    54.74219,
+                    68.25
+                ]
+            ],
+            "pulse": [
+                [
+                    75.31055,
+                    115.8125
+                ]
+            ]
+        }
+    }
+}

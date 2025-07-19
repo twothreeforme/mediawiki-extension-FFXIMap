@@ -1,0 +1,34 @@
+{
+    "name": "Ve'Lugannon Palace: Map 3",
+    "filename": "velugannon-palace_3.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "256": {
+            "hover": [
+                [
+                    115.12109,
+                    99.375
+                ],
+                [
+                    115.12109,
+                    106.625
+                ],
+                [
+                    104.37109,
+                    107
+                ],
+                [
+                    104.37109,
+                    98.125
+                ]
+            ],
+            "pulse": [
+                [
+                    111.99609,
+                    101.625
+                ]
+            ]
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "Talacca Cove",
+    "filename": "talacca_cove.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "Grand Palace of Hu'Xzoi: Map 3",
+    "filename": "huxzoi-palace_3.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "68": {
+            "hover": [
+                [
+                    119.49219,
+                    114.25
+                ],
+                [
+                    89.24219,
+                    112.75
+                ],
+                [
+                    88.99219,
+                    146.75
+                ],
+                [
+                    121.99219,
+                    144
+                ]
+            ],
+            "pulse": [
+                [
+                    119.81152,
+                    128.3125
+                ]
+            ]
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "Sea Serpent Grotto: Map 3",
+    "filename": "sea_serpent_grotto_3.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "156": {
+            "hover": [
+                [
+                    148.74219,
+                    204
+                ],
+                [
+                    148.74219,
+                    213.75
+                ],
+                [
+                    139.74219,
+                    213.75
+                ],
+                [
+                    138.99219,
+                    202.25
+                ]
+            ],
+            "pulse": [
+                [
+                    144.21777,
+                    208.5
+                ]
+            ]
+        }
+    }
+}

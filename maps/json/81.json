@@ -1,0 +1,34 @@
+{
+    "name": "Behemoth's Dominion",
+    "filename": "behemoths_dominion.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "47": {
+            "hover": [
+                [
+                    137.74219,
+                    202
+                ],
+                [
+                    110.49219,
+                    203.25
+                ],
+                [
+                    110.49219,
+                    235.25
+                ],
+                [
+                    138.49219,
+                    236.5
+                ]
+            ],
+            "pulse": [
+                [
+                    115.57764,
+                    203.92188
+                ]
+            ]
+        }
+    }
+}

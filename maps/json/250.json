@@ -1,0 +1,34 @@
+{
+    "name": "Outter Horutoto: Map 5",
+    "filename": "horutoto-ruins-outer_5.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "246": {
+            "hover": [
+                [
+                    159.99219,
+                    134
+                ],
+                [
+                    160.24219,
+                    146.75
+                ],
+                [
+                    150.99219,
+                    145.75
+                ],
+                [
+                    150.49219,
+                    133
+                ]
+            ],
+            "pulse": [
+                [
+                    155.31055,
+                    139.75
+                ]
+            ]
+        }
+    }
+}

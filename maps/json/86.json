@@ -1,0 +1,34 @@
+{
+    "name": "Bostaunieux Oubliette: Map 3",
+    "filename": "bostaunieux_oubliette_3.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "85": {
+            "hover": [
+                [
+                    118.62305,
+                    102.75
+                ],
+                [
+                    118.87305,
+                    113.4375
+                ],
+                [
+                    112.56055,
+                    113.375
+                ],
+                [
+                    112.81055,
+                    102.5
+                ]
+            ],
+            "pulse": [
+                [
+                    116.03027,
+                    108.34375
+                ]
+            ]
+        }
+    }
+}

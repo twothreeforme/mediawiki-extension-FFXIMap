@@ -1,0 +1,34 @@
+{
+    "name": "Upper Delkfutt's Tower: Map 3",
+    "filename": "upper_delkfutts_tower_3.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "57": {
+            "hover": [
+                [
+                    154.71875,
+                    147
+                ],
+                [
+                    154.96875,
+                    156.75
+                ],
+                [
+                    147.21875,
+                    157.25
+                ],
+                [
+                    147.46875,
+                    147.5
+                ]
+            ],
+            "pulse": [
+                [
+                    151.67969,
+                    152.1875
+                ]
+            ]
+        }
+    }
+}

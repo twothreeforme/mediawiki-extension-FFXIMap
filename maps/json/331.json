@@ -1,0 +1,12 @@
+{
+    "name": "Caedarva Mire: Map 3",
+    "filename": "caedarva_mire_3.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

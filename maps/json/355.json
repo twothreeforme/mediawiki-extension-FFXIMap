@@ -1,0 +1,12 @@
+{
+    "name": "Silver Sea Remnants: Map 1",
+    "filename": "silver-sea-remnants_1.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "Lebros Cavern: Map 1",
+    "filename": "lebros-cavern_1.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

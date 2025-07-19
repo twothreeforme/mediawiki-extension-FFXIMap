@@ -1,0 +1,34 @@
+{
+    "name": "King Ranperres Tomb: Map 2",
+    "filename": "king-ranperres-tomb_2.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "244": {
+            "hover": [
+                [
+                    165.24219,
+                    105.5
+                ],
+                [
+                    165.74219,
+                    119.75
+                ],
+                [
+                    153.99219,
+                    119.75
+                ],
+                [
+                    153.99219,
+                    102.5
+                ]
+            ],
+            "pulse": [
+                [
+                    153.93555,
+                    111.75
+                ]
+            ]
+        }
+    }
+}

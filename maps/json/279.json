@@ -1,0 +1,34 @@
+{
+    "name": "Den of Rancor: Map 8",
+    "filename": "rancor-den_8.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "278": {
+            "hover": [
+                [
+                    118.74219,
+                    135
+                ],
+                [
+                    117.99219,
+                    150.5
+                ],
+                [
+                    104.74219,
+                    151
+                ],
+                [
+                    102.49219,
+                    132
+                ]
+            ],
+            "pulse": [
+                [
+                    111.68555,
+                    141.75
+                ]
+            ]
+        }
+    }
+}

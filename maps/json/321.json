@@ -1,0 +1,12 @@
+{
+    "name": "Nyzul Isle: Map 3",
+    "filename": "nyzul_isle_3.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

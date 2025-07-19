@@ -1,0 +1,12 @@
+{
+    "name": "Periqia: Map 1",
+    "filename": "periqia_1.jpg",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "Temenos Center: Basement",
+    "filename": "temenos_26.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "189": {
+            "hover": [
+                [
+                    71.93555,
+                    138.4375
+                ],
+                [
+                    71.93555,
+                    146.1875
+                ],
+                [
+                    65.49805,
+                    145.9375
+                ],
+                [
+                    65.68555,
+                    137.8125
+                ]
+            ],
+            "pulse": [
+                [
+                    68.93555,
+                    142.75
+                ]
+            ]
+        }
+    }
+}
