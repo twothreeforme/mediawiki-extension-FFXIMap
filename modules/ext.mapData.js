@@ -4,7 +4,7 @@ class MapData {
         this.json = json.mapData;
     }
     
-    getMapID(mapName){
+    getmapID(mapName){
         for (const [key, value] of Object.entries(this.json)){
             let keyName = this.json[key].name;
             if ( typeof(keyName) == 'undefined') continue;
@@ -16,8 +16,8 @@ class MapData {
         return ;
     }
 
-    hasEntities(mapid){
-        if ( this.json[mapid].hasOwnProperty("entities")  ) return true;
+    hasEntities(mapID){
+        if ( this.json[mapID].hasOwnProperty("entities")  ) return true;
         else return false;
     }
 
@@ -27,8 +27,8 @@ class MapData {
         return this.json[mapID].entities;
     }
 
-    hasMobSpawns(mapid){
-        if ( this.json[mapid].hasOwnProperty("mobSpawns")  ) return true;
+    hasMobSpawns(mapID){
+        if ( this.json[mapID].hasOwnProperty("mobSpawns")  ) return true;
         else return false;
     }
 
@@ -56,19 +56,19 @@ class MapData {
         return mapNamesArray;
     }
 
-    getMapName(mapid){
-        return this.json[mapid].name;
+    getMapName(mapID){
+        return this.json[mapID].name;
     }
 
-    hasBounds(mapid){
-        if ( this.json[mapid].hasOwnProperty("bounds")  ) return true;
+    hasBounds(mapID){
+        if ( this.json[mapID].hasOwnProperty("bounds")  ) return true;
         else return false;
     }
 
-    getMapBounds(mapid){
+    getMapBounds(mapID){
         // Should be from lower left corner to upper right corner in game coordinates
         // from mapData: "bounds" : [[-381.94, -319.31], [259.39, 320.69] ],
-        if ( this.hasBounds(mapid) )return [[ this.json[mapid].bounds[1][1], this.json[mapid].bounds[1][0] ], [this.json[mapid].bounds[0][1], this.json[mapid].bounds[0][0]] ];
+        if ( this.hasBounds(mapID) )return [[ this.json[mapID].bounds[1][1], this.json[mapID].bounds[1][0] ], [this.json[mapID].bounds[0][1], this.json[mapID].bounds[0][0]] ];
         else return [[0,0], [256,256]];
     }
 
@@ -202,7 +202,7 @@ class MapData {
                     entitytypeArray = entitytypeArray.concat(tempArray);
                     entity['type'] = entitytypeArray;
                 }
-                //else if ( key == 'mapid') mapid = value;
+                //else if ( key == 'mapID') mapID = value;
                 else if ( key == 'mapx') entity['mapx'] = value;
                 else if ( key == 'mapy') entity['mapy'] = value;
                 else if ( key == 'image' && value !== null) {
@@ -220,20 +220,18 @@ class MapData {
     }
 
     async fetchEntities(_mapID, abortController){
-        let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image,displaylevels&where=mapid=${_mapID}&format=json`;
+        let url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapID,image,displaylevels&where=mapID=${_mapID}&format=json`;
         //console.log(url);
         const response = fetch(url, {
             signal: abortController
         });
         const data = await response.json();
-        var oeiwhjaioehgaigw;
         const parsedEntities = parseFetchedEntities(data);
         return parsedEntities;
     }
 
     async fetchImage(url, entityName, abortController){
         //console.log(url);
-        var lkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlkshlkaehjfljhaergjlksh = "aklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankrajeaklejfnakjrgalkrjnlkjsbglsesslgrjglkajhfLOIHEFIOUAHEWFIULABFKLbbakefbjangfjrankraje";
         try {
             const response = await fetch(url, {
                 signal: abortController.signal

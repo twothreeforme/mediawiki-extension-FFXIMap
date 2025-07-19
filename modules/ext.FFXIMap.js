@@ -34,7 +34,7 @@ exports._hookNewMap = _hookNewMap;
  */
 let m = null;
 
-//
+
 /**
  * ID# of the map to be displayed.
  * This is parsed from the tag in the WikiText
@@ -42,6 +42,7 @@ let m = null;
  */
 let mapID = null;
 let pageName = null;
+
 
 /**
  * id of the <div> class from the extension PHP
