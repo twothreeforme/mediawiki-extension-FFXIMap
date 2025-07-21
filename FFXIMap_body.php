@@ -31,6 +31,8 @@ class FFXIMap {
 		$parser->getOutput()->addModules(['ext.leafletSearch']);
 		$parser->getOutput()->addModules(['ext.leafletControlLayerTree']);
 		$parser->getOutput()->addModules(['ext.FFXIMap']);
+		$parser->getOutput()->addModules(['ext.FFXIMap_MapFiles']);
+
 
 		// $tileSource : location of tiles (or the tile server)
 		// each map should be it's own $mapIDNum as input
@@ -109,12 +111,5 @@ class FFXIMap {
 		return 	$html;
 	}
 
-	// public static function onParserAfterTidy( Parser &$parser, &$text ) {
-	// 	return true;
-	// }
-
-	// public static function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
-	// 	return true;
-	// }
 
 }
