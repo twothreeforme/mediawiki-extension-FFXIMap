@@ -30,9 +30,8 @@ class FFXIMap {
 		$parser->getOutput()->addModules(['ext.leafletMain']);
 		$parser->getOutput()->addModules(['ext.leafletSearch']);
 		$parser->getOutput()->addModules(['ext.leafletControlLayerTree']);
+		$parser->getOutput()->addModules(['ext.FFXIMap_MapData']);
 		$parser->getOutput()->addModules(['ext.FFXIMap']);
-		$parser->getOutput()->addModules(['ext.FFXIMap_MapFiles']);
-
 
 		// $tileSource : location of tiles (or the tile server)
 		// each map should be it's own $mapIDNum as input
@@ -68,7 +67,10 @@ class FFXIMap {
 		$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
 		$pagename = ( isset($params['usepagename']) && $params['usepagename'] == "true") ? $parser->getTitle() : 0;
 
-		$divID = "mapid_" . $mapID;
+
+		$bytes = openssl_random_pseudo_bytes(2);
+		$divID = bin2hex($bytes);
+		//$divID = "mapid_" . $mapID;
 		
 		$height; $width;
 		if ( isset($params['width']) ) {
@@ -101,7 +103,8 @@ class FFXIMap {
 
 		$script = "";
 
-		$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-pagename=\"" . $pagename . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\" data-showconnections=\"" . $showconnections . "\"></span>";
+		//$tagAttributesJsonCode = "<span id=\"tagAttributes\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-pagename=\"" . $pagename . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\" data-showconnections=\"" . $showconnections . "\"></span>";
+		$tagAttributesJsonCode = "<span class=\"FFXIMap_mapSpan\" data-divID=\"" . $divID . "\" data-mapID=\"" . $mapID . "\" data-pagename=\"" . $pagename . "\" data-minZoom=\"" . $minZoom . "\"  data-maxZoom=\"" . $maxZoom . "\"  data-zoom=\"" . $zoom . "\" data-showdetails=\"" . $showdetails . "\" data-showconnections=\"" . $showconnections . "\"></span>";
 		
 		$html = "";
 		$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";

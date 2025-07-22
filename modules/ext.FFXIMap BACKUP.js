@@ -45,9 +45,9 @@ let pageName = null;
 
 
 /**
- * id of the <div> class from the extension PHP
+ * id of the dom element from the extension PHP
  * references the div container where the map view is placed
- * @return {string} divID = "mapid_" + mapID
+ * @return {string} 
  */
 let divID = null;
 
