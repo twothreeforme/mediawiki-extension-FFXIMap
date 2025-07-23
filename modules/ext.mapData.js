@@ -109,6 +109,7 @@ class MapData {
         return mapList;
     }
 
+    // used
     generateArray(entityInput, _mapID){
         try{
             if ( entityInput.length > 0 ) {
@@ -165,7 +166,7 @@ class MapData {
     }
 
     
-    
+    // used
     async getJSObjectEntities(_mapID){
         if (_mapID == null || ( this.hasEntities(_mapID) == false && this.hasMobSpawns(_mapID) == false ) ) return ;
         var entityArray, mobSpawnsArray;
@@ -183,7 +184,7 @@ class MapData {
         return returnArray;
     }
         
-		
+	// used
     parseFetchedEntities(data){
         if (data.cargoquery == null ) return;
         var entityArray = []; 

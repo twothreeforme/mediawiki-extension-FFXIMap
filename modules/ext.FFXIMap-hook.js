@@ -7,7 +7,7 @@
 // });
 
 
-const FrameController = require("./ext.FFXIMap_FrameController.js");
+const FrameController = require("./controller/ext.FFXIMap_FrameController.js");
 
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
     //console.log("hook fired");

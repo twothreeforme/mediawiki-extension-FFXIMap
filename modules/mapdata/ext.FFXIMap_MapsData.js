@@ -1,5 +1,5 @@
 
-class MapData {
+class MapsData {
     constructor(json){
         this.json = json.mapData;
     }
@@ -247,4 +247,4 @@ class MapData {
 }
 
 
-module.exports = MapData;
+module.exports = MapsData;

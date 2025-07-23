@@ -67,7 +67,7 @@ let tileset,
  * imported from ext.mapMarker.js
  * contains module.exports {}
  *  */
-const MapMarkersDataImport = require("./ext.mapMarker.js");
+const MapMarkersDataImport = require("./mapdata/ext.mapMarkers.js");
 let mapMarkers = null;
 
 
@@ -1076,7 +1076,7 @@ class FFXIMap {
 			onAdd: function(map) {
 				var img = L.DomUtil.create('img');
 
-				img.src = baseDir + '/modules/images/wiki_logo.png';
+				img.src = baseDir + '/leaflet/images/wiki_logo.png';
 				img.style.width = '50px';
 				img.style.opacity = '0.25';
 				return img;

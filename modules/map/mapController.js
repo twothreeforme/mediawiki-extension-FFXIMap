@@ -1,5 +1,5 @@
 
-const Map = require("./map.js");
+const MapJSON = require("../mapdata/ext.MapJSON.js");
 
 class MapController {
     constructor(json){
@@ -7,7 +7,7 @@ class MapController {
     }
     
     createMapObject(mapID){
-        const newMap = new Map();
+        const newMap = new MapJSON();
         
     }
 

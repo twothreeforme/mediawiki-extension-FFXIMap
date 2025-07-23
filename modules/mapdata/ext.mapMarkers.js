@@ -1,8 +1,8 @@
 
 
-class MapMarker {
+class MapMarkers {
     currentZoom;
-    icon = require("./iconsSVGData.js");
+    icon = require("../iconsSVGData.js");
 
     //baseMapMarkersDir = mw.config.get('wgExtensionAssetsPath') + '/FFXIMap/maps/markers/';
 
@@ -269,4 +269,4 @@ class CSS {
 
 
 
-module.exports = { MapMarker };
+module.exports = MapMarkers ;

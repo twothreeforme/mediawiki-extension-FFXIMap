@@ -1,41 +1,64 @@
+const Directories = require("../helpers/FFXIMap_Directories.js"); // Object mapping all relevant directories
+const MapHistory = require("./map/ext.FFXIMap_MapHistory.js");
+const MapMarkers = require("./mapdata/ext.mapMarkers.js");
 
 class FFXIMap {
+	divID;
+	mapID;
+	pageName;
+	tileset;
+	minzoom;
+	maxzoom;
+	zoom;
+	zoomSnap;
+	mapJSON; 		// json object will the specific map needing to be loaded
+	mapsData; 		// helper class for searching all map data
+	showdetails;
+	showconnections;
+
+	mapHistory;
+	abortController;
 	connectionLayerHover;
+	attrib;
 
-	constructor(divID, mapID, tileset, minzoom, maxzoom, zoom) {
-		//console.log('FFXIMap constructor began');
+	mapMarkers;
+	loadedMapMarkersArray;
 
-		this.divID = typeof divID !== 'undefined' ? divID : "mapid_0";
-		this.mapID = typeof mapID !== 'undefined' ? mapID : 0;
+	constructor(dataset, mapJSON, mapsData) {
+		
+		this.divID = typeof dataset.divid !== 'undefined' ? dataset.divid : "mapid_0";
+		this.mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
 
-		this.pageName = ( (typeof pageName !== 'undefined') || pageName !== "0" ) ? pageName : 0;
+		this.pageName = ( (typeof dataset.pagename !== 'undefined') || dataset.pagename !== "0" ) ? dataset.pagename : 0;
 
-		if ( this.pageName != 0 ) {
-			var temp = mapDataModel.getMapID(this.pageName);
-			//console.log("typeof temp:", typeof temp);
-			if ( typeof temp !== 'undefined') this.mapID = temp;
+		// if ( this.pageName != 0 ) {
+		// 	var temp = mapJSON.getMapID(this.pageName);
+		// 	//console.log("typeof temp:", typeof temp);
+		// 	if ( typeof temp !== 'undefined') this.mapID = temp;
+		// }
 
-		}
+		this.tileset = Directories.tiles; // this is for the World Map only
 
-		//console.log(this.pageName, this.mapID);
-
-		this.tileset = typeof tileset !== 'undefined' ? tileset : baseMapTilesDir + "{z}/{x}/{y}.jpeg";
-
-		this.minzoom = typeof minzoom !== 'undefined' ? minzoom : -1.75;
-		this.maxzoom = typeof maxzoom !== 'undefined' ? maxzoom : 6;
-		this.zoom = typeof zoom !== 'undefined' ? zoom : 0;
+		this.minzoom = typeof dataset.minzoom !== 'undefined' ? dataset.minzoom : -1.75;
+		this.maxzoom = typeof dataset.maxzoom !== 'undefined' ? dataset.maxzoom : 6;
+		this.zoom = typeof dataset.zoom !== 'undefined' ? dataset.zoom : 0;
 		this.zoomSnap = 0.25;
 
 		this.attrib = '©Remapster |©Square Enix| ©FFXI-Atlas';
 
-		this.bounds = mapDataModel.getMapBounds(this.mapID);
+		this.mapJSON = mapJSON;
+		this.mapsData = mapsData;
 
+		this.showdetails = (dataset.showdetails === "1");
+		this.showconnections = (dataset.showconnections === "true");
 
 		// Map viewing history supports the back button and returning to previously viewed maps
 		this.mapHistory = new MapHistory();
 
 		this.abortController = null;
 
+		this.mapMarkers = new MapMarkers();
+		
 
 		//one last check for mobile vs desktop
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
@@ -77,7 +100,7 @@ class FFXIMap {
 	/******* Polygons   w/ connections layergroup   ********* */
 	setupZoneConnections(_mapID){
 		if (_mapID == undefined) _mapID = this.mapID;
-		const _connections = mapDataModel.getConnections(_mapID);
+		const _connections = this.mapJSON.getConnections();
 		if (_connections == null ) return;
 
 		// Must use a Pane to change the z-index of ONLY the polygons
@@ -96,9 +119,9 @@ class FFXIMap {
 
 			// Transparent polygon
 			// Options: must include Pane to ensure z-index is set
-			// Changes based on input from the user with 'showconnections' tag attribute
+			// Changes based on input from the user with 'this.showconnections' tag attribute
 			var _color = '#ff000000';
-			if (showconnections == true) { _color = '#ff4f4f'; }
+			if (this.showconnections == true) { _color = '#ff4f4f'; }
 			var polygonOptions = {color: _color, weight: 0, stroke: false, pane: 'connectionsPane_hover'};
 
 			var poly = L.polygon(_connections[key].hover, polygonOptions);
@@ -108,7 +131,7 @@ class FFXIMap {
 				poly.on('mouseover', () => {
 					var _connectionslayerGroup = L.layerGroup();
 					for (const [_key, _value] of Object.entries(_connections[key].pulse)) {
-						L.marker(_value, { icon: mapMarkers.connectionMarker(), pane: 'connectionsPane_pulse' }).addTo(_connectionslayerGroup);
+						L.marker(_value, { icon: this.mapMarkers.connectionMarker(), pane: 'connectionsPane_pulse' }).addTo(_connectionslayerGroup);
 					}
 					this.map.addLayer(_connectionslayerGroup);
 					this.connectionLayerHover = _connectionslayerGroup;
@@ -129,7 +152,7 @@ class FFXIMap {
 
 					_connections[key].links.forEach((l) => {
 						const maplink = document.createElement("a");
-						maplink.innerHTML = mapDataModel.getMapName(l);
+						maplink.innerHTML = this.mapsData.getMapName(l);
 						maplink.style.color = "#644119";
 						maplink.onclick = () =>  {
 							this.resetMapTo(l);
@@ -139,7 +162,7 @@ class FFXIMap {
 
 					});
 
-					//poly.bindPopup(mapDataModel.multipleConnectionsPopupHTML(_connections[key].links));
+					//poly.bindPopup(this.mapsData.multipleConnectionsPopupHTML(_connections[key].links));
 					poly.bindPopup(div, {
 						className: `ffximap-connection-multiple-popup`
 					});
@@ -154,7 +177,7 @@ class FFXIMap {
 
 					//preload images into memory, so load times for any connections are reduced
 
-					let preloadedImage = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(key), mapDataModel.getMapBounds(key))
+					let preloadedImage = L.imageOverlay(Directories.zones + this.mapsData.getMapFilename(key), this.mapsData.getMapBounds(key))
 						preloadedImage._initImage();
 						// preloadedImage.once('load', () => {
 						// 	this.map.eachLayer((layer) => {
@@ -202,13 +225,12 @@ class FFXIMap {
 
 		//Coordinate display
 		//mainly for debugging
-		if (showdetails == true) this.display_coordinates();
+		if (this.showdetails == true) this.display_coordinates();
 
 		// Setup any additional markers/layers for connecting the next zone
 		this.setupZoneConnections(_mapID);
 
 		this.mapID = _mapID;
-
 	}
 
 	newMap(_mapID){
@@ -216,7 +238,7 @@ class FFXIMap {
 		if (_mapID == undefined) _mapID = this.mapID;
 
 		if ( _mapID == 0 ) {
-
+			
 			//********* World Map
 			L.tileLayer(this.tileset, {
 				bounds: L.latLngBounds([-256,0], [0,256]),
@@ -226,7 +248,7 @@ class FFXIMap {
 			this.map.fitBounds( [[-256,0], [0,256]]);
 		}
 		else {
-			var bounds = mapDataModel.getMapBounds(_mapID);
+			var bounds = this.mapJSON.getBounds();
 			//console.log(baseMapMarkersDir + "matte_black.png");
 			// var blackBackground = L.imageOverlay(baseMapMarkersDir + "matte_black.png", bounds,
 			// {
@@ -236,7 +258,7 @@ class FFXIMap {
 			// });
 			// blackBackground.addTo(this.map);
 
-			this.currentMapImageOverlay = L.imageOverlay(baseMapZonesDir + mapDataModel.getMapFilename(_mapID), bounds,
+			this.currentMapImageOverlay = L.imageOverlay(Directories.zones + this.mapsData.getMapFilename(_mapID), bounds,
 				{
 					opacity: 1.0,
 					attribution: this.attrib,
@@ -244,21 +266,21 @@ class FFXIMap {
 			this.map.fitBounds(bounds);
 			this.map.setMaxBounds(bounds);
 
-			this.coordsOverlay = L.imageOverlay(baseMapZonesDir + "grid_overlay.png", bounds,
+			this.coordsOverlay = L.imageOverlay(Directories.zones + "grid_overlay.png", bounds,
 			{
 				opacity: 0.0,
 				//attribution: this.attrib,
 			}).addTo(this.map);
 
 		}
-		mapMarkers.currentZoom = this.map.getZoom();
+		this.mapMarkers.currentZoom = this.map.getZoom();
 		//this.map.setZoom(this.zoom);
 		this.map.on('zoomstart', (e) =>  {
-			mapMarkers.currentZoom = e.target._zoom;
+			this.mapMarkers.currentZoom = e.target._zoom;
 		});
 
 		this.map.on('zoomend', (e) =>  {
-			mapMarkers.currentZoom = e.target._zoom;
+			this.mapMarkers.currentZoom = e.target._zoom;
 		});
 
 	}
@@ -278,7 +300,7 @@ class FFXIMap {
 		if (this.position !== undefined)   this.map.removeControl(this.position);
 		//if (this.coordsOverlayButton !== undefined) this.map.removeControl(this.coordsOverlayButton);
 
-		loadedMapMarkersArray = null;
+		this.loadedMapMarkersArray = null;
 
 		this.map.eachLayer((layer) => {
 			this.map.removeLayer(layer);
@@ -326,7 +348,7 @@ class FFXIMap {
 				var m = "Map ID: " + mapid + "<br>";
 				var latlng = "Zoom:  " + currentZoom + "<br>";
 				latlng += lat + ", " + lng;
-				if ( mapDataModel.hasBounds(mapid) == true ) latlng += "<br>(IN-GAME coords [Lat,Lng])";
+				if ( this.mapJSON.hasBounds() == true ) latlng += "<br>(IN-GAME coords [Lat,Lng])";
 				else latlng += "<br>(BASIC coords [X,Y](0-256))";
 
 				//this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
@@ -348,7 +370,8 @@ class FFXIMap {
 			var x = Math.round(e.latlng.lat * 1000) / 1000,	 // Math.round helps us get the number down to 3 decimal places
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
-			const bounds = mapDataModel.getMapBounds(this.mapID);
+			//const bounds = this.mapJSON.getBounds();
+
 			//All blocks are 40x40
 			//bounds[0] = NE corner (Y,X)
 			//bounds[1] = SW corner (Y,X)
@@ -358,7 +381,7 @@ class FFXIMap {
 
 			//console.log(totalX, totalY);
 
-			// if ( mapDataModel.hasBounds(this.mapID) == true ) this.position.updateHTML(y, x, currentZoom, this.mapID);
+			// if ( this.mapJSON.hasBounds(this.mapID) == true ) this.position.updateHTML(y, x, currentZoom, this.mapID);
 			// else this.position.updateHTML(x, y, currentZoom, this.mapID);
 			this.position.updateHTML(x, y, currentZoom, this.mapID);
 		});
@@ -370,14 +393,14 @@ class FFXIMap {
 		var fieldNameElement = document.getElementById('polyEditing');
 		if (fieldNameElement) { fieldNameElement.innerHTML = "" }
 
-		//console.log(mapDataModel.listMaps());
+		//console.log(this.mapsData.listMaps());
 
 		this.map.on('click', (e) => {
 			var x = Math.round(e.latlng.lat * 1000) / 1000,	// Math.round helps us get the number down to 3 decimal places
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
         	if (fieldNameElement) {
-				// if ( mapDataModel.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], ';
+				// if ( this.mapJSON.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], ';
 				// else fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
 				fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
 			}
@@ -403,12 +426,12 @@ class FFXIMap {
 
 	async addMapMarkers(_mapID){
 		//console.log(abort);
-		var mapMarkersFromJSObject = await mapDataModel.getJSObjectEntities(_mapID, this.abortController);
+		var mapMarkersFromJSObject = await this.mapJSON.getJSObjectEntities();
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
-        var mapMarkersFromFetch = await mapDataModel.parseFetchedEntities(data, this.abortController);
+        var mapMarkersFromFetch = await this.mapJSON.parseFetchedEntities(data);
 
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
 		if ( typeof(mapMarkersFromJSObject) === 'undefined' && typeof(mapMarkersFromFetch) === 'undefined' ) return;
@@ -422,7 +445,7 @@ class FFXIMap {
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var  multipleSameNamedEntriesFromSamePage = false;
 				var shouldAddToArray = true;
-				if ( mapDataModel.hasBounds(_mapID) == true) [entityFetch['mapx'], entityFetch['mapy']] = [ entityFetch['mapy'],  entityFetch['mapx']];
+				if ( this.mapJSON.hasBounds(_mapID) == true) [entityFetch['mapx'], entityFetch['mapy']] = [ entityFetch['mapy'],  entityFetch['mapx']];
 
 				//console.log(mapMarkersFromJSObject);
 				// This portion gives wiki users the ability to adjust markers they see on a given map
@@ -469,7 +492,7 @@ class FFXIMap {
 
 		mapMarkersFromJSObject.forEach((e) => {
 
-			var marker = mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type'], e['displaylevels']);
+			var marker = this.mapMarkers.new(e['page'], e['mapx'], e['mapy'], e['imageurl'], e['type'], e['displaylevels']);
 
 			e['type'].forEach(value => {
 				var entityTitle;
@@ -617,7 +640,7 @@ class FFXIMap {
 				}
 			});
 
-			mapMarkers.createToolTip(marker, this.abortController);
+			this.mapMarkers.createToolTip(marker, this.abortController);
 			// console.log(marker.options.name ,marker.getLatLng().lat, marker.getLatLng().lng);
 		});
 
@@ -723,9 +746,9 @@ class FFXIMap {
 
 		//////////////////////
 
-		//console.log(_mapID, loadedMapMarkersArray);
-		loadedMapMarkersArray = {};
-		loadedMapMarkersArray =  L.layerGroup([]).addTo(this.map);
+		//console.log(_mapID, this.loadedMapMarkersArray);
+		this.loadedMapMarkersArray = {};
+		this.loadedMapMarkersArray =  L.layerGroup([]).addTo(this.map);
 
 		//REVERT
 		// if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
@@ -760,22 +783,22 @@ class FFXIMap {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		function adjustMarkersForZoom(zoomLevel){
-			loadedMapMarkersArray.eachLayer(function (_marker) {
+			this.loadedMapMarkersArray.eachLayer(function (_marker) {
 				if (_marker instanceof L.Marker){
 					//console.log(_marker.options.type);
-					if ( zoomLevel < 2.25 ) _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, null));
-					else _marker.setIcon(mapMarkers.scaledIcon(_marker.options.type, _marker.options.displaylabel));
+					if ( zoomLevel < 2.25 ) _marker.setIcon(this.mapMarkers.scaledIcon(_marker.options.type, null));
+					else _marker.setIcon(this.mapMarkers.scaledIcon(_marker.options.type, _marker.options.displaylabel));
 				}});
 		}
 
 		let preZoom;
 		this.map.on('zoomstart', (e) =>  {
-			//mapMarkers.currentZoom = e.target._zoom;
+			//this.mapMarkers.currentZoom = e.target._zoom;
 			preZoom = e.target._zoom
 		});
 
 		this.map.on('zoomend', (e) =>  {
-			//mapMarkers.currentZoom = e.target._zoom;
+			//this.mapMarkers.currentZoom = e.target._zoom;
 			var postZoom = e.target._zoom;
 			if ( (preZoom < 2.25 && postZoom >= 2.25) || (preZoom >= 2.25 && postZoom < 2.25) ) adjustMarkersForZoom(this.map.getZoom());
 		});
@@ -788,27 +811,27 @@ class FFXIMap {
 
 			for ( var key in markerOverlays[i]){
 				//console.log(markerOverlays[i]);
-				if (loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {
+				if (this.loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {
 					markerOverlays[i][key].myCount += 1;
 				}
 				else {
 					markerOverlays[i][key].myCount = 1;
-					markerOverlays[i][key].addTo(loadedMapMarkersArray);
+					markerOverlays[i][key].addTo(this.loadedMapMarkersArray);
 				}
 			}
 
 			// for (var j = 0; j < Object.keys(markerOverlays[i]).length; j++) {
 
-			//   if (loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
+			//   if (this.loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
 			// 	markerOverlays[i][j].myCount += 1;
 			// 	}
 			//   else {
 			// 	markerOverlays[i][j].myCount = 1;
-			// 	markerOverlays[i][j].addTo(loadedMapMarkersArray);
+			// 	markerOverlays[i][j].addTo(this.loadedMapMarkersArray);
 			//   }
 			// }
-			//console.log(`loadedMapMarkersArray: ${loadedMapMarkersArray.getLayers()}`);
-			if ( loadedMapMarkersArray.getLayers().length > 0 ){
+			//console.log(`this.loadedMapMarkersArray: ${this.loadedMapMarkersArray.getLayers()}`);
+			if ( this.loadedMapMarkersArray.getLayers().length > 0 ){
 				this.map.eachLayer((layer) => {
 					if (layer == this.currentMapImageOverlay) {
 						layer.setOpacity(0.5);
@@ -825,24 +848,24 @@ class FFXIMap {
 			//console.log(i);
 
 			for ( var key in markerOverlays[i]){
-				if (loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {
+				if (this.loadedMapMarkersArray.hasLayer(markerOverlays[i][key])) {
 					markerOverlays[i][key].myCount -= 1;
 					if (markerOverlays[i][key].myCount == 0) {
-						loadedMapMarkersArray.removeLayer(markerOverlays[i][key]);
+						this.loadedMapMarkersArray.removeLayer(markerOverlays[i][key]);
 					}
 				}
 			}
 
 			// for (var j = 0; j < Object.keys(markerOverlays[i]).length; j++) {
-			//   if (loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
+			//   if (this.loadedMapMarkersArray.hasLayer(markerOverlays[i][j])) {
 			// 	markerOverlays[i][j].myCount -= 1;
 			// 	if (markerOverlays[i][j].myCount == 0) {
-			// 		loadedMapMarkersArray.removeLayer(markerOverlays[i][j]);
+			// 		this.loadedMapMarkersArray.removeLayer(markerOverlays[i][j]);
 			// 	}
 			//   }
 			// }
 
-			if ( loadedMapMarkersArray.getLayers().length < 1 ){
+			if ( this.loadedMapMarkersArray.getLayers().length < 1 ){
 				this.map.eachLayer((layer) => {
 					if (layer == this.currentMapImageOverlay) {
 						layer.setOpacity(1.0);
@@ -858,7 +881,7 @@ class FFXIMap {
 
 		this.controlSearchBar = new L.Control.Search({
 			//layer: new L.LayerGroup()
-			sourceData: mapDataModel.searchBarMapsList(),
+			sourceData: this.mapsData.searchBarMapsList(),
 
 			}).on('search:expanded', function () {
 				this._input.onkeyup = function(){
@@ -937,7 +960,8 @@ class FFXIMap {
 			onAdd: function(map) {
 				var img = L.DomUtil.create('img');
 
-				img.src = baseDir + '/modules/images/wiki_logo.png';
+				//img.src = baseDir + '/leaflet/images/wiki_logo.png'; 
+				img.src = Directories.wiki_logo;
 				img.style.width = '50px';
 				img.style.opacity = '0.25';
 				return img;
