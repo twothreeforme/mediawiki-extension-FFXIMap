@@ -1,7 +1,7 @@
 
 class MapData {
-    constructor(json){
-        this.json = json.mapData;
+    constructor(){
+        this.json = MapDataJSON.mapData;
     }
     
     getmapID(mapName){
@@ -65,7 +65,7 @@ class MapData {
         else return false;
     }
 
-    getMapBounds(mapID){
+    getBounds(mapID){
         // Should be from lower left corner to upper right corner in game coordinates
         // from mapData: "bounds" : [[-381.94, -319.31], [259.39, 320.69] ],
         if ( this.hasBounds(mapID) )return [[ this.json[mapID].bounds[1][1], this.json[mapID].bounds[1][0] ], [this.json[mapID].bounds[0][1], this.json[mapID].bounds[0][0]] ];

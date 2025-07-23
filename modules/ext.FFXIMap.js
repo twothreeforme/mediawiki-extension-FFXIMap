@@ -1,4 +1,4 @@
-const Directories = require("../helpers/FFXIMap_Directories.js"); // Object mapping all relevant directories
+const Globals = require("../helpers/FFXIMap_Globals.js"); // Global helpers
 const MapHistory = require("./map/ext.FFXIMap_MapHistory.js");
 const MapMarkers = require("./mapdata/ext.mapMarkers.js");
 
@@ -11,7 +11,6 @@ class FFXIMap {
 	maxzoom;
 	zoom;
 	zoomSnap;
-	mapJSON; 		// json object will the specific map needing to be loaded
 	mapsData; 		// helper class for searching all map data
 	showdetails;
 	showconnections;
@@ -24,7 +23,7 @@ class FFXIMap {
 	mapMarkers;
 	loadedMapMarkersArray;
 
-	constructor(dataset, mapJSON, mapsData) {
+	constructor(dataset, mapsData) {
 		
 		this.divID = typeof dataset.divid !== 'undefined' ? dataset.divid : "mapid_0";
 		this.mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
@@ -37,7 +36,7 @@ class FFXIMap {
 		// 	if ( typeof temp !== 'undefined') this.mapID = temp;
 		// }
 
-		this.tileset = Directories.tiles; // this is for the World Map only
+		this.tileset = Globals.Directories.tiles; // this is for the World Map only
 
 		this.minzoom = typeof dataset.minzoom !== 'undefined' ? dataset.minzoom : -1.75;
 		this.maxzoom = typeof dataset.maxzoom !== 'undefined' ? dataset.maxzoom : 6;
@@ -46,7 +45,7 @@ class FFXIMap {
 
 		this.attrib = '©Remapster |©Square Enix| ©FFXI-Atlas';
 
-		this.mapJSON = mapJSON;
+		//this.mapJSON = mapJSON;
 		this.mapsData = mapsData;
 
 		this.showdetails = (dataset.showdetails === "1");
@@ -58,7 +57,7 @@ class FFXIMap {
 		this.abortController = null;
 
 		this.mapMarkers = new MapMarkers();
-		
+		this.loadedMapMarkersArray = {};
 
 		//one last check for mobile vs desktop
 		const mapDivWidth = document.getElementById(this.divID).clientWidth;
@@ -86,7 +85,7 @@ class FFXIMap {
 			attributionControl: false
 		}).setView([0,0], this.zoom);
 
-		var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
+		//var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
 
 		// Assigns new map imageoverlay/tiles
 		// Sets up all associated layers/layerGroups
@@ -99,8 +98,10 @@ class FFXIMap {
 	/******************************************************** */
 	/******* Polygons   w/ connections layergroup   ********* */
 	setupZoneConnections(_mapID){
+
+
 		if (_mapID == undefined) _mapID = this.mapID;
-		const _connections = this.mapJSON.getConnections();
+		const _connections = this.mapsData.getConnections(_mapID);
 		if (_connections == null ) return;
 
 		// Must use a Pane to change the z-index of ONLY the polygons
@@ -177,7 +178,7 @@ class FFXIMap {
 
 					//preload images into memory, so load times for any connections are reduced
 
-					let preloadedImage = L.imageOverlay(Directories.zones + this.mapsData.getMapFilename(key), this.mapsData.getMapBounds(key))
+					let preloadedImage = L.imageOverlay(Globals.Directories.zones + this.mapsData.getMapFilename(key), this.mapsData.getBounds(key))
 						preloadedImage._initImage();
 						// preloadedImage.once('load', () => {
 						// 	this.map.eachLayer((layer) => {
@@ -248,7 +249,7 @@ class FFXIMap {
 			this.map.fitBounds( [[-256,0], [0,256]]);
 		}
 		else {
-			var bounds = this.mapJSON.getBounds();
+			var bounds = this.mapsData.getBounds(_mapID);
 			//console.log(baseMapMarkersDir + "matte_black.png");
 			// var blackBackground = L.imageOverlay(baseMapMarkersDir + "matte_black.png", bounds,
 			// {
@@ -258,7 +259,7 @@ class FFXIMap {
 			// });
 			// blackBackground.addTo(this.map);
 
-			this.currentMapImageOverlay = L.imageOverlay(Directories.zones + this.mapsData.getMapFilename(_mapID), bounds,
+			this.currentMapImageOverlay = L.imageOverlay(Globals.Directories.zones + this.mapsData.getMapFilename(_mapID), bounds,
 				{
 					opacity: 1.0,
 					attribution: this.attrib,
@@ -266,7 +267,7 @@ class FFXIMap {
 			this.map.fitBounds(bounds);
 			this.map.setMaxBounds(bounds);
 
-			this.coordsOverlay = L.imageOverlay(Directories.zones + "grid_overlay.png", bounds,
+			this.coordsOverlay = L.imageOverlay(Globals.Directories.zones + "grid_overlay.png", bounds,
 			{
 				opacity: 0.0,
 				//attribution: this.attrib,
@@ -348,7 +349,7 @@ class FFXIMap {
 				var m = "Map ID: " + mapid + "<br>";
 				var latlng = "Zoom:  " + currentZoom + "<br>";
 				latlng += lat + ", " + lng;
-				if ( this.mapJSON.hasBounds() == true ) latlng += "<br>(IN-GAME coords [Lat,Lng])";
+				if ( this.mapsData.hasBounds(_mapID) == true ) latlng += "<br>(IN-GAME coords [Lat,Lng])";
 				else latlng += "<br>(BASIC coords [X,Y](0-256))";
 
 				//this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
@@ -370,7 +371,7 @@ class FFXIMap {
 			var x = Math.round(e.latlng.lat * 1000) / 1000,	 // Math.round helps us get the number down to 3 decimal places
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
-			//const bounds = this.mapJSON.getBounds();
+			//const bounds = this.mapsData.getBounds(_mapID);
 
 			//All blocks are 40x40
 			//bounds[0] = NE corner (Y,X)
@@ -381,7 +382,7 @@ class FFXIMap {
 
 			//console.log(totalX, totalY);
 
-			// if ( this.mapJSON.hasBounds(this.mapID) == true ) this.position.updateHTML(y, x, currentZoom, this.mapID);
+			// if ( this.mapsData.hasBounds(this.mapID) == true ) this.position.updateHTML(y, x, currentZoom, this.mapID);
 			// else this.position.updateHTML(x, y, currentZoom, this.mapID);
 			this.position.updateHTML(x, y, currentZoom, this.mapID);
 		});
@@ -400,7 +401,7 @@ class FFXIMap {
 				y = Math.round(e.latlng.lng * 1000) / 1000;
 
         	if (fieldNameElement) {
-				// if ( this.mapJSON.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], ';
+				// if ( this.mapsData.hasBounds(this.mapID) == true ) fieldNameElement.innerHTML += '[' + y + ", " + x + '], ';
 				// else fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
 				fieldNameElement.innerHTML += '[' + x + ", " + y + '], ';
 			}
@@ -426,12 +427,12 @@ class FFXIMap {
 
 	async addMapMarkers(_mapID){
 		//console.log(abort);
-		var mapMarkersFromJSObject = await this.mapJSON.getJSObjectEntities();
+		var mapMarkersFromJSObject = await this.mapsData.getJSObjectEntities(_mapID);
 
 		var url = mw.config.get('wgServer') + mw.config.get('wgScriptPath') + `/api.php?action=cargoquery&tables=ffximapmarkers&fields=_pageName=Page,entitytype,mapx,mapy,mapid,image&where=mapid=${_mapID}&format=json`;
         var response = await fetch(url, { signal: this.abortController.signal });
         var data = await response.json();
-        var mapMarkersFromFetch = await this.mapJSON.parseFetchedEntities(data);
+        var mapMarkersFromFetch = await this.mapsData.parseFetchedEntities(data);
 
 		// If both markers object are 'undefined' then there are no markers, and return out of this function
 		if ( typeof(mapMarkersFromJSObject) === 'undefined' && typeof(mapMarkersFromFetch) === 'undefined' ) return;
@@ -445,7 +446,7 @@ class FFXIMap {
 			mapMarkersFromFetch.forEach((entityFetch) => {
 				var  multipleSameNamedEntriesFromSamePage = false;
 				var shouldAddToArray = true;
-				if ( this.mapJSON.hasBounds(_mapID) == true) [entityFetch['mapx'], entityFetch['mapy']] = [ entityFetch['mapy'],  entityFetch['mapx']];
+				if ( this.mapsData.hasBounds(_mapID) == true) [entityFetch['mapx'], entityFetch['mapy']] = [ entityFetch['mapy'],  entityFetch['mapx']];
 
 				//console.log(mapMarkersFromJSObject);
 				// This portion gives wiki users the ability to adjust markers they see on a given map
@@ -507,7 +508,7 @@ class FFXIMap {
 				for(var i = 0; i < finalEntityArray.length; i++ ){
 
 					if ( ( value == finalEntityArray[i].label ||
-						( HELMExpandableLayers.findIndex((element) => element == value) >= 0 && finalEntityArray[i].label == 'HELM' ))
+						( Globals.HELMExpandableLayers.findIndex((element) => element == value) >= 0 && finalEntityArray[i].label == 'HELM' ))
 							 && finalEntityArray[i].hasOwnProperty('children')){
 
 						for(var j = 0; j < finalEntityArray[i].children.length; j++ ){
@@ -536,8 +537,8 @@ class FFXIMap {
 						added = true;
 						break;
 					}
-					else if ( HELMExpandableLayers.findIndex((element) => element == value) >= 0 &&
-							HELMExpandableLayers.findIndex((element) => element == finalEntityArray[i].label) >= 0){
+					else if ( Globals.HELMExpandableLayers.findIndex((element) => element == value) >= 0 &&
+							Globals.HELMExpandableLayers.findIndex((element) => element == finalEntityArray[i].label) >= 0){
 						//both items evaluated are HELM layers, but dont match
 						//save the array found
 						var existingArray = finalEntityArray[i];
@@ -612,7 +613,7 @@ class FFXIMap {
 				if ( added == false ){
 					var newEntity = {};
 
-					if (  Object.values(MapLayerGroup).indexOf(value) >= 0 ){ // Is it a category found in the MapLayerGroup object?
+					if (  Object.values(Globals.MapLayerGroup).indexOf(value) >= 0 ){ // Is it a category found in the MapLayerGroup object?
 						newEntity = {
 							label: value,
 							selectAllCheckbox: true,
@@ -621,7 +622,7 @@ class FFXIMap {
 									]
 						};
 					}
-					// Is it a category found in HELMExpandableLayers array? const HELMExpandableLayers = ['Mining Point', 'Excavation Point', 'Harvesting Point', 'Logging Point', 'Clamming Point']
+					// Is it a category found in Globals.HELMExpandableLayers array? const Globals.HELMExpandableLayers = ['Mining Point', 'Excavation Point', 'Harvesting Point', 'Logging Point', 'Clamming Point']
 					// else {
 					// 	newEntity = {
 					// 		label: value,
@@ -629,7 +630,7 @@ class FFXIMap {
 					// 	};
 					// }
 					else {
-						//console.log(value, HELMExpandableLayers.findIndex((element) => element == value));
+						//console.log(value, Globals.HELMExpandableLayers.findIndex((element) => element == value));
 						newEntity = {
 							label: entityTitle,
 							layer: L.layerGroup([ marker ])
@@ -691,78 +692,13 @@ class FFXIMap {
 				count++;
 			}
 		}
-		//console.log("count: " + count);
-		//console.log(markerOverlays[24]);
 
-		// for (var i = 0; i < entityTypeNamesObject.children.length; i++ ){
-		// 	//console.log(key, entityTypeNamesObject[key]);
-		// 	dummyLayers[count] = L.polyline([[0, 0], [0, 0]], {
-		// 		id : count,
-		// 		stroke: false,
-		// 		interactive: false
-		// 	});
-		// 	//REVERT
-		// 	//mapOverlays[key] = dummyLayers[count];
-
-		// 	markerOverlays[count] = entityTypeNamesObject.children[i];
-		// 	mapOverlays[count] = { label: entityTypeNamesObject.children[i].label, layer: dummyLayers[count] };
-
-		// 	count++;
-		// }
-
-		// //////////////////////
-		// // TEST
-		// var enemiesArray = [], enemiesOverlays = [];
-		// if ( typeof(entityEnemiesObject) != 'undefined'){
-
-		// 	for (var i = 0; i < entityEnemiesObject.children.length; i++ ){
-		// 		//console.log(key, entityTypeNamesObject[key]);
-
-		// 		// TEST - PUT BACK IN IF REVERTING
-		// 		//markerOverlays[count] = entityEnemiesObject[key];
-
-		// 		dummyLayers[count] = L.polyline([[0, 0], [0, 0]], {
-		// 			id : count,
-		// 			stroke: false,
-		// 			interactive: false
-		// 		});
-		// 		//REVERT
-		// 		//mapOverlays[key] = dummyLayers[count];
-
-		// 		markerOverlays[count] = entityEnemiesObject.children[i];
-		// 		mapOverlays[count] = { label: entityEnemiesObject.children[i].label, layer: dummyLayers[count] };
-
-		// 		count++;
-		// 	}
-		// 	// enemiesOverlays.push({
-		// 			// 	label: 'OpenStreeMap',
-		// 			// 	children: [
-		// 			// 		{label: 'OSM', layer: osm},
-		// 			// 		{label: 'B&W', layer: osmBw},
-		// 			// 		{label: 'OpenTopoMap', layer: otopomap},
-		// 			// 	]
-		// 			// });
-		// }
-
-		//////////////////////
-
-		//console.log(_mapID, this.loadedMapMarkersArray);
-		this.loadedMapMarkersArray = {};
+		this.loadedMapMarkersArray = null;
 		this.loadedMapMarkersArray =  L.layerGroup([]).addTo(this.map);
 
-		//REVERT
-		// if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
-		// else {
-		// 	this.destroyControlLayer();
-		// 	this.controlLayer = new L.control.layers(null, mapOverlays).addTo(this.map);
-		// }
-		// if ( this.controlLayer === undefined || this.controlLayer === null) this.controlLayer = new L.control.layers(null, null).addTo(this.map);
-		// else {
-		// 	this.destroyControlLayer();
-		// 	this.controlLayer = new L.control.layers(null, null).addTo(this.map);
-		// }
-
-		if ( this.controlLayer !== undefined && this.controlLayer !== null) { this.destroyControlLayer(); }
+		if ( this.controlLayer !== undefined && this.controlLayer !== null) {
+			console.log("destroying !!!");
+			this.destroyControlLayer(); }
 
 		this.controlLayer = L.control.layers.tree(null, null,
 			{
@@ -783,6 +719,7 @@ class FFXIMap {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		function adjustMarkersForZoom(zoomLevel){
+			//if ( typeof this.loadedMapMarkersArray === 'undefined' ) return;
 			this.loadedMapMarkersArray.eachLayer(function (_marker) {
 				if (_marker instanceof L.Marker){
 					//console.log(_marker.options.type);
@@ -830,7 +767,7 @@ class FFXIMap {
 			// 	markerOverlays[i][j].addTo(this.loadedMapMarkersArray);
 			//   }
 			// }
-			//console.log(`this.loadedMapMarkersArray: ${this.loadedMapMarkersArray.getLayers()}`);
+			console.log(`this.loadedMapMarkersArray: ${this.loadedMapMarkersArray.getLayers()}`);
 			if ( this.loadedMapMarkersArray.getLayers().length > 0 ){
 				this.map.eachLayer((layer) => {
 					if (layer == this.currentMapImageOverlay) {
@@ -961,7 +898,7 @@ class FFXIMap {
 				var img = L.DomUtil.create('img');
 
 				//img.src = baseDir + '/leaflet/images/wiki_logo.png'; 
-				img.src = Directories.wiki_logo;
+				img.src = Globals.Directories.wiki_logo;
 				img.style.width = '50px';
 				img.style.opacity = '0.25';
 				return img;

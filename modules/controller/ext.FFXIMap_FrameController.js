@@ -1,6 +1,5 @@
-const MapDataJSON = require("../mapdata/mapdata.json"); // should remove eventually...
 
-const MapJSON = require("../mapdata/ext.MapJSON.js");
+//const MapJSON = require("../mapdata/ext.MapJSON.js");
 const MapsData = require("../mapdata/ext.FFXIMap_MapsData.js");
 const FFXIMap = require("../ext.FFXIMap.js");
 
@@ -16,7 +15,7 @@ class FFXIMap_FrameController {
     mapsArray = [];
 
     constructor(mapElements){
-        this.mapsData = new MapsData(MapDataJSON);
+        this.mapsData = new MapsData();
         
         // loop through all FFXIMap tagged elements in the DOM and
         // build the map objects for each using the dataset 
@@ -43,12 +42,10 @@ class FFXIMap_FrameController {
     createNewMap(dataset){
 
         let mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
-        let mapjson = `../mapdata/json/${mapID}.json`;
-        let json = require(mapjson);
+        //let mapjson = `../mapdata/json/${mapID}.json`;
+        //let json = require(mapjson);
 
-        let mapJSON = new MapJSON(json, mapID);
-        
-	    return new FFXIMap( dataset, mapJSON, this.mapsData );
+	    return new FFXIMap( dataset, this.mapsData );
     }
 
     destroyMap(){

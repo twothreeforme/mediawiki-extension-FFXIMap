@@ -57,6 +57,7 @@
 				"mapdata/ext.MapJSON.js",
 				"map/ext.FFXIMap_MapHistory.js",
 				"helpers/FFXIMap_Directories.js",
+				"helpers/FFXIMap_Globals.js",
 				"controller/ext.FFXIMap_FrameController.js",
 
 				"mapdata/mapdata.json",
