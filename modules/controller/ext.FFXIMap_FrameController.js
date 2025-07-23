@@ -2,6 +2,7 @@
 //const MapJSON = require("../mapdata/ext.MapJSON.js");
 const MapsData = require("../mapdata/ext.FFXIMap_MapsData.js");
 const FFXIMap = require("../ext.FFXIMap.js");
+const MapsController = require("../mapdata/ext.FFXIMap_MapsController.js");
 
 
 /**
@@ -13,9 +14,11 @@ class FFXIMap_FrameController {
 
     mapsData;       
     mapsArray = [];
+    mapsController;
 
     constructor(mapElements){
         this.mapsData = new MapsData();
+        this.mapsController = new MapsController();
         
         // loop through all FFXIMap tagged elements in the DOM and
         // build the map objects for each using the dataset 

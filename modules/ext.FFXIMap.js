@@ -57,6 +57,7 @@ class FFXIMap {
 		this.abortController = null;
 
 		this.mapMarkers = new MapMarkers();
+		
 		this.loadedMapMarkersArray = {};
 
 		//one last check for mobile vs desktop
@@ -663,6 +664,15 @@ class FFXIMap {
 
 	}
 
+	adjustMarkersForZoom(zoomLevel){
+		this.loadedMapMarkersArray.eachLayer( (_marker) => {
+			if (_marker instanceof L.Marker){
+				//console.log(_marker.options.type);
+				if ( zoomLevel < 2.25 ) _marker.setIcon(this.mapMarkers.scaledIcon(_marker.options.type, null));
+				else _marker.setIcon(this.mapMarkers.scaledIcon(_marker.options.type, _marker.options.displaylabel));
+			}});
+	}
+
 	_createEntityMapControlLayers(finalEntityArray, _mapID){
 		var count = 0, dummyLayers = [], markerOverlays = [], mapOverlays = {};
 
@@ -696,9 +706,7 @@ class FFXIMap {
 		this.loadedMapMarkersArray = null;
 		this.loadedMapMarkersArray =  L.layerGroup([]).addTo(this.map);
 
-		if ( this.controlLayer !== undefined && this.controlLayer !== null) {
-			console.log("destroying !!!");
-			this.destroyControlLayer(); }
+		if ( this.controlLayer !== undefined && this.controlLayer !== null) { this.destroyControlLayer(); }
 
 		this.controlLayer = L.control.layers.tree(null, null,
 			{
@@ -714,20 +722,6 @@ class FFXIMap {
 		this.controlLayer.addTo(this.map).collapseTree().expandSelected();
 		this.controlLayer.setOverlayTree(finalEntityArray).collapseTree(true).expandSelected(false);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// ADDING NEW CONTROL LAYER - TESTING
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		function adjustMarkersForZoom(zoomLevel){
-			//if ( typeof this.loadedMapMarkersArray === 'undefined' ) return;
-			this.loadedMapMarkersArray.eachLayer(function (_marker) {
-				if (_marker instanceof L.Marker){
-					//console.log(_marker.options.type);
-					if ( zoomLevel < 2.25 ) _marker.setIcon(this.mapMarkers.scaledIcon(_marker.options.type, null));
-					else _marker.setIcon(this.mapMarkers.scaledIcon(_marker.options.type, _marker.options.displaylabel));
-				}});
-		}
-
 		let preZoom;
 		this.map.on('zoomstart', (e) =>  {
 			//this.mapMarkers.currentZoom = e.target._zoom;
@@ -737,7 +731,7 @@ class FFXIMap {
 		this.map.on('zoomend', (e) =>  {
 			//this.mapMarkers.currentZoom = e.target._zoom;
 			var postZoom = e.target._zoom;
-			if ( (preZoom < 2.25 && postZoom >= 2.25) || (preZoom >= 2.25 && postZoom < 2.25) ) adjustMarkersForZoom(this.map.getZoom());
+			if ( (preZoom < 2.25 && postZoom >= 2.25) || (preZoom >= 2.25 && postZoom < 2.25) ) this.adjustMarkersForZoom(this.map.getZoom());
 		});
 
 		this.map.on('overlayadd', (evt) => {
@@ -767,7 +761,7 @@ class FFXIMap {
 			// 	markerOverlays[i][j].addTo(this.loadedMapMarkersArray);
 			//   }
 			// }
-			console.log(`this.loadedMapMarkersArray: ${this.loadedMapMarkersArray.getLayers()}`);
+			//console.log(`this.loadedMapMarkersArray: ${this.loadedMapMarkersArray.getLayers()}`);
 			if ( this.loadedMapMarkersArray.getLayers().length > 0 ){
 				this.map.eachLayer((layer) => {
 					if (layer == this.currentMapImageOverlay) {
@@ -776,7 +770,7 @@ class FFXIMap {
 				});
 			} ;
 
-			adjustMarkersForZoom(this.map.getZoom());
+			this.adjustMarkersForZoom(this.map.getZoom());
 		  });
 
 		this.map.on('overlayremove', (evt) => {
