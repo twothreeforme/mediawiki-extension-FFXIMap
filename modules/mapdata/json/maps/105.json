@@ -1,34 +1,134 @@
 {
     "name": "Crawler's Nest: Map 3",
     "filename": "crawlers_nest_3.png",
-    "upperBoundX": "",
-    "upperBoundY": "",
+    "bounds": [
+        [
+            -637.15,
+            -961.329
+        ],
+        [
+            642.85,
+            318.67
+        ]
+    ],
     "connections": {
         "103": {
             "hover": [
                 [
-                    153.62109,
-                    151.625
+                    -193.225,
+                    120.975
                 ],
                 [
-                    153.24609,
-                    162.25
+                    -195.1,
+                    174.1
                 ],
                 [
-                    146.49609,
-                    161.25
+                    -228.85,
+                    169.1
                 ],
                 [
-                    146.62109,
-                    151.625
+                    -228.225,
+                    120.975
                 ]
             ],
             "pulse": [
                 [
-                    150.46777,
-                    156.5625
+                    -208.991,
+                    145.663
                 ]
             ]
         }
-    }
+    },
+    "entities": [
+        [
+            [
+                "NPC"
+            ],
+            "Cermet Door",
+            186.5,
+            -2.487,
+            -340.0
+        ],
+        [
+            [
+                "NPC"
+            ],
+            "Strange Apparatus",
+            216.35,
+            -0.535,
+            -340.001
+        ],
+        [
+            [
+                "Treasure Coffer"
+            ],
+            "Treasure Coffer",
+            -103.267,
+            -1.766,
+            -392.964
+        ],
+        [
+            [
+                "Treasure Coffer"
+            ],
+            "Treasure Coffer",
+            -185.774,
+            -0.282,
+            -379.022
+        ],
+        [
+            [
+                "Treasure Chest"
+            ],
+            "Treasure Chest",
+            39.767,
+            -0.178,
+            -313.865
+        ],
+        [
+            [
+                "Treasure Chest"
+            ],
+            "Treasure Chest",
+            98.913,
+            -1.981,
+            -344.437
+        ],
+        [
+            [
+                "Treasure Chest"
+            ],
+            "Treasure Chest",
+            -7.115,
+            -0.562,
+            -382.455
+        ],
+        [
+            [
+                "Treasure Chest"
+            ],
+            "Treasure Chest",
+            9.41,
+            -0.93,
+            -418.559
+        ],
+        [
+            [
+                "Treasure Chest"
+            ],
+            "Treasure Chest",
+            -93.078,
+            -0.276,
+            -393.625
+        ],
+        [
+            [
+                "Treasure Chest"
+            ],
+            "Treasure Chest",
+            -57.575,
+            -0.238,
+            -279.965
+        ]
+    ]
 }

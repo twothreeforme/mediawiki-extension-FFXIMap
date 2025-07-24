@@ -16,6 +16,10 @@ class MapData {
         return ;
     }
 
+    getMapName(mapID){
+        return this.json[mapID].name;
+    }
+    
     hasEntities(mapID){
         if ( this.json[mapID].hasOwnProperty("entities")  ) return true;
         else return false;
@@ -56,9 +60,7 @@ class MapData {
         return mapNamesArray;
     }
 
-    getMapName(mapID){
-        return this.json[mapID].name;
-    }
+
 
     hasBounds(mapID){
         if ( this.json[mapID].hasOwnProperty("bounds")  ) return true;

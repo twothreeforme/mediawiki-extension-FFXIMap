@@ -1,0 +1,12 @@
+{
+    "name": "Heaven's Tower: Map 2",
+    "filename": "HeavensTower2.png",
+    "upperBoundX": "",
+    "upperBoundY": "",
+    "connections": {
+        "xxxx": {
+            "hover": [],
+            "pulse": []
+        }
+    }
+}

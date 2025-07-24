@@ -1,8 +1,9 @@
 const MapDataJSON = require("../mapdata/mapdata.json"); // should remove eventually...
 
 class MapsData {
-    constructor(){
-        this.json = MapDataJSON.mapData;
+    constructor(json){
+        this.json = json;
+        //this.json = MapDataJSON.mapData;
     }
     
     getmapID(mapName){

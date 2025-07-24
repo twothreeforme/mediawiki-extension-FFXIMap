@@ -1,6 +1,6 @@
 
 //const MapJSON = require("../mapdata/ext.MapJSON.js");
-const MapsData = require("../mapdata/ext.FFXIMap_MapsData.js");
+const MapsData = require("../archived/ext.FFXIMap_MapsData.js");
 const FFXIMap = require("../ext.FFXIMap.js");
 const MapsController = require("../mapdata/ext.FFXIMap_MapsController.js");
 
@@ -18,8 +18,10 @@ class FFXIMap_FrameController {
 
     constructor(mapElements){
         this.mapsData = new MapsData();
+        
         this.mapsController = new MapsController();
         
+
         // loop through all FFXIMap tagged elements in the DOM and
         // build the map objects for each using the dataset 
         // created on the backend
@@ -44,11 +46,13 @@ class FFXIMap_FrameController {
 
     createNewMap(dataset){
 
-        let mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
+        //let mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
         //let mapjson = `../mapdata/json/${mapID}.json`;
         //let json = require(mapjson);
+        let json = this.mapsController.getMapData(dataset.mapid);
 
-	    return new FFXIMap( dataset, this.mapsData );
+        console.log(dataset, json);
+	    return new FFXIMap( dataset, this.mapsController );
     }
 
     destroyMap(){

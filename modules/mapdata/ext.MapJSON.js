@@ -23,12 +23,9 @@ class MapJSON {
             this.#upperBoundX = json.upperBoundX;
             this.#upperBoundY = json.upperBoundY;
         }
-
-        //check connections
         if ("connections" in json) {  this.#connections = json.connections; }
         if ("entities" in json) {  this.#entities = json.entities; }
         if ("mobSpawns" in json) {  this.#mobSpawns = json.mobSpawns; }
-
     }
     
     hasEntities(){
@@ -57,9 +54,12 @@ class MapJSON {
     getMobSpawns(){ return this.#mobSpawns; }
     getConnections(){ return this.#connections; }
     getBounds(){
-        if ( this.hasBounds() )return [[ this.bounds[1][1], this.bounds[1][0] ], [this.bounds[0][1], this.bounds[0][0]] ];
+        if ( this.hasBounds() )return [[ this.#bounds[1][1], this.#bounds[1][0] ], [this.#bounds[0][1], this.#bounds[0][0]] ];
         else return [[0,0], [256,256]];
     }
+
+    getMapName(){ return this.#name; }
+    getMapFilename(){ return this.#filename; }
 
     generateArray(entityInput){
         try{
@@ -158,12 +158,16 @@ class MapJSON {
         if ( this.hasEntities() == false && this.hasMobSpawns() == false  ) return ;
         let returnArray = [];
         
-        let entityArray = this.generateArray( this.getEntities() ); 
-        if ( entityArray.length > 0 ) returnArray = returnArray.concat(entityArray);
+        if ( this.hasEntities() ) {
+            let entityArray = this.generateArray( this.getEntities() ); 
+            if ( entityArray.length > 0 ) returnArray = returnArray.concat(entityArray);
+        }
 
-        let mobSpawnsArray = this.generateArray( this.getMobSpawns() );
-        if ( mobSpawnsArray.length > 0 ) returnArray = returnArray.concat(mobSpawnsArray);
-
+        if ( this.hasMobSpawns() ) {
+            let mobSpawnsArray = this.generateArray( this.getMobSpawns() );
+            if ( mobSpawnsArray.length > 0 ) returnArray = returnArray.concat(mobSpawnsArray);
+        }
+        
         return returnArray;
     }
 }
