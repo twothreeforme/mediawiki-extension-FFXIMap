@@ -1,6 +1,6 @@
 
 //const MapJSON = require("../mapdata/ext.MapJSON.js");
-const MapsData = require("../archived/ext.FFXIMap_MapsData.js");
+//const MapsData = require("../archived/ext.FFXIMap_MapsData.js");
 const FFXIMap = require("../ext.FFXIMap.js");
 const MapsController = require("../mapdata/ext.FFXIMap_MapsController.js");
 
@@ -12,12 +12,12 @@ const MapsController = require("../mapdata/ext.FFXIMap_MapsController.js");
  */
 class FFXIMap_FrameController {
 
-    mapsData;       
-    mapsArray = [];
+    // mapsData;       
+    // mapsArray = [];
     mapsController;
 
     constructor(mapElements){
-        this.mapsData = new MapsData();
+        //this.mapsData = new MapsData();
         
         this.mapsController = new MapsController();
         
@@ -41,17 +41,10 @@ class FFXIMap_FrameController {
         let m = this.createNewMap(dataset);
 
         // add reference to class variable for later?
-        this.mapsArray.push(m);
+        // this.mapsArray.push(m);
     }
 
     createNewMap(dataset){
-
-        //let mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
-        //let mapjson = `../mapdata/json/${mapID}.json`;
-        //let json = require(mapjson);
-        let json = this.mapsController.getMapData(dataset.mapid);
-
-        console.log(dataset, json);
 	    return new FFXIMap( dataset, this.mapsController );
     }
 

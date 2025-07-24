@@ -1,11 +1,11 @@
 
 class MapsController {
-    mapsData;
+    // mapsData;
     zoneNames;
 
     constructor(){
-        let MapsData = require("../archived/ext.FFXIMap_MapsData.js");
-        this.mapsData = new MapsData();
+        // let MapsData = require("../archived/ext.FFXIMap_MapsData.js");
+        // this.mapsData = new MapsData();
         
         let ZoneNames = require("../mapdata/json/zonenames.json"); 
         this.zoneNames = ZoneNames;
