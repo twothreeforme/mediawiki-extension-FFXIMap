@@ -27,17 +27,15 @@ class FFXIMap {
 	constructor(dataset, mapsController) {
 
 		this.divID = typeof dataset.divid !== 'undefined' ? dataset.divid : "mapid_0";
-		this.mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
-
 		this.pageName = ( (typeof dataset.pagename !== 'undefined') || dataset.pagename !== "0" ) ? dataset.pagename : 0;
 
-		console.log( this.divID, this.mapID, this.pageName);
 		
-		// if ( this.pageName != 0 ) {
-		// 	var temp = mapJSON.getMapID(this.pageName);
-		// 	//console.log("typeof temp:", typeof temp);
-		// 	if ( typeof temp !== 'undefined') this.mapID = temp;
-		// }
+		if ( this.pageName != 0 ) {
+			this.mapID = mapsController.getMapID(this.pageName);
+		}
+		else this.mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
+
+		console.log( this.divID, this.mapID, this.pageName);
 
 		this.tileset = Globals.Directories.tiles; // this is for the World Map only
 

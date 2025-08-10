@@ -39,6 +39,18 @@ class MapsController {
     }
 
     /**
+     * Get map ID - from map name
+     * @param {string} mapname 
+     * @returns {int} zone ID
+     */
+    getMapID(mapname){
+        for (const [key, value] of Object.entries(this.zoneNames)){
+            if ( value == mapname) return key;
+        }
+        return 0;
+    }
+
+    /**
      * 
      * @returns {array} associative array - list of all maps
      */
