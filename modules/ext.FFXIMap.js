@@ -87,6 +87,8 @@ class FFXIMap {
 			attributionControl: false
 		}).setView([0,0], this.zoom);
 
+		console.log( this.minzoom, this.maxzoom, this.zoomSnap, this.zoom);
+
 		//var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
 
 		// Assigns new map imageoverlay/tiles
