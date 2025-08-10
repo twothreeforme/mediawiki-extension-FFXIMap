@@ -35,7 +35,7 @@ class FFXIMap {
 		}
 		else this.mapID = typeof dataset.mapid !== 'undefined' ? dataset.mapid : 0;
 
-		console.log( this.divID, this.mapID, this.pageName);
+		//console.log( this.divID, this.mapID, this.pageName);
 
 		this.tileset = Globals.Directories.tiles; // this is for the World Map only
 
