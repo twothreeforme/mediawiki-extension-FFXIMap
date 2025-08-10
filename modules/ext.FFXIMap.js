@@ -87,7 +87,6 @@ class FFXIMap {
 			attributionControl: false
 		}).setView([0,0], this.zoom);
 
-		console.log( mapDivWidth, parentDivWidth );
 
 		//var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
 
