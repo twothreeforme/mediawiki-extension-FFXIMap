@@ -31,6 +31,8 @@ class FFXIMap {
 
 		this.pageName = ( (typeof dataset.pagename !== 'undefined') || dataset.pagename !== "0" ) ? dataset.pagename : 0;
 
+		console.log( this.divID, this.mapID, this.pageName);
+		
 		// if ( this.pageName != 0 ) {
 		// 	var temp = mapJSON.getMapID(this.pageName);
 		// 	//console.log("typeof temp:", typeof temp);

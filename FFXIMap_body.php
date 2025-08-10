@@ -64,9 +64,10 @@ class FFXIMap {
 
 		// Determine if mapid parameter was in the tag. If not, then look for the pagename. If no pagename, then 0 for default.
 		// default mapID = 0
-		$mapID = isset($params['mapID']) ? intval($params['mapID']) : 0;
+		$mapID = isset($params['mapid']) ? intval($params['mapid']) : 0;
 		$pagename = ( isset($params['usepagename']) && $params['usepagename'] == "true") ? $parser->getTitle() : 0;
 
+		//throw new Exception ( $pagename );
 
 		$bytes = openssl_random_pseudo_bytes(2);
 		$divID = bin2hex($bytes);
