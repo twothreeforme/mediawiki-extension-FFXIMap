@@ -63,9 +63,8 @@ class MapJSON {
 
     generateArray(entityInput){
         try{
+            var returnArray = [];
             if ( entityInput.length > 0 ) {
-                var returnArray = [];
-
                 for ( var i=0; i < entityInput.length ; i++ ){
                     var page,
                         mapx = "",
@@ -107,8 +106,8 @@ class MapJSON {
 
                     returnArray.push(entity);
                 }
-                return returnArray;
             }
+            return returnArray;
         }
         catch (error){
             console.log(`Map: ${this.getmapID()} - Error: ${error}`);
