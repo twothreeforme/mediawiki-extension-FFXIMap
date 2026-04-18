@@ -49,13 +49,13 @@
 			"localBasePath": "modules",
 			"remoteExtPath": "FFXIMap/modules",
 			"packageFiles": [
+				"helpers/FFXIMap_Globals.js",
 				"ext.FFXIMap-hook.js",
 				"ext.FFXIMap.js",
 				"mapdata/ext.mapMarkers.js",
 				"iconsSVGData.js",
 				"mapdata/ext.MapJSON.js",
 				"map/ext.FFXIMap_MapHistory.js",
-				"helpers/FFXIMap_Globals.js",
 				"controller/ext.FFXIMap_FrameController.js", 
 				"mapdata/ext.FFXIMap_MapsController.js",
 
