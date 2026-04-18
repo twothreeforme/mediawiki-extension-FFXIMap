@@ -111,7 +111,8 @@ class FFXIMap {
 		$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
 		//$html = $html . "</div>";
 		$html = $html . $showdetailsDiv . $script . $tagAttributesJsonCode ;
-		wfDebugLog( 'FFXIMap', get_called_class() . ":html:" . $html );
+		
+		//wfDebugLog( 'FFXIMap', get_called_class() . ":html:" . $html );
 		return 	$html;
 	}
 

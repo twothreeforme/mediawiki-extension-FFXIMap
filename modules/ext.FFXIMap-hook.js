@@ -10,7 +10,7 @@
 const FrameController = require("./controller/ext.FFXIMap_FrameController.js");
 
 mw.hook( 'wikipage.content' ).add( function ( $content ) {
-    console.log("hook fired");
+    //console.log("hook fired");
     var spanMaps = document.getElementsByClassName('FFXIMap_mapSpan');
     if (spanMaps === null) return null;
 
