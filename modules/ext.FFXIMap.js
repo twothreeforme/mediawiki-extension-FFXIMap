@@ -1,4 +1,4 @@
-const Globals = require("../helpers/FFXIMap_Globals.js"); // Global helpers
+const Globals = require("./helpers/FFXIMap_Globals.js"); // Global helpers
 const MapHistory = require("./map/ext.FFXIMap_MapHistory.js");
 const MapMarkers = require("./mapdata/ext.mapMarkers.js");
 
