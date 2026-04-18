@@ -32,7 +32,7 @@ class FFXIMap {
 		$parser->getOutput()->addModules(['ext.leafletControlLayerTree']);
 		$parser->getOutput()->addModules(['ext.FFXIMap_MapData']);
 		$parser->getOutput()->addModules(['ext.FFXIMap']);
-
+		
 		// $tileSource : location of tiles (or the tile server)
 		// each map should be it's own $mapIDNum as input
 		// tile server should be in this format: "/maps/mapID_X/{z}/{x}/{y}.jpeg" 
@@ -111,7 +111,7 @@ class FFXIMap {
 		$html = $html . "<div id=".$divID." style=\"". $style . "\">".  "</div>";
 		//$html = $html . "</div>";
 		$html = $html . $showdetailsDiv . $script . $tagAttributesJsonCode ;
-
+		wfDebugLog( 'FFXIMap', get_called_class() . ":html:" . $html );
 		return 	$html;
 	}
 

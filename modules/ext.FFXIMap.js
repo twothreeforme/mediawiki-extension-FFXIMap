@@ -1,3 +1,4 @@
+
 const Globals = require("./helpers/FFXIMap_Globals.js"); // Global helpers
 const MapHistory = require("./map/ext.FFXIMap_MapHistory.js");
 const MapMarkers = require("./mapdata/ext.mapMarkers.js");
@@ -25,7 +26,7 @@ class FFXIMap {
 	loadedMapMarkersArray;
 
 	constructor(dataset, mapsController) {
-
+		
 		this.divID = typeof dataset.divid !== 'undefined' ? dataset.divid : "mapid_0";
 		this.pageName = ( (typeof dataset.pagename !== 'undefined') || dataset.pagename !== "0" ) ? dataset.pagename : 0;
 
@@ -86,7 +87,6 @@ class FFXIMap {
 			//attribution: this.attrib
 			attributionControl: false
 		}).setView([0,0], this.zoom);
-
 
 		//var tempAttribution = L.control.attribution({prefix: ''}).addTo(this.map);
 
